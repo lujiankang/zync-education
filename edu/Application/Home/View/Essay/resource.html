@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<style>
+.line-table{
+	table-layout:fixed;
+	white-space:nowrap;
+}
+.line-table td{
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+	</style>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-folder-open icon"></div>
+			<span class="title">论文相关资料</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-6 top-btns">
+			<button class="handle-item btn btn-danger" id="resourceCreateBtn">上传资料</button>
+			<button class="handle-item btn btn-success">使用帮助</button>
+		</div>
+		<div class="col-sm-6 top-search">
+			<div class="handle-item">
+				<form class="item-group pull-right" id="searchCourseForm">
+					<input type="text" name="key" class="form-control" placeholder="关键字：资料名称、资料描述" style="width:300px">
+					<button type="submit" class="btn btn-primary btn-group"><i class="fa fa-search">&nbsp;</i><span>检索</span></button>
+					<div class="float-clear"></div>
+				</form>
+			</div>
+			<div class="float-clear"></div>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShower">
+				<thead>
+					<tr>
+						<th>名称</th>
+						<th width="60%">说明</th>
+						<th width="10%">下载次数</th>
+						<th width="130">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="cloned">
+						<td name="name">xxxx</td>
+						<td name="desc">xxxx</td>
+						<td name="downnum">xx</td>
+						<td>
+							<button callback="onDeleteResource" type="button" class="btn btn-danger fa fa-trash btn-sm to-delete" title="删除"></button>
+							<button callback="onUpdateResource" type="button" class="btn btn-warning fa fa-pencil btn-sm to-rename" title="修改资料"></button>
+							<button callback="onDownload" type="button" class="btn btn-success fa fa-download btn-sm to-download" title="下载资料"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20" id="dataPager">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+
+	<!-- 创建操作 -->
+	<div class="inputer" id="sourceCreator">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aCreateResource" method="post" id="resourceCreateForm">
+					<div class="form-group">
+						<label>资料名称</label>
+						<input type="text" class="form-control" name="name" placeholder="如：毕业论文模板" required>
+					</div>
+					<div class="form-group">
+						<label>附件</label>
+						<input type="file" name="file" style="width:100%; height:35px" required />
+					</div>
+					<div class="form-group">
+						<label>资料描述</label>
+						<textarea class="form-control" name="desc" placeholder="请填写简要说明" style="height:70px"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="sourceCreator.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改资料  -->
+	<div class="inputer" id="sourceUpdater">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aUpdateResource" method="post" id="resourceUpdateForm">
+					<input type="text" name="rid" style="display:none" />
+					<div class="form-group">
+						<label>资料名称</label>
+						<input type="text" class="form-control" name="name" placeholder="如：毕业论文模板" required>
+					</div>
+					<div class="form-group">
+						<label>资料描述</label>
+						<textarea class="form-control" name="desc" placeholder="请填写简要说明" style="height:70px"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="sourceUpdater.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+
+	window._GETRESOURCE = "__CONTROLLER__/gResources";
+	window._DELRESOURCE = "__CONTROLLER__/aDeleteResource";
+	window._RESDOWNLOAD = "__CONTROLLER__/pResourceDownload";
+
+	window.essay_resource_controller = {
+		create: function () {
+			var obj = {};
+
+			var shower = k360_show_table.create(mainShower);
+			var pager = k360_bt_page.create(dataPager);
+
+			var key = "";
+
+			obj.init = function () {
+				//分页控制
+				pager.onpage(function (page) {
+					loadResource(page);
+				});
+				pager.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//页面事件
+				//修改表单点击保存
+				resourceUpdateForm.onsubmit = function () {
+					var btn = this.querySelector("button[type='submit']");
+					btn.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						btn.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						sourceUpdater.style.display = "none";
+						loadResource(pager.getCurPage());
+					})
+					.onerror(function (xhr, status, statusText) {
+						btn.disabled = false;
+						k360_popover.create().toast("修改资料信息失败，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//创建
+				resourceCreateBtn.onclick = function () {
+					sourceCreator.style.display = "inline-block";
+					inputerCenter(sourceCreator);
+					resourceCreateForm.reset();
+				}
+				//创建表单提交
+				resourceCreateForm.onsubmit = function () {
+					var btn = this.querySelector("button[type='submit']")
+					btn.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						btn.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						sourceCreator.style.display = "none";
+						loadResource(pager.getCurPage());
+					})
+					.onerror(function (xhr, status, statusText) {
+						btn.disabled = false;
+						k360_popover.create().toast("上传资料错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//搜索
+				searchCourseForm.onsubmit = function () {
+					key = this.key.value;
+					key || (key = "");
+					this.key.focus();
+					loadResource(0);
+					return false;
+				}
+				//表格按钮事件=====================
+				//删除数据
+				shower.onDeleteResource = function (id) {
+					var data = shower.getDataByKey(id);
+					k360_popover.create().confirm("警告", "是否删除“" + data.name + "”？", "删除")
+					.setOnOk(function () {
+						//删除
+						var loading = k360_popover.create().loading();
+						k360_http.create().setUrl(_DELRESOURCE).addOne("id", id)
+						.onsuccess(function (data, xhr) {
+							loading.distroy();
+							if (data.reson) {
+								k360_popover.create().toast(data.reson);
+								return;
+							}
+							//更新表格
+							loadResource(pager.getCurPage());
+						})
+						.onerror(function (xhr, status, statusText) {
+							loading.distroy();
+							k360_popover.create().toast("删除资料错误，可能是网络问题，状态码：" + status);
+						})
+						.send();
+					});
+				}
+				//需改数据
+				shower.onUpdateResource = function (id) {
+					sourceUpdater.style.display = "inline-block";
+					inputerCenter(sourceUpdater);
+					var data = shower.getDataByKey(id);
+					resourceUpdateForm.rid.value = id;
+					resourceUpdateForm.name.value = data.name;
+					resourceUpdateForm.desc.value = data.desc;
+				}
+				//下载
+				shower.onDownload = function (id) {
+					var data = shower.getDataByKey(id);
+					downloadFile([id], data.name, _RESDOWNLOAD);
+				}
+				//加载一次
+				loadResource(0);
+			}
+
+
+			function loadResource(page) {
+				if (pager.isLocked()) return;
+				shower.saveScroll();
+				shower.clear();
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				pager.lock();
+				k360_http.create().setUrl(_GETRESOURCE).addData({ page: page, key: key })
+				.onsuccess(function (data, xhr) {
+					loading.style.display = "none";
+					pager.unlock();
+					if (data.reson) {
+						return k360_popover.create().toast(data.reson);
+						return;
+					}
+					//显示数据
+					shower.setDatas(data.data.resources, "id");
+					shower.show();
+					shower.resumeScroll();
+					//分页
+					pager.setInfo(data.data.pages, data.data.count, page);
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.style.display = "none";
+					pager.unlock();
+					return k360_popover.create().toast("获取数据错误，可能是网络原因，状态码：" + status);
+				})
+				.send();
+			}
+
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		essay_resource_controller.create().init();
+	});
+
+
+</script>

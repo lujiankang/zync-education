@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+	<include file="base/headGeneral" />
+
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="../../../../Public/js/base/k360-bt-page.js"></script>
+	<script src="../../../../Public/js/base/func.js"></script>
+	<script src="../../../../Public/js/base/k360-show-table.js"></script>
+
+	<link href="__PUBLIC__/tools/keditor/css/ke.css" rel="stylesheet" />
+	<script src="__PUBLIC__/tools/keditor/js/ke.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+
+	<style>
+
+.homework-info-title{
+	font-family:微软雅黑;
+	font-weight:bold;
+}
+	</style>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="window.history.go(-1)"><i class="fa fa-chevron-left"></i></div>
+			<div class="fa fa-bug icon"></div>
+			<span class="title">作业详情————{$homework.name}</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="handle-item btn btn-warning btn-goback" onclick="history.go(-1)"><i class="fa fa-angle-double-left"></i>&nbsp;&nbsp;返回上级</button>
+			<button class="handle-item btn btn-danger" id="homeworkUploadBtn"{$submitBtnStyle}>上传作业文档</button>
+			<button class="handle-item btn btn-success">使用帮助</button>
+		</div>
+	</div>
+
+	<div class="row margin-top-20">
+		<div class="col-md-12">
+			<div class="homework-info-title">作业内容:</div>
+			<div class="content" style="margin:10px; width:90%">
+				<form action="__CONTROLLER__/aStudentSetHomeworkContent/homework/{$homework.id}" method="post" id="homeworkContentSaveForm">
+					<div class="form-control" name="content" style="height:250px" kEditor>
+						<script src="__PUBLIC__/tools/keditor/js/modle.js"></script>
+						<div keContent>{$homework.showcontent}</div>
+					</div>
+					<button type="submit" {$submitBtnStyle} class="btn btn-warning pull-right margin-top-10"><i class="fa fa-spinner fa-spin" style="display:none"></i>提交作业内容</button>
+				</form>
+			</div>
+			<div class="homework-info-title">作业得分：</div>
+			<div class="score" style="margin:10px">{$homework.score}</div>
+			<div class="homework-info-title">教师评语：</div>
+			<div class="desc" style="margin:10px">{$homework.remark}</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
+
+<script>
+
+	window._UPLOADHOMEWORK = "__CONTROLLER__/aStudentUploadHomework/homework/{$homework.id}"
+
+	window.course_dohomework_controller = {
+		create: function () {
+			var obj = {};
+
+			obj.init = function () {
+				homeworkUploadBtn.onclick = function () {
+					var input = document.createElement("input");
+					input.type = "file";
+					var loading = k360_popover.create().loading();
+					input.onchange = function () {
+						k360_http.create().setUrl(_UPLOADHOMEWORK).addFile("file", input).setMethod("post")
+						.onsuccess(function (data, xhr) {
+							loading.distroy();
+							if (data.reson) {
+								k360_popover.create().toast(data.reson);
+								return;
+							}
+							k360_popover.create().tip("保存成功，3秒后即将刷新网页");
+							setTimeout(function () {
+								window.location.reload(true);
+							}, 3000);
+						})
+						.onerror(function (xhr, status, statusText) {
+							loading.distroy();
+							k360_popover.create().toast("上传文件错误，可能是网络问题，状态码：" + status);
+						})
+						.send();
+					};
+					input.click();
+				}
+				homeworkContentSaveForm.onsubmit = function () {
+					var btn = this.querySelector("button[type='submit']");
+					var spiner = btn.children[0];
+					spiner.style.display = "inline-block";
+					btn.disabled = true;
+					k360_http.create().addForm(this).onsuccess(function (data, xhr) {
+						btn.disabled = false;
+						spiner.style.display = "none";
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//完成
+						k360_popover.create().tip("保存成功，3秒后即将刷新网页");
+						setTimeout(function () {
+							window.location.reload(true);
+						}, 3000);
+					})
+					.onerror(function (xhr, status, statusText) {
+						spiner.style.display = "none";
+						btn.disabled = false;
+						k360_popover.create().toast("保存错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		course_dohomework_controller.create().init();
+	});
+</script>

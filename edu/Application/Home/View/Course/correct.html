@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>批改作业</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+
+
+	<link href="__PUBLIC__/tools/keditor/css/ke.css" rel="stylesheet" />
+	<script src="__PUBLIC__/tools/keditor/js/ke.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+
+
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="window.history.go(-1)"><i class="fa fa-chevron-left"></i></div>
+			<div class="fa fa-pencil-square-o icon"></div>
+			<span class="title">作业批改<span style="font-size:11px; color:#808080">（{$homework.grade}级——{$homework.coursename}——{$homework.name}）</span></span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="btn btn-warning btn-goback" onclick="history.go(-1)"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+			<button class="btn btn-success">使用帮助</button>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>学生</th>
+						<th>学号</th>
+						<th>班级</th>
+						<th>状态</th>
+						<th>提交类型</th>
+						<th>分数</th>
+						<th width="175">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dataShower">
+					<tr>
+						<td>xxxx</td>
+						<td>xxxx</td>
+						<td>xxxx</td>
+						<td>xxxx</td>
+						<th>xxxx</th>
+						<td>x</td>
+						<td>
+							<button type="button" class="btn btn-danger fa fa-legal btn-sm to-correct" title="打分"></button>
+							<button type="button" class="btn btn-primary fa fa-file btn-sm to-view" title="查看提交文件"></button>
+							<button type="button" class="btn btn-primary fa fa-cloud btn-sm to-cloud" title="查看在线作业并批改"></button>
+							<button type="button" class="btn btn-success fa fa-send btn-sm to-send" title="发送提醒，方便追交作业"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 查看在线作业 -->
+	<div class="inputer" id="webHomeworkCorrector">
+		<div>
+			<div style="width:80%">
+				<div class="form-group">
+					<label>作业内容</label>
+					<div class="form-control" style="height:250px" name="content" kEditor>
+						<script src="__PUBLIC__/tools/keditor/js/modle.js"></script>
+					</div>
+				</div>
+				<button class="btn btn-success" id="web2correctBtn">&nbsp;&nbsp;去打分&nbsp;&nbsp;</button>
+				<button type="button" class="btn btn-warning" onclick="webHomeworkCorrector.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 打分div -->
+	<div class="inputer" id="corrector">
+		<div>
+			<div class="container-400">
+				<form id="correctForm" action="__CONTROLLER__/aHomeworkMaking/homework/{$homework.id}">
+					<input type="text" name="student" style="display:none" required />
+					<div class="form-group">
+						<label>分数（可以是A、B、C、D....）</label>
+						<input type="text" class="form-control" name="score" placeholder="如：90，又如：A+" required>
+					</div>
+					<div class="form-group">
+						<label>评语</label>
+						<textarea type="text" class="form-control" name="remark" placeholder="选填"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;打分&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="corrector.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+
+	window._GETSTUDENTS = "__CONTROLLER__/gHomeworCorrectLists/id/{$homework.id}"
+	
+	window.course_correct_controller = {
+		create: function () {
+			var obj = {};
+			var clonedTR = dataShower.children[0].cloneNode(true);
+			var bufferStudent = null;
+
+			obj.init = function () {
+				loadStudents();
+				//打分表单提交
+				correctForm.onsubmit = function () {
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//更新数据
+						var score = correctForm.score.value;
+						var stuid = correctForm.student.value;
+						var tr = document.querySelector("tr[stuid='" + stuid + "']");
+						tr.children[3].innerHTML = "已批该";
+						tr.children[4].innerHTML = score;
+						corrector.style.display = "none";
+						webHomeworkCorrector.style.display = "none";
+						bufferStudent.score = score;
+						bufferStudent.remark = correctForm.remark.value;
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.disabled = false;
+						k360_popover.create().toast("打分出错，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//去打分按钮点击
+				web2correctBtn.onclick = function () {
+					//获取绑定数据（也就是表格的单行数据）
+					var dom = webHomeworkCorrector.querySelector("[kEditor]");
+					var data = dom.bindedData;
+					toCorrect(data);
+				}
+			}
+
+			function loadStudents() {
+				//loading
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				//删除数据
+				while (dataShower.children.length > 0) {
+					dataShower.removeChild(dataShower.children[0]);
+				}
+				k360_http.create().setUrl(_GETSTUDENTS)
+				.onsuccess(function (data, xhr) {
+					loading.style.display = "none";
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					//显示数据
+					for (var i in data.data) {
+						var student = data.data[i];
+						var subtype = "---";
+						if (student.file) subtype = "文件";
+						if (student.docontent) subtype = "在线提交";
+						if (student.file && student.docontent) subtype = "文件 + 在线提交";
+						var tr = clonedTR.cloneNode(true);
+						tr.setAttribute("stuid", student.id);
+						tr.children[0].innerHTML = student.name;
+						tr.children[1].innerHTML = student.number;
+						tr.children[2].innerHTML = student.classname;
+						tr.children[3].innerHTML = (!student.score || student.score == -1) ? ((student.file || student.docontent) ? "待批改" : "未上交") : "已批改";
+						tr.children[4].innerHTML = subtype;
+						tr.children[5].innerHTML = (!student.score || student.score == -1) ? "无" : student.score;
+						tr.children[6].querySelector(".to-view").disabled = student.file ? false : true;
+						tr.children[6].querySelector(".to-cloud").disabled = student.docontent ? false : true;
+						setDataTREvent(tr.children[6], student);
+						dataShower.appendChild(tr);
+					}
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.style.display = "none";
+					k360_popover.create().toast("加载学生列表错误，可能是网络问题，状态码：" + status);
+				})
+				.send();
+			}
+
+			function setDataTREvent(td, student) {
+				td.querySelector(".to-correct").onclick = function () {
+					toCorrect(student);
+				}
+				td.querySelector(".to-view").onclick = function () {
+					top.preview.show(student.file);
+				}
+				td.querySelector(".to-send").onclick = function () {
+					top.chat.sendMessage("student", student.id, student.name);
+				}
+				td.querySelector(".to-cloud").onclick = function () {
+					webHomeworkCorrector.style.display = "inline-block";
+					inputerCenter(webHomeworkCorrector);
+					var dom = webHomeworkCorrector.querySelector("[kEditor]");
+					dom.setContent(student.docontent);
+					//绑定所有数据
+					dom.bindedData = student;
+				}
+			}
+
+			function toCorrect(student) {
+				corrector.style.display = "inline-block";
+				inputerCenter(corrector);
+				correctForm.reset();
+				correctForm.student.value = student.id;
+				correctForm.score.value = (!student.score || student.score == "-1") ? "" : student.score;
+				correctForm.remark.value = student.remark ? student.remark : "";
+				correctForm.score.focus();
+				bufferStudent = student;
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		course_correct_controller.create().init();
+	})
+
+</script>

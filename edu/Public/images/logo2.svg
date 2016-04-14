@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-flat-20030114.dtd">
+<!-- Created by SVGDeveloper 1.0 -->
+<svg width="257" height="257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+
+
+
+<circle cx="128.5" cy="129" r="128" fill="#ECBF35" stroke="none" stroke-opacity="0" />
+<ellipse cx="-131.5" cy="79.5" rx="0" ry="0" fill="#ECBF35" stroke="none" stroke-opacity="0" />
+<path d="M211.4386 211.4386A118 118 0 0 1 44.5614 44.5614" fill="#6A953D" stroke="none" stroke-opacity="0" />
+<path d="M49.64 49.1A117.5 117.5 0 1 1 216.32 215.94" fill="#4ED2D2" stroke="none" stroke-opacity="0" transform="matrix(1,0,0,1,-5,-4.5)" />
+<path d="M143 152M144 152L144 169L141 181L140 190L139 198L138 215L137 224L136 239L135 246L133 264L157 264L153 224L150 193L146 170L146 153L224 188L308 143L224 100L138 149" fill="#FFFFFF" stroke="none" stroke-opacity="0" transform="matrix(0.9999999,0,0,0.9999999,-94.87392,-49.35984)" xmlns="http://www.w3.org/2000/svg" />
+<circle cx="137.875" cy="176.375" r="6.875" fill="#FFFFFF" stroke="none" stroke-opacity="0" transform="matrix(0.9999999,0,0,0.9999999,-88.12351,-49.67988)" xmlns="http://www.w3.org/2000/svg" />
+<path d="M181 173L170 188L224 221L227 221L278 188L265 170L224 193M123 186" fill="#FFFFFF" stroke="none" stroke-opacity="0" transform="matrix(0.9999999,0,0,0.9999999,-95.19434,-48.07779)" xmlns="http://www.w3.org/2000/svg" />
+<text x="182.3718" y="263.4615" xml:space="preserve" font-family="Microsoft YaHei UI" font-size="32" fill="#FFFFFF" stroke="none" stroke-opacity="0" font-weight="bold" transform="matrix(0.9999999,0,0,0.9999999,-103.2058,-50.64196)" xmlns="http://www.w3.org/2000/svg">
+ZYNC</text>
+
+
+</svg>

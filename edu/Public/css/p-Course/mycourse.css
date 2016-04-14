@@ -1,0 +1,530 @@
+﻿
+.list-subjects{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:280px;
+	bottom:0px;
+	background:#FAFAFA;
+}
+
+.list-subjects .to-show-all{
+	display:inline-block;
+	cursor:pointer;
+}
+
+.list-subjects .to-show-all .all-time-list{
+	position:fixed;
+	line-height:30px;
+	background:#FFF;
+	background:rgba(0,0,0,.8);
+	width:150px;
+	display:none;
+	color:#FFF;
+	left:-5px;
+	top:80px;
+	z-index:1;
+}
+
+.list-subjects .to-show-all .all-time-list li{
+	cursor:pointer;
+	padding:0px 20px;
+}
+
+.list-subjects .to-show-all .all-time-list li:hover{
+	background:#27ae5b;
+}
+
+
+.list-subjects ul{
+	padding:0px;
+	list-style:none;
+	margin:0px 10px;
+	font-size:13px;
+	line-height:30px;
+}
+
+.list-subjects button.pull-right{
+	margin-top:6px;
+}
+
+#subjectShower li button{
+	padding:0px 5px;
+}
+
+#subjectShower li button i{
+	margin:0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main-container{
+	position:absolute;
+	left:280px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	border-left:solid 1px #CCC;
+}
+
+.main-container .handles{
+	position:absolute;
+	left:0px;
+	top:0px;
+	right:0px;
+	height:40px;
+	line-height:40px;
+}
+
+.main-container .handles .handle-item{
+	display:inline-block;
+	padding:0px 10px;
+	cursor:pointer;
+	color:#333;
+	font-size:13px;
+	border-bottom:solid 2px transparent;
+}
+
+.main-container .handles .handle-item.active{
+	color:#2980B9;
+	border-bottom-color:#2ECC71;
+}
+
+.main-container .handles .handle-item:hover{
+	color:#2980B9;
+	border-bottom-color:#2ECC71;
+}
+
+
+.main-container .shower{
+	position:absolute;
+	left:10px;
+	top:50px;
+	right:10px;
+	bottom:10px;
+	font-size:13px;
+}
+
+.main-container .shower >div{
+	position:absolute;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+}
+
+.main-container .tab{
+	background:#FFF;
+	display:none;
+}
+
+#courseFileShower{
+	list-style:none;
+	padding:3px;
+	padding-right:10px;
+}
+
+#courseFileShower li{
+	line-height:25px;
+	padding:6px 0px;
+	font-size:12px;
+	border-bottom:solid 1px #EEE;
+}
+
+#courseFileShower li >div{
+	display:inline-block;
+	margin:0px 5px;
+	vertical-align:middle;
+}
+
+#courseFileShower .file-type{
+	font-size:40px;
+	color:#E74C3C;
+}
+
+#courseFileShower .file-name{
+	/*width:300px;*/
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+#courseFileShower .file-handle{
+	text-align:right;
+	width:100%;
+	font-size:11px;
+}
+
+#courseFileShower .file-handle button{
+	padding:0px;
+	margin:0px 5px;
+	font-size:12px;
+}
+
+
+#courseDescShower li button{
+	padding:0px 5px;
+}
+
+.student-list-left{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:50%;
+	bottom:0px;
+	border:solid 1px #CCC;
+	border-right:none;
+}
+
+.student-list-right{
+	position:absolute;
+	left:50%;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	border:solid 1px #CCC;
+}
+
+.student-list-show{
+	position:absolute;
+	left:10px;
+	top:40px;
+	right:10px;
+	bottom:10px;
+}
+
+.student-list-show .move-btn{
+	margin-top:7px;
+}
+
+.student-list-show li{
+	padding-top:3px;
+	padding-bottom:3px;
+	border-bottom:solid 1px #EEE;
+}
+
+.student-list-show li >span{
+	font-size:13px;
+	color:#666;
+}
+
+.student-list-show img{
+	width:30px;
+	height:30px;
+	border-radius:5px;
+	margin-right:10px;
+}
+
+.student-list-show ul{
+	list-style:none;
+	padding:0px;
+	line-height:40px;
+	transition:all 200ms;
+}
+
+.student-list-cur li{
+	text-align:right;
+}
+
+#attend ul{
+	list-style:none;
+	padding:0px;
+	margin:10px;
+	font-size:12px;
+	line-height:50px;
+}
+
+#attend ul li img{
+	width:30px;
+	height:30px;
+	border-radius:5px;
+}
+
+#attend ul li .name{
+	margin-left:5px;
+}
+
+#attend ul li .pull-right{
+	color:#666;
+}
+
+#attend ul li .pull-right *{
+	vertical-align:sub;
+}
+
+#attend ul li .pull-right input{
+	outline:none;
+}
+
+#attend .list-title .pull-right{
+	font-size:12px;
+}
+
+#attend .list-title .pull-right button{
+	padding:0px 3px;
+	margin-left:5px;
+	text-decoration:none;
+}
+
+#attend .list-title .pull-right button.fa-close{
+	color:#E74C3C;
+}
+#attend .list-title .pull-right button.fa-close:hover{
+	color:#C0392B;
+}
+
+#attend select{
+	height:22px;
+	vertical-align:middle;
+	padding:0px;
+}
+
+#attend .attend-content{
+	position:absolute;
+	left:5px;
+	top:35px;
+	right:5px;
+	bottom:40px;
+}
+
+#attend .attend-footer{
+	position:absolute;
+	left:15px;
+	bottom:0px;
+	right:15px;
+	height:30px;
+}
+
+#attend .attend-footer button{
+	padding:3px 5px;
+	font-size:11px;
+	height:22px;
+}
+
+
+#homeworkShower{
+	list-style:none;
+	padding:0px;
+	margin:5px;
+}
+
+#homeworkShower >li{
+	border-bottom:solid 1px #EEE;
+}
+
+
+.faq{
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	padding-right:8px;
+}
+
+
+.faq-creator{
+	width:100%;
+	border:solid 1px #2ECC71;
+}
+
+.faq-create-input{
+	min-height:30px;
+	max-height:200px;
+	outline:none;
+	margin:10px;
+	margin-bottom:0px;
+	overflow:auto;
+	line-height:20px;
+}
+
+.faq-creator .handles{
+	position:static;
+	text-align:right;
+	margin-right:10px;
+}
+
+.faq-creator .handles select{
+	display:inline-block;
+	margin-left:10px;
+	vertical-align:middle;
+}
+
+.faq .btn-submit{
+	margin-left:10px;
+	padding:2px 5px;
+}
+
+.faq ul{
+	margin-top:10px;
+	list-style:none;
+	padding:0px;
+}
+
+.faq >ul >li{
+	/*padding:10px 0px;*/
+	border:solid 1px #BDC3C7;
+	background:#FFF;
+	/*margin-bottom:20px;*/
+	/*padding:5px;*/
+	margin-top:25px;
+}
+
+
+.faq-user-head{
+	width:40px;
+	height:40px;
+	border-radius:8px;
+	vertical-align:middle;
+}
+
+.faq-user-info{
+	line-height:20px;
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:10px;
+}
+
+.faq-submit-time{
+	color:#666;
+}
+
+.faq-question{
+	word-break:break-all;
+	position:relative;
+	line-height:20px;
+	padding:10px;
+	padding-left:35px;
+	margin-right:1px;
+}
+
+.faq-question-user{
+	margin-top:5px;
+}
+
+.faq-question-user-name{
+	cursor:pointer;
+	color:#2980B9;
+}
+
+.faq-reply{
+	border-left:solid 2px #F39C12;
+	margin-top:5px;
+	margin-left:5px;
+	/*display:none;*/
+}
+
+.faq-slide{
+	color:#27AE60;
+	cursor:pointer;
+	display:inline-block;
+}
+
+.faq-handles{
+	margin-top:5px;
+}
+
+.faq-to-reply{
+	color:#2980B9;
+	cursor:pointer;
+}
+
+
+.faq-icon-show-title{
+	background:url(__PUBLIC__/images/Faq/show-title.png) no-repeat;
+	width:14px;
+	height:14px;
+	display:inline-block;
+	background-size:contain;
+	position:absolute;
+	left:10px;
+	top:12px;
+}
+
+.faq-icon-show-title-ok{
+	background:url(__PUBLIC__/images/Faq/show-title-ok.png) no-repeat;
+}
+
+.faq-text-before{
+	margin-right:10px;
+}
+.faq-text-before.question{
+	color:#2980B9;
+}
+.faq-text-before.moreask{
+	color:#D35400;
+}
+.faq-text-before.reply{
+	color:#2ECC71;
+}
+
+.faq-question-time{
+	color:#666;
+}
+
+.faq-replier{
+	margin-left:30px;
+	border:solid 1px #27AE60;
+	margin-right:5px;
+	margin-bottom:5px;
+}
+
+.faq-replier [contenteditable='true']{
+	margin:5px;
+}
+
+.faq-replier .faq-replier-handles{
+	margin-right:5px;
+}
+
+.faq-editor img{
+	max-width:200px;
+	max-height:200px;
+}
+
+.faq-editor{
+	outline:none;
+}
+
+
+
+
+
+
+.a{
+	cursor:pointer;
+}
+
+.a:hover{
+	color:#2ECC71;
+}
+
+.a.active{
+	color:#2ECC71;
+}
+
+
+
+
+
+
+.list-title{
+	font-family:微软雅黑;
+	line-height:40px;
+	margin:0px 5px;
+}

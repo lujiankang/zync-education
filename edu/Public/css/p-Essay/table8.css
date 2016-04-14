@@ -1,0 +1,172 @@
+﻿.page-break{
+	page-break-after:always;
+}
+
+body{
+	text-align:center;
+}
+.page{
+	width:554px;
+	height:917px;
+	padding:96px 118px;
+	border:solid 1px #808080;
+	margin:30px auto;
+	text-align:left;
+}
+
+.page-print{
+	width:554px;
+	height:917px;
+	margin:30px auto;
+	text-align:left;
+}
+
+.head >.item{
+	float:left;
+}
+.base >.head >div >:first-child{
+	font-weight:bold;
+	font-family:楷体;
+	font-size:12pt;
+}
+.base >.head >div >:not(:first-child){
+	font-size:10.5pt;
+}
+.base >.title{
+	font-size:22pt;
+	margin-top:85px;
+	text-align:center;
+	font-weight:bold;
+}
+.base >.infos{
+	font-family:黑体;
+	font-size:15pt;
+	margin-left:110px;
+	line-height:40px;
+}
+.base >.infos input{
+	font-family:黑体;
+	font-size:15pt;
+	width:300px;
+	height:20px;
+	border:none;
+	border-bottom:solid 1px #000000;
+	text-align:center;
+}
+.base >.infos input::-ms-clear{
+	display:none;
+}
+.base >.date{
+	float:right;
+	font-family:Times New Roman;
+	font-size:16pt;
+	margin-top:135px;
+}
+.base >.date input{
+	font-family:Times New Roman;
+	font-size:16pt;
+	border:none;
+	width:25px;
+	text-align:center;
+}
+
+.tables >.head{
+	font-family:黑体;
+	font-size:10.5pt;
+}
+.tables >.title{
+	font-family:新宋体;
+	font-size:18pt;
+	text-align:center;
+	margin-top:10px;
+}
+.tables table td{
+	font-family:宋体;
+	font-size:10.5pt;
+}
+.tables >.tips{
+	font-family:楷体;
+	font-size:12pt
+}
+.tables >.top-text{
+	font-family:楷体;
+	line-height:30px;
+	margin-top:16px;
+}
+.tables >.top-text .big{
+	font-size:14pt;
+}
+.tables >.top-text .small{
+	font-size:12pt;
+}
+.sig{
+	float:right;
+	margin-top:20px;
+	line-height:30px;
+	margin-right:90px;
+	font-family:楷体;
+	font-size:12pt;
+}
+.sig >.sig1 >.name{
+	display:inline-block;
+	width:180px
+}
+.sig >.sig1 >.date{
+	display:inline-block;
+}
+		
+.input-base{
+	width:100px;
+	border:none;
+	border-bottom:solid 1px #000;
+}
+.input-center{
+	text-align:center;
+}
+
+
+
+table td{
+	border-right:none;
+	border-bottom:none;
+}
+table{
+	border-left:none;
+	border-top:none;
+}
+table td input,textarea{
+	border:none;
+	overflow:hidden;
+	font-family:宋体;
+	font-size:10.5pt;
+	width:98%;
+	height:100%;
+}
+
+input::-ms-clear{
+	display:none;
+}
+
+.rb-float-icon{
+	position:fixed;
+	right:20px;
+	width:50px;
+	height:50px;
+	border-radius:50px;
+	text-align:center;
+	line-height:50px;
+	color:#FFF;
+	font-size:18pt;
+	cursor:pointer;
+}
+
+
+.video-player{
+	position:fixed;
+	right:80px;
+	bottom:20px;
+	background:#000;
+	width:500px;
+	height:350px;
+	display:none;
+}

@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>授课主页</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/tools/keditor/css/ke.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/p-Course/manage.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/tools/keditor/js/ke.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="history.go(-1)"><i class="fa fa-chevron-left"></i></div>
+			<div class="fa fa-language icon"></div>
+			<span class="title">{$course.name}<span style="font-size:10pt; margin-left:20px; color:#666">({$course.grade}级)</span></span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="btn btn-warning btn-goback" onclick="history.go(-1)"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+			<button class="btn btn-danger" id="fileUploadBtn">上传授课文档</button>
+			<button class="btn btn-danger" id="shosStudentListBtn">学生名单管理</button>
+			<button class="btn btn-primary" id="attendBtn">&nbsp;&nbsp;点&nbsp;名&nbsp;&nbsp;</button>
+			<button class="btn btn-primary" id="setHomeworkBtn">布置安排</button>
+			<button class="btn btn-success">使用帮助</button>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>文档名称</th>
+						<th>上传时间</th>
+						<th width="130">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dataShower">
+					<tr>
+						<td>xxxx</td>
+						<td>xxxx</td>
+						<td>
+							<button class="btn btn-sm btn-danger fa fa-trash to-remove" title="删除文件"></button>
+							<button class="btn btn-sm btn-warning fa fa-pencil to-rename" title="重命名"></button>
+							<button class="btn btn-sm btn-success fa fa-bullhorn to-show" title="演示"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+		
+	<!-- 重命名 -->
+	<div class="inputer" id="fileRemamer">
+		<div>
+			<div class="container-400">
+				<form id="fileRenameForm" action="__MODULE__/File/aRenameFile">
+					<input type="text" name="fid" style="display:none"  required />
+					<div class="form-group">
+						<label>文件名（不要随意改动后缀）</label>
+						<input type="text" class="form-control" name="name" placeholder="如：数据库系统概论第一讲.ppt" required>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;重命名&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="fileRemamer.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 上传Loading -->
+	<div class="inputer" id="uploadLoading">
+		<div>
+			<div>
+				<div>文件上传中，请稍后。。。</div>
+				<div class="upl-progress">
+					<div class="upl-now"></div>
+					<div class="upl-text">进度：<span class="upl-persent">20</span>%</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 学生名单 -->
+	<div class="attend" id="studentList">
+		<div>
+			<form method="post" action="__CONTROLLER__/aSetStudentList/course/{$course.id}" id="studentListSaveForm">
+				<h3 class="atd-head">{$course.grade}级的所有学生</h3>
+				<div class="atd-body" k360-scroll-y="4" is-loading="false">
+					<div class="waiting"><i class="fa fa-spin fa-spinner"></i> &nbsp;Loading，Please wait a minute...</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<th><input type="checkbox" disabled /></th>
+								<th>姓名</th>
+								<th>学号</th>
+							</tr>
+						</thead>
+						<tbody id="studentListShower">
+							<tr>
+								<td><input type="checkbox" name="students[]" /></td>
+								<td>陆建康</td>
+								<td>114090102037</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="atd-foot">
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保存名单&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="studentList.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- 点名 -->
+	<div class="attend" id="attend">
+		<div>
+			<h3 class="atd-head">当前课程学生名单</h3>
+			<div class="atd-body" k360-scroll-y="4" is-loading="false">
+				<div class="waiting"><i class="fa fa-spin fa-spinner"></i> &nbsp;Loading，Please wait a minute...</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th width="150">缺勤情况</th>
+						</tr>
+					</thead>
+					<tbody id="attendStudentsShower">
+						<tr>
+							<td>陆建康</td>
+							<td>
+								<input type="checkbox" value="1" />迟&nbsp;&nbsp;
+								<input type="checkbox" value="2" />旷&nbsp;&nbsp;
+								<input type="checkbox" value="3" />假
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="atd-foot">
+				<button type="button" class="btn btn-success" id="submitAttendBtn">&nbsp;&nbsp;下一步&nbsp;&nbsp;</button>
+				<button type="button" class="btn btn-warning" onclick="attend.style.display='none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 点名信息提交前操作 -->
+	<div class="inputer" id="submitAttends">
+		<div style="border:solid 1px #808080; border-right:none; border-left:none">
+			<div class="container-400">
+				<form method="post" action="__CONTROLLER__/aSaveAttend/course/{$course.id}" id="submitAttendsForm">
+					<input type="text" name="info" required style="display:none" />
+					<div class="form-group">
+						<label>当前是第几周</label>
+						<input type="text" class="form-control" name="week" placeholder="如：12" required>
+					</div>
+					<div class="form-group">
+						<label>取个名字方便查看</label>
+						<input type="text" class="form-control" name="name" placeholder="如：第一周第（1）次点名" required>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;提交保存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="submitAttends.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 作业安排 -->
+	<div class="inputer" id="homeWordSetter">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aSetHomeWork/course/{$course.id}" method="post" id="homeWorkSetForm">
+					<div class="form-group">
+						<label>作业名称</label>
+						<input type="text" class="form-control" name="name" placeholder="如：计科系（2）班第一次课后作业" required>
+					</div>
+					<div class="form-group">
+						<label>作业内容</label>
+						<!--<textarea type="text" class="form-control" name="content"></textarea>-->
+						<div class="form-control" name="content" style="height:150px" kEditor>
+							<script src="__PUBLIC__/tools/keditor/js/modle.js"></script>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>附加（多个文件请压缩后上传）</label>
+						<input type="file" style="width:100%; height:30px" name="file">
+					</div>
+					<p class="help-block">作业内容和附件可以任选一个，也可以二者皆填。</p>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;提交&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="homeWordSetter.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+
+
+<script>
+
+	window._GETFILES = "__CONTROLLER__/gCourseFiles/course/{$course.id}";
+	window._DELETEFILE = "__CONTROLLER__/aRemoveCourseFile/course/{$course.id}";
+	window._UPLOADFILE = "__CONTROLLER__/aUploadCourseFile/course/{$course.id}";
+	window._GETSTUDENTSGRADE = "__CONTROLLER__/gStudentList/grade/{$course.grade}/course/{$course.id}";
+	window._GETCOURSESTUDENTS = "__CONTROLLER__/gCourseStudents/course/{$course.id}";
+	window._GETATTENDBEFORE = "__CONTROLLER__/gAttendBeforeSaveInfo/course/{$course.id}";
+
+	window.course_manager_controller = {
+		create: function () {
+			var obj = {};
+			var page = k360_bt_page.create(".page");
+			var clonedTR = dataShower.children[0].cloneNode(true);				//克隆文件列表tr
+
+			var studentListTR = studentListShower.children[0].cloneNode(true);		//克隆学生列表tr
+			studentListShower.removeChild(studentListShower.children[0]);			//删除tr
+			var studentsOfGrade = null;			//某个年级下的学生
+
+			var attendStudentTR = attendStudentsShower.children[0].cloneNode(true);		//克隆点名学生列表tr
+			attendStudentsShower.removeChild(attendStudentsShower.children[0]);			//删除tr
+
+			var weekDatas = null;
+
+			obj.init = function () {
+				//分页处理
+				page.onpage(function (to) {
+					loadFiles(to);
+				});
+				page.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//上传文档处理
+				fileUploadBtn.onclick = function () {
+					var input = document.createElement("input");
+					input.type = "file";
+					input.accept = ".jpg .png .gif .bmp .jpeg .doc .docx .xls .xlsx .ppt .pptx .pdf .txt";
+					input.onchange = function () {
+						if (this.files[0].size > 1024 * 1024 * 10) {
+							k360_popover.create().toast("文件不能大于10M");
+							return;
+						}
+						//loading
+						uploadLoading.style.display = "inline-block";
+						inputerCenter(uploadLoading);
+						//上传文件
+						k360_http.create().setUrl(_UPLOADFILE).setMethod("post").addFile("file", input)
+						.onsuccess(function (data, xhr) {
+							uploadLoading.style.display = "none";
+							if (data.reson) {
+								k360_popover.create().toast(data.reson);
+								return;
+							}
+							loadFiles(page.getCurPage());
+						})
+						.onerror(function (xhr, status, statusText) {
+							uploadLoading.style.display = "none";
+							k360_popover.create().toast("上传文档错误，可能是网络问题，状态码：" + status);
+						})
+						.onprogress(function (loaded, total) {
+							var progress = uploadLoading.querySelector(".upl-now");
+							var persent = uploadLoading.querySelector(".upl-persent");
+							var val = parseInt(100 * loaded / total);
+							persent.innerHTML = val;
+							progress.style.width = (progress.parentElement.clientWidth * val / 100) + "px";
+						})
+						.send();
+					};
+					input.click();
+				}
+				//重命名表单提交
+				fileRenameForm.onsubmit = function () {
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//刷新
+						loadFiles(page.getCurPage());
+						fileRemamer.style.display = "none";
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.disabled = false;
+						k360_popover.create().toast("文件重命名错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//点击学生清单按钮
+				shosStudentListBtn.onclick = function () {
+					studentList.style.display = "inline-block";
+					studentsOfGrade || loadGradeStudents();		//如果没有学生列表则加载学生
+				}
+				//保存学生清单表单提交
+				studentListSaveForm.onsubmit = function () {
+					var loading = k360_popover.create().loading();
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.distroy();
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						k360_popover.create().alert("完成", "学生名单已保存", "知道了");
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.distroy();
+						k360_popover.create().toast("保存学生名单错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				};
+				//点名按钮点击
+				attendBtn.onclick = function () {
+					attend.style.display = "inline-block";
+					var loading = attend.querySelector(".atd-body");
+					loading.setAttribute("is-loading", "true");
+					//删除数据
+					while (attendStudentsShower.children.length > 0) {
+						attendStudentsShower.removeChild(attendStudentsShower.children[0]);
+					}
+					//获取学生列表
+					k360_http.create().setUrl(_GETCOURSESTUDENTS)
+					.onsuccess(function (data, xhr) {
+						loading.setAttribute("is-loading", "false");
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//绘制列表
+						for (var i in data.data) {
+							var student = data.data[i];
+							var tr = attendStudentTR.cloneNode(true);
+							tr.children[0].innerHTML = student.name;
+							tr.setAttribute("stuid", student.id);
+							//设置事件
+							setAttendDataTREvent(tr.children[1]);
+							attendStudentsShower.appendChild(tr);
+						}
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.setAttribute("is-loading", "false");
+						k360_popover.create().toast("获取学生列表错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+				}
+				//点击点名下一步的时候
+				submitAttendBtn.onclick = function () {
+					weekDatas = null;
+					//显示弹窗
+					var oldPlaceholder = submitAttendsForm.name.placeholder;
+					submitAttends.style.display = "inline-block";
+					inputerCenter(submitAttends);
+					//填充点名信息
+					var stuinfo = [];
+					for (var i = 0; i < attendStudentsShower.children.length; i++) {
+						var tr = attendStudentsShower.children[i];
+						var checkbox = tr.querySelector("input[type='checkbox']:checked");
+						if (checkbox) {
+							var stuid = tr.getAttribute("stuid");
+							stuinfo.push({ stu:stuid, stat: checkbox.value });
+						}
+					}
+					submitAttendsForm.info.value = JSON.stringify(stuinfo);
+					//loading
+					submitAttendsForm.name.disabled = true;
+					submitAttendsForm.name.placeholder = "加载中，请稍后。。。";
+					//加载数据
+					k360_http.create().setUrl(_GETATTENDBEFORE)
+					.onsuccess(function (data, xhr) {
+						if (data.reson) {
+							submitAttendsForm.name.value = data.reson;
+							return;
+						}
+						weekDatas = data.data;
+						submitAttendsForm.name.disabled = false;
+						submitAttendsForm.name.placeholder = oldPlaceholder;
+						setName();
+					})
+					.onerror(function (xhr, status, statusText) {
+						submitAttendsForm.name.placeholder = "加载数据错误，状态码：" + status;
+					})
+					.send();
+					submitAttendsForm.week.onkeyup = setName;
+					function setName() {
+						var num = 1;
+						var val = submitAttendsForm.week.value;
+						if (!val || !weekDatas) return;
+						for (var i in weekDatas) {
+							if (weekDatas[i].week == val) num++;
+						}
+						submitAttendsForm.name.value = "第（" + number2chinese(val) + "）周第（" + num + "）次点名";
+					}
+				}
+				//提交点名信息的时候调用
+				submitAttendsForm.onsubmit = function () {
+					//周数检测
+					if (parseInt(this.week.value) > 20) {
+						k360_popover.create().alert("搞错了", "搞错了，最多输入20周", "我已知道");
+						return false;
+					}
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//成功
+						submitAttends.style.display = "none";
+						attend.style.display = "none";
+						k360_popover.create().alert("成功", "OK了，您可以去考勤中心查看考勤信息");
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.disabled = false;
+						k360_popover.create().toast("保存点名信息错误，可能是网络原因，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//点击安排作业按钮
+				setHomeworkBtn.onclick = function () {
+					homeWordSetter.style.display = "inline-block";
+					inputerCenter(homeWordSetter);
+					homeWorkSetForm.reset();
+					homeWorkSetForm.querySelector("[kEditor]").refresh();
+				}
+				//保存作业表单提交
+				homeWorkSetForm.onsubmit = function () {
+					//loading
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					//提交
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//成功
+						homeWordSetter.style.display = "none";
+						k360_popover.create().alert("成功", "OK啦，你可以在作业中心中查看到此次作业，并进行批改", "知道了");
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.disabled = false;
+						k360_popover.create().toast("保存作业数据错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//默认加载一次
+				loadFiles(0);
+			}
+			//加载文件列表
+			function loadFiles(toPage) {
+				//锁操作
+				if (page.isLocked()) return;
+				page.lock();
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				//删除数据
+				while (dataShower.children.length > 0) {
+					dataShower.removeChild(dataShower.children[0]);
+				}
+				//加载
+				k360_http.create().setUrl(_GETFILES).addData({ page: toPage })
+				.onsuccess(function (data, xhr) {
+					page.unlock();
+					loading.style.display = "none";
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					//分页
+					page.setInfo(data.data.pages, data.data.count, toPage);
+					//显示文件
+					for (var i in data.data.files) {
+						var file = data.data.files[i];
+						var tr = clonedTR.cloneNode(true);
+						tr.children[0].innerHTML = file.name;
+						tr.children[1].innerHTML = file.time;
+						setDataTREvent(tr.children[2], file);
+						dataShower.appendChild(tr);
+					}
+				})
+				.onerror(function (xhr, status, statusText) {
+					page.unlock();
+					loading.style.display = "none";
+					k360_popover.create().toast("获取文件列表错误，可能是网络原因，状态码：" + status);
+				})
+				.send();
+			}
+			//设置行信息的点击事件
+			function setDataTREvent(td, file) {
+				td.querySelector(".to-remove").onclick = function () {
+					k360_popover.create().confirm("警告", "是否要删除“" + file.name + "”，删除后无法恢复", "删除")
+					.setOnOk(function () {
+						var loading = k360_popover.create().loading();
+						k360_http.create().setUrl(_DELETEFILE).addData({ file: file.id })
+						.onsuccess(function (data, xhr) {
+							loading.distroy();
+							if (data.reson) {
+								k360_popover.create().toast(data.reson);
+								return;
+							}
+							//刷新
+							loadFiles(page.getCurPage());
+						})
+						.onerror(function (xhr, status, statusText) {
+							loading.distroy();
+							k360_popover.create().toast("删除文件错误，可能是网络问题，状态码：" + status);
+						})
+						.send();
+					});
+				};
+				td.querySelector(".to-rename").onclick = function () {
+					fileRemamer.style.display = "inline-block";
+					inputerCenter(fileRemamer);
+					//填充数据
+					fileRenameForm.fid.value = file.id;
+					fileRenameForm.name.value = file.name;
+				};
+				td.querySelector(".to-show").onclick = function () {
+					top.preview.show(file.id);
+				};
+			}
+			//加载当前年级下的学生名单
+			function loadGradeStudents() {
+				studentList.focus();
+				var loading = studentList.querySelector(".atd-body");
+				loading.setAttribute("is-loading", "true");
+				k360_http.create().setUrl(_GETSTUDENTSGRADE)
+				.onsuccess(function (data, xhr) {
+					loading.setAttribute("is-loading", "false");
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					studentsOfGrade = data.data;
+					//显示列表
+					for (var i in data.data) {
+						var student = data.data[i];
+						var tr = studentListTR.cloneNode(true);
+						tr.children[0].children[0].value = student.id;
+						(student.isin == 1) && (tr.children[0].children[0].checked = true);
+						tr.children[1].innerHTML = student.name;
+						tr.children[2].innerHTML = student.number;
+						studentListShower.appendChild(tr);
+					}
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.setAttribute("is-loading", "false");
+					k360_popover.create().toast("加载学生名单错误，可能是网络问题，状态码：" + status);
+				})
+				.send();
+			}
+			//设置点名框中行数据事件
+			function setAttendDataTREvent(td) {
+				for (var i = 0; i < td.children.length; i++) {
+					setEvent(td.children[i]);
+				}
+				function setEvent(checkbox) {
+					checkbox.onchange = function () {
+						this.checked && unchecked(this);
+					}
+				}
+				function unchecked(checkbox) {
+					for (var m = 0; m < td.children.length; m++) {
+						var c = td.children[m];
+						if (c == checkbox) continue;
+						c.checked = false;
+					}
+				}
+			}
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		course_manager_controller.create().init();
+	})
+
+</script>

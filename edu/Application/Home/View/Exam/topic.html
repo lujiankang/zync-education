@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>题库管理</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+	<script src="__PUBLIC__/js/p-Exam/ecompliter.js"></script>
+
+	<style>
+		.topic-preview{
+			height:200px;
+			padding:0px;
+			overflow:auto
+		}
+		.topic-preview >pre{
+			background:#FFF;
+			font-family:宋体;
+			font-size:10.5pt;
+			width:426px;
+			word-break:keep-all;
+			border:none;
+			overflow:visible;
+		}
+		.main table tr td >div{
+			width:100%;
+			max-height:150px;
+			overflow:auto;
+		}
+	</style>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-database icon"></div>
+			<span class="title">题库管理</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-7 top-btns">
+			<button class="handle-item btn btn-danger" onclick="topicCreator.style.display = 'inline-block'; inputerCenter(topicCreator)">添加题目</button>
+			<button class="handle-item btn btn-danger" onclick="importer.style.display = 'inline-block'; inputerCenter(importer); toFirstStep()">批量导入</button>
+			<button class="handle-item btn btn-danger btn-filter" for="topicfilter">题目筛选</button>
+			<div class="item-group top-filter" filter="topicfilter">
+				<select class="form-control" style="width:200px" id="subjectChooser">
+					<volist name="subjects" id="vo">
+						<option value="{$vo.id}">{$vo.name}</option>
+					</volist>
+				</select>
+				<button class="btn btn-warning btn-group" id="viewTopicsBtn">查看题库</button>
+				<div class="float-clear"></div>
+			</div>
+			<button class="handle-item btn btn-success">使用说明</button>
+		</div>
+		<div class="col-sm-5 top-search">
+			<div class="handle-item">
+				<form class="item-group" id="searchForm" style="float:right">
+					<input type="text" name="key" class="form-control" placeholder="关键字：题目内容" style="width:300px">
+					<button type="submit" class="btn btn-primary btn-group"><i class="fa fa-search">&nbsp;</i><span>检索</span></button>
+					<div class="float-clear"></div>
+				</form>
+			</div>
+			<div class="float-clear"></div>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-sm-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShowerTable">
+				<thead>
+					<tr>
+						<th>题型</th>
+						<th width="50%">题目</th>
+						<th>答案</th>
+						<th>添加人</th>
+						<th>科目</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="cloned">
+						<td name="tname" style="white-space:nowrap">xxxx</td>
+						<td><div name="text">xxxx</div></td>
+						<td name="answer">xxxx</td>
+						<td name="uname" style="white-space:nowrap">xxxx</td>
+						<td name="sname" style="white-space:nowrap">xxxx</td>
+						<td width="95" style="white-space:nowrap">
+							<button callback="onDeleteTopic" class="btn btn-sm btn-danger fa fa-trash" title="删除该科目"></button>
+							<button callback="onUpdateTopic" class="btn btn-sm btn-warning fa fa-pencil" title="修改信息"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加题目 -->
+	<div class="inputer" id="topicCreator">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aCreateTopic" id="topicCreateForm">
+					<div class="form-group">
+						<label>科目</label>
+						<select type="text" name="subject" class="form-control" required>
+							<volist name="subjects" id="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>题型</label>
+						<select type="text" name="type" class="form-control" required>
+							<volist name="types" id="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>题目内容</label>
+						<textarea name="text" class="form-control" style="height:100px" required></textarea>
+					</div>
+					<div class="form-group">
+						<label>参考答案</label>
+						<textarea name="answer" class="form-control"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;添&nbsp;加&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="topicCreator.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 批量导入 -->
+	<div class="inputer" id="importer">
+		<div>
+			<div class="container-400 step1">
+				<form id="topicCheckForm">
+					<div class="form-group">
+						<label>题目内容</label>
+						<textarea name="content" class="form-control" style="height:200px; white-space:nowrap" required></textarea>
+						<p class="help-block" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap">错误提示。</p>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;检&nbsp;查&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="importer.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+			<div class="container-400 step2">
+				<form action="__CONTROLLER__/aImportTopics" method="post" id="topicImportForm">
+					<input type="text" name="datas" style="display:none" />
+					<div class="form-group">
+						<label>科目</label>
+						<select type="text" name="subject" class="form-control" required>
+							<volist name="subjects" id="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>题目预览（请确保无误 ）</label>
+						<div type="text" class="form-control topic-preview">
+							<pre></pre>
+						</div>
+					</div>
+					<button type="button" class="btn btn-success btn-loading" onclick="toFirstStep()">&nbsp;&nbsp;上一步&nbsp;&nbsp;</button>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;存&nbsp;保&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="importer.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改题目 -->
+	<div class="inputer" id="topicUpdater">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aUpdateTopic" id="topicUpdateForm" method="post">
+					<input type="text" name="tid" style="display:none" />
+					<div class="form-group">
+						<label>科目</label>
+						<select type="text" name="subject" class="form-control" required>
+							<volist name="subjects" id="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>题型</label>
+						<select type="text" name="type" class="form-control" required>
+							<volist name="types" id="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>题目内容</label>
+						<textarea name="text" class="form-control" style="height:100px" required></textarea>
+					</div>
+					<div class="form-group">
+						<label>参考答案</label>
+						<textarea name="answer" class="form-control"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="topicUpdater.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+	window.TOPIC_GETTER = "__CONTROLLER__/gTopics";
+	window.TOPIC_DELETER = "__CONTROLLER__/aDeleteTopic";
+
+	function toFirstStep() {
+		$$(".step1").style.display = "block";
+		$$(".step1").querySelector("p").innerHTML = "";
+		$$(".step2").style.display = "none";
+	}
+
+	window.exam_topic_controller = {
+		create: function () {
+			var obj = {};
+
+			var errdom = $$(".step1").querySelector("p");
+			var predom = $$(".step2").querySelector("pre");
+
+			var shower = k360_show_table.create(mainShowerTable);
+			var pager = k360_bt_page.create(".page");
+
+			var subject = subjectChooser.value;
+			var key = searchForm.key.value;
+			var topics = null;
+
+			obj.init = function () {
+				//分页
+				pager.onpage(function (page) {
+					loadTopics(page);
+				});
+				pager.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//表格事件
+				//删除数据
+				shower.onDeleteTopic = function (id) {
+					k360_popover.create().confirm("警告", "是否删除该题目？", "删除")
+					.onok(function () {
+						var loading = k360_popover.create().loading();
+						var http = k360_http.create().setUrl(TOPIC_DELETER).addData({ id: id });
+						dataLoad(http, "删除题目错误", function () {
+							loadTopics(pager.getCurPage());
+						}, function (err) {
+							k360_popover.create().toast(err);
+						}, function () {
+							loading.distroy();
+						});
+					});
+				}
+				//修改数据
+				shower.onUpdateTopic = function (id) {
+					var data = shower.getDataByKey(id);
+					topicUpdater.style.display = "inline-block";
+					inputerCenter(topicUpdater);
+					topicUpdateForm.tid.value = id;
+					topicUpdateForm.subject.value = data.subject;
+					topicUpdateForm.type.value = data.type;
+					topicUpdateForm.text.value = data.text.replace(/&nbsp;/gim, " ").replace(/<br\/>/gim, "\n");
+					topicUpdateForm.answer.value = data.answer;
+				}
+				//网页事件====
+				//题目搜索
+				searchForm.onsubmit = function () {
+					key = this.key.value;
+					key || (key = "");
+					loadTopics(0);
+					return false;
+				}
+				//查看题目
+				viewTopicsBtn.onclick = function () {
+					subject = subjectChooser.value;
+					searchForm.key.value = "";
+					key = "";
+					loadTopics(0);
+					hidefilter();
+				}
+				//创建题目
+				topicCreateForm.onsubmit = function () {
+					formSubmitor(this, "添加题目错误", function () {
+						loadTopics(pager.getCurPage());
+						topicCreator.style.display = "none";
+					});
+					return false;
+				}
+				//修改保存
+				topicUpdateForm.onsubmit = function () {
+					formSubmitor(this, "修改题目错误", function () {
+						loadTopics(pager.getCurPage());
+						topicUpdater.style.display = "none";
+					});
+					return false;
+				}
+				//批量导入
+				topicCheckForm.onsubmit = function () {
+					errdom.innerHTML = "";
+					topics = null;
+					var str = this.content.value;
+					//单词解析
+					var words = ecompliter.doWorldAna(str);
+					if (ecompliter.error.length > 0) {
+						showErr();
+						return false;
+					}
+					//语法解析
+					var subjects = ecompliter.doSynAna(words);
+					if (ecompliter.error.length > 0) {
+						showErr();
+						return false;
+					}
+					//最后解析
+					topics = ecompliter.doLastAna(subjects);
+					console.log(topics);
+					function showErr() {
+						ecompliter.evetyError(function (er) {
+							errdom.innerHTML += er + "<br />";
+						});
+					}
+					//生成预览
+					var bufferHTML = "";
+					var index = 0;
+					for (var i in topics) {
+						var aTopic = topics[i];
+						var tType = aTopic.type;
+						var items = aTopic.items;
+						for (var j in items) {
+							var aItem = items[j];
+							var text = aItem.data;
+							var answer = aItem.answer;
+							bufferHTML += (index + 1) + ". 【" + tType + "】\n" + text + "\n";
+							index++;
+						}
+					}
+					predom.innerHTML = bufferHTML;
+					$$(".step1").style.display = "none";
+					$$(".step2").style.display = "block";
+					return false;
+				}
+				topicImportForm.onsubmit = function () {
+					k360_popover.create().confirm("警告", "请注意，如果所导入的题型不存在则会忽略导入。继续吗？", "继续")
+					.onok(function () {
+						topicImportForm.datas.value = JSON.stringify(topics);
+						formSubmitor(topicImportForm, "添加题目错误", function (data) {
+							loadTopics(pager.getCurPage());
+							importer.style.display = "none";
+							k360_popover.create().alert("成功", "已导入 " + data + " 条数据。");
+						});
+					});
+					return false;
+				}
+				loadTopics(0);
+			}
+
+			function loadTopics(page) {
+				var loading = $$(".dataLoading");
+				loading.style.display = "inline-block";
+				shower.clear();
+				var http = k360_http.create().setUrl(TOPIC_GETTER).addData({ subject: subject, key: key, page: page });
+				dataLoad(http, "获取题目列表错误", function (data) {
+					var topicsData = data.topics;
+					for (var i in topicsData) {
+						topicsData[i].text = topicsData[i].text.replace(/\n/gim, "<br/>");
+						topicsData[i].text = topicsData[i].text.replace(/\s/gim, "&nbsp;");
+					}
+					shower.setDatas(topicsData, "id");
+					shower.show();
+					pager.setInfo(data.pages, data.count, page);
+				}, function (err) {
+					k360_popover.create().toast(err);
+				}, function () {
+					loading.style.display = "none";
+				});
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		exam_topic_controller.create().init();
+	});
+</script>

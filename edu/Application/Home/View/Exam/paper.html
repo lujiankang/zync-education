@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>试卷中心</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+	<script src="__PUBLIC__/js/p-Exam/ecompliter.js"></script>
+	<script src="__PUBLIC__/js/p-Exam/paper-previewer.js"></script>
+	<link href="__PUBLIC__/css/p-Exam/design.css" rel="stylesheet" />
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-barcode icon"></div>
+			<span class="title">试卷中心</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="handle-item btn btn-danger" onclick="window.location='__CONTROLLER__/pDesign'">试卷生成</button>
+			<button class="handle-item btn btn-danger btn-filter" for="topicfilter">题目筛选</button>
+			<div class="item-group top-filter" filter="topicfilter">
+				<select class="form-control" style="width:200px" id="yearChooser">
+					<volist name="years" id="vo">
+						<option value="{$vo.name}" {$vo.select}>{$vo.name}年</option>
+					</volist>
+				</select>
+				<button class="btn btn-warning btn-group" id="viewPapersBtn">查看试卷</button>
+				<div class="float-clear"></div>
+			</div>
+			<button class="handle-item btn btn-success">使用说明</button>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-sm-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShowerTable">
+				<thead>
+					<tr>
+						<th>试卷</th>
+						<th>课程</th>
+						<th>学年度</th>
+						<th>针对学生</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="cloned">
+						<td name="name">xxxx</td>
+						<td name="course">xxxx</td>
+						<td name="terms">xxxx</td>
+						<td name="grade">xxxx</td>
+						<td width="130">
+							<button callback="onDeletePaper" class="btn btn-sm btn-danger fa fa-trash" title="删除该试卷"></button>
+							<button callback="onDownload" class="btn btn-sm btn-success fa fa-download" title="下载"></button>
+							<button callback="onPreview" class="btn btn-sm btn-success fa fa-eye" title="预览"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+
+
+	<div id="preview" style="display:none" k360-scroll-y="6">
+		<div class="preview-loading" style="width:100%; height:500px; line-height:500px; text-align:center; font-size:20pt; color:#FFF">
+			<i class="fa fa-spin fa-spinner"></i>
+		</div>
+		<div class="paper-container" style="display:none">
+			<div class="paper">
+				<div class="page-fotter">第<span>1</span>页&nbsp;&nbsp;共<span>3</span>页（<span>A</span>卷）</div>
+				<img src="__PUBLIC__/images/Exam/pack-line.png" class="packLine" />
+				<div class="page">
+					<!-- 顶部 -->
+					<div id="paperHead">
+						<div style="float:left">
+							<img src="__PUBLIC__/images/Exam/paper-log.png" width="181" height="31" onmousedown="return false" />
+							<div class="paper-title" paper-data="name">期末考试试卷(X卷)</div>
+							<div style="margin-top:10px; text-align:center; font-size:10.5pt"><span style="font-family:'Times New Roman'" paper-data="termnum">xxxx~xxxx</span>学年度第<span paper-data="termtext">X</span>学期</div>
+						</div>
+						<table class="bordered table-top-logo" cellspacing="0" cellpadding="0" style="float:right">
+							<tr>
+								<td>考核课程名称</td>
+								<td>开(闭)卷</td>
+								<td paper-data="opened">X</td>
+							</tr>
+							<tr>
+								<td rowspan="2" paper-data="course">xxxxxxxx</td>
+								<td>可否用计算器</td>
+								<td paper-data="caculatored">X</td>
+							</tr>
+							<tr>
+								<td>考试时间(分钟)</td>
+								<td paper-data="examtime">120</td>
+							</tr>
+						</table>
+						<div style="clear:both"></div>
+					</div>
+					<!-- 考生信息 -->
+					<div style="font-size:9pt; line-height:30px" id="paperStudent">
+						<div>
+							<span style="font-family:宋体">试卷适用专业、年级</span>
+							<span style="font-family:楷体; text-decoration:underline" paper-data="grade">计算机科学与技术专业xxx级xxxxxx班</span>
+						</div>
+						<div>
+							<span style="font-family:宋体">考生所在专业、年级、班级 </span>
+							<span style="font-family:楷体; text-decoration:underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span style="font-family:宋体">姓名</span>
+							<span style="font-family:楷体; text-decoration:underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span style="font-family:宋体">学号 </span>
+							<span style="font-family:楷体; text-decoration:underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+					</div>
+					<!-- 考生须知 -->
+					<div id="paperDesc">
+						<div style="font-family:宋体; font-size:9pt; font-weight:bold; line-height:25px">考生须知！</div>
+						<div style="font-family:楷体; font-size:9pt; line-height:20px;">
+							1．本试卷共<span class="pages">x</span>页，有<span class="typenum">xx</span>个大题，<span class="topicnum">xxx</span>个小题．<br />
+							2．所有试题都必须在答题纸相应位置做答，否则不给分．<br />
+							3．如加有空白答题纸，请在空白答题纸右上方顶端写明所在班级、姓名及学号．<br />
+							4．考试结束，本试卷与答题纸一同上交，缺一不可．<br />
+							5．本试卷为两面印刷．
+						</div>
+					</div>
+					<!-- ----------------------题目数据---------------------- -->
+				</div>
+			</div>
+		</div>
+		<div class="preview-close"><i class="fa fa-remove"></i></div>
+	</div>
+</body>
+</html>
+
+
+<script>
+	window.PAPER_GETTER = "__CONTROLLER__/gMyPapers";
+	window.PAPER_DELETER = "__CONTROLLER__/aDeletePaper";
+	window.PAPER_DOWNLOADER = "__CONTROLLER__/pDownloadPaper";
+	window.PAPER_HTML_GETTER = "__CONTROLLER__/gPaperHTML";
+
+	//window.PACKLINE_CLONED = document.querySelector(".packLine").cloneNode(true);
+
+	window.exam_paper_controller = {
+		create: function () {
+			var obj = {};
+			var pager = k360_bt_page.create(".page");
+			var shower = k360_show_table.create(mainShowerTable);
+			var year = yearChooser.value;
+
+			var previewCloseBtn = preview.querySelector(".preview-close");
+			var previewLoading = preview.querySelector(".preview-loading");
+			var previewContainer = preview.querySelector(".paper-container");
+			shower.clear();
+
+			obj.init = function () {
+				//分页
+				pager.onpage(function (page) {
+					loadPapers(page);
+				});
+				pager.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//表格事件=======
+				//删除
+				shower.onDeletePaper = function (id) {
+					k360_popover.create().confirm("警告", "是否删除？", "删除")
+					.onok(function () {
+						var loading = k360_popover.create().loading();
+						var http = k360_http.create().setUrl(PAPER_DELETER).addData({ id: id });
+						dataLoad(http, "删除试卷错误", function (data) {
+							loadPapers(pager.getCurPage());
+						}, function (err) {
+							k360_popover.create().toast(err);
+						}, function () {
+							loading.distroy();
+						});
+					});
+				}
+				//下载
+				shower.onDownload = function (id) {
+					window.location.href = PAPER_DOWNLOADER + "?id=" + id;
+				}
+				//预览
+				shower.onPreview = function (id) {
+					preview.style.display = "block";
+					previewLoading.style.display = "block";
+					previewContainer.style.display = "none";
+					//获取html
+					var http = k360_http.create().setUrl(PAPER_HTML_GETTER).addData({ id: id });
+					dataLoad(http, "获取试卷内容错误", function (data) {
+						//清空数据
+						paperObj.clear();
+						var pageDom = preview.querySelector(".page");
+						//填充数据
+						for (var i in data) {
+							if (i == "html") continue;
+							var dom = preview.querySelector("[paper-data='" + i + "']");
+							dom && (dom.innerHTML = data[i]);
+						}
+						var htmls = data.html;
+						for (var i in htmls) {
+							var dom = document.createElement("div");
+							var item = htmls[i];
+							dom.className = (item.type == "typename") ? "topic-title title1" : "topic-text title2";
+							dom.innerHTML = item.text.replace(/&/gim, "&amp;").replace(/</gim, "&lt;").replace(/  /gim, " &nbsp;");
+							pageDom.appendChild(dom);
+						}
+						//显示
+						paperObj.format();
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						previewLoading.style.display = "none";
+						previewContainer.style.display = "block";
+					});
+				}
+				//页面事件=========
+				viewPapersBtn.onclick = function () {
+					year = yearChooser.value;
+					loadPapers(0);
+				}
+				previewCloseBtn.onclick = function () {
+					preview.style.display = "none";
+				}
+				loadPapers(0);
+			}
+
+			function loadPapers(page) {
+				var loading = document.querySelector(".dataLoading");
+				shower.clear();
+				loading.style.display = "inline-block";
+				var http = k360_http.create().setUrl(PAPER_GETTER).addData({ page: page, year: year });
+				dataLoad(http, "获取试卷列表错误", function (data) {
+					shower.setDatas(data.papers, "id");
+					shower.show();
+					pager.setInfo(data.pages, data.count, page);
+				}, function (err) {
+					k360_popover.create().toast(err);
+				}, function () {
+					loading.style.display = "none";
+				});
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		exam_paper_controller.create().init();
+		window.paperObj = exam_design_paper.create();
+		paperObj.format();
+		paperObj.clear();
+	})
+</script>

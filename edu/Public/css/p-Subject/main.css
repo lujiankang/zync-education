@@ -1,0 +1,98 @@
+﻿.list-subject{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:250px;
+	bottom:0px;
+	background:#FAFAFA;
+}
+
+.list-chapter{
+	position:absolute;
+	left:250px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	border-left:solid 1px #CCC;
+}
+
+.data-list >.title{
+	font-family:微软雅黑;
+	line-height:40px;
+	margin-left:5px;
+}
+
+.data-list >.title button{
+	margin-top:10px;
+	margin-right:0px;
+}
+
+.data-list button i{
+	margin:0px;
+}
+
+.data-list .d-container{
+	position:absolute;
+	left:0px;
+	top:41px;
+	right:0px;
+	bottom:0px;
+}
+
+.data-list ul{
+	margin:6px;
+	list-style:none;
+	padding:0px;
+	font-size:13px;
+	color:#333;
+	line-height:30px;
+}
+
+.data-list ul li{
+	border:solid 1px transparent;
+	cursor:default;
+	transition:all 200ms;
+}
+
+.data-list ul li:hover{
+	border:solid 1px #ff6a00;
+}
+
+
+.data-list ul li .name{
+	width:180px;
+	float:left;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+.data-list ul li .handles{
+	float:right;
+}
+
+.data-list ul li .handles i{
+	margin-right:0px;
+}
+
+
+.data-list button{
+	padding:0px 6px;
+}
+
+.d-container >ol{
+	width:90%;
+}
+
+.d-container >ol input{
+	border:none;
+	width:300px;
+}
+
+.d-container >ol *{
+	outline:none;
+}
+
+.chapter-subject-name{
+	color:#888;
+}

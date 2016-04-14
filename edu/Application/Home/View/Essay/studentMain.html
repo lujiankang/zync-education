@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>论文管理中心</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+
+	<script src="../../../../Public/js/base/k360-bt-page.js"></script>
+	<script src="../../../../Public/js/base/func.js"></script>
+	<script src="../../../../Public/js/k360/k360-http.js"></script>
+	<script src="../../../../Public/js/k360/k360-popover.js"></script>
+	<script src="../../../../Public/js/k360/k360-scroll-bar.js"></script>
+
+	<style>
+		.timeline {
+			position: relative;
+			width: 100%;
+			height: 400px;
+		}
+
+			.timeline > .timeline-item {
+				position: relative;
+				min-width: 700px;
+				min-height: 150px;
+				width: 100%;
+			}
+
+				.timeline > .timeline-item > .timeline-line {
+					position: absolute;
+					left: 120px;
+					top: 0px;
+					width: 3px;
+					height: 100%;
+					background: #34495E;
+				}
+
+				.timeline > .timeline-item > .timeline-pic {
+					position: absolute;
+					left: 101px;
+					top: 0px;
+					width: 40px;
+					height: 40px;
+					background: #34495E;
+					border-radius: 40px;
+					text-align: center;
+					line-height: 40px;
+					color: #FFF;
+				}
+
+				.timeline > .timeline-item > .timeline-time {
+					position: absolute;
+					left: 10px;
+					top: 0px;
+					line-height: 40px;
+				}
+
+				.timeline > .timeline-item > .timeline-shower {
+					margin-left: 120px;
+					min-width: 400px;
+					max-width: 60%;
+					transform: translateX(40px);
+					padding-bottom: 50px;
+				}
+
+				.timeline > .timeline-item > .timeline-pao {
+					position: absolute;
+					left: 152px;
+					top: 15px;
+					width: 0px;
+					height: 0px;
+					border-top: 6px solid transparent;
+					border-right: 8px solid #34495E;
+					border-bottom: 6px solid transparent;
+				}
+
+				.timeline > .timeline-item > .timeline-shower > .timeline-title {
+					color: #FFF;
+					padding: 0px 10px;
+					line-height: 40px;
+					background: #34495E;
+					border-top-left-radius: 3px;
+					border-top-right-radius: 3px;
+				}
+
+				.timeline > .timeline-item > .timeline-shower > .timeline-content {
+					background: #FBFCFC;
+					min-height: 60px;
+					border: solid 1px #BDC3C7;
+					border-top: none;
+					border-bottom-left-radius: 3px;
+					border-bottom-right-radius: 3px;
+					padding: 10px 20px;
+				}
+
+				.timeline > .timeline-item > .timeline-shower > .timeline-space {
+					width: 100%;
+					height: 50px;
+				}
+	</style>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="fa fa-battery-2 icon"></div>
+			<span class="title">论文详情——{$essay.name}</span>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-md-12">
+			<button class="handle-item btn btn-warning" onclick="history.go(-1)"><i class="fa fa-angle-double-left"></i>&nbsp;&nbsp;返回上级</button>
+			<button class="handle-item btn btn-danger" id="uploadBtn" {$hideStr}><i class="fa fa-upload"></i>&nbsp;&nbsp;提交新论文</button>
+			<button class="handle-item btn btn-success" id="table8Btn"><i class="fa fa-newspaper-o"></i>&nbsp;&nbsp;查看8个表</button>
+		</div>
+	</div>
+
+	<!-- 时间轴 -->
+	<div class="row handles margin-top-20">
+		<div class="col-md-12">
+			<div class="timeline">
+				<!-- 创建论文时间轴单元 -->
+				<div class="timeline-item info-create">
+					<div class="timeline-shower">
+						<div class="timeline-title"><span class="creator">xxxx</span> 创建论文题目《<span class="essayname">xxxxxxx</span>》</div>
+						<div class="timeline-content">
+							<div class="essaydesc">xxxx</div>
+							<div style="margin-top:10px">
+								<!--<button class="btn btn-link"><i class="fa fa-pencil"></i>修改题目</button>-->
+								<!--<button class="btn btn-link"><i class="fa fa-download"></i>题目附件（如果有附件）</button>-->
+							</div>
+						</div>
+					</div>
+					<div class="timeline-time">2015-03-12</div>
+					<div class="timeline-line"></div>
+					<div class="timeline-pic"><i class="fa fa-fire"></i></div>
+					<div class="timeline-pao"></div>
+				</div>
+				<!-- 教师恢复时间轴单元 -->
+				<div class="timeline-item info-repeat">
+					<div class="timeline-shower">
+						<div class="timeline-title">王亚 对 陆建康 论文的修改意见</div>
+						<div class="timeline-content">
+							<div>附件是打开了附加费圣诞节快乐 附件是打开了附件是打开了发动机上课了风刀霜剑飞机迪斯科浪费就是打开 发就大声附近的看来是解开了距离 分解落实贷款房间昆仑山的 飞机迪斯科浪费就减肥圣诞快乐房价角度考虑是否就发就大声离开 减肥的上空乱飞健康就快了发生地 付款了但是jfk了家里发大水解开了是 发到手机看了飞机迪斯科浪费角度思考了</div>
+							<div style="margin-top:10px">
+								<button class="btn btn-link"><i class="fa fa-pencil"></i>修改回复</button>
+								<button class="btn btn-link"><i class="fa fa-trash"></i>删除回复</button>
+								<button class="btn btn-link"><i class="fa fa-download"></i>下载我的附件</button>
+							</div>
+						</div>
+					</div>
+					<div class="timeline-time">2015-03-13</div>
+					<div class="timeline-line"></div>
+					<div class="timeline-pic"><i class="fa fa-magic"></i></div>
+					<div class="timeline-pao"></div>
+				</div>
+				<!-- 学生提交论文时间轴单元 -->
+				<div class="timeline-item info-submit">
+					<div class="timeline-shower">
+						<div class="timeline-title">陆建康 提交了论文</div>
+						<div class="timeline-content">
+							<div>附件是打开了附件是打开了发动机上课了风刀霜剑飞机迪斯科浪费就是打开 发就大声附近的看来是解开了距离 分解落实贷款房间昆仑山的 飞机迪斯科浪费就减肥圣诞快乐房价角度考虑是否就发就大声离开 减肥的上空乱飞健康就快了发生地 付款了但是jfk了家里发大水解开了是 发到手机看了飞机迪斯科浪费角度思考了</div>
+							<div style="margin-top:20px">
+								<button class="btn btn-link"><i class="fa fa-download"></i>下载学生论文</button>
+								<button class="btn btn-link"><i class="fa fa-reply"></i>回复并建议</button>
+							</div>
+						</div>
+					</div>
+					<div class="timeline-time">2015-03-14</div>
+					<div class="timeline-line"></div>
+					<div class="timeline-pic"><i class="fa fa-upload"></i></div>
+					<div class="timeline-pao"></div>
+				</div>
+				<!-- 其他内容时间轴单元 -->
+				<div class="timeline-item info-others">
+					<div class="timeline-shower">
+						<div class="timeline-title">论文转移</div>
+						<div class="timeline-content">论文由指导老师 王亚 转到 刘彦兵，以后此论文将由刘彦兵做为指导老师</div>
+					</div>
+					<div class="timeline-time">2015-03-15</div>
+					<div class="timeline-line"></div>
+					<div class="timeline-pic"><i class="fa fa-random"></i></div>
+					<div class="timeline-pao"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+
+<script>
+
+	window._SHOWTABLE8 = "__CONTROLLER__/pTable8/essay/{$essay.id}";
+	window._GETTIMELINE = "__CONTROLLER__/gEssayTimeLine/essay/{$essay.id}";
+
+	window.essay_info_controller = {
+		create: function () {
+			var obj = {};
+
+			var createDom = document.querySelector(".info-create").cloneNode(true);
+			var repeatDom = document.querySelector(".info-repeat").cloneNode(true);
+			var submitDom = document.querySelector(".info-submit").cloneNode(true);
+			var othersDom = document.querySelector(".info-others").cloneNode(true);
+			var timelineDom = document.querySelector(".timeline");
+			removeChildrenAll(timelineDom);
+
+			var timelinegetter = {
+				clear: function () {
+					timelinegetter.essayIndex = timelinegetter.submitIndex = timelinegetter.replyIndex = timelinegetter.otherIndex = 0;
+				},
+				next: function () {
+					var data = timelinegetter.data;
+					var essayData = data.essay;
+					var submitData = data.submit;
+					var replyData = data.reply;
+					var otherData = data.other;
+
+				},
+				data: null,
+				essayIndex: 0,
+				submitIndex: 0,
+				replyIndex: 0,
+				otherIndex: 0
+			};
+
+			var timelineData = null;
+
+			obj.init = function () {
+				//8个表按钮点击
+				table8Btn.onclick = function () {
+					window.location.href = _SHOWTABLE8 + "/type/teacher"
+				}
+				//获取一次信息
+				loadEssayInfo();
+				return obj;
+			}
+			function loadEssayInfo() {
+				k360_http.create().setUrl(_GETTIMELINE)
+				.onsuccess(function (data, xhr) {
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					timelineData = data.data;
+					//创建基本dom
+					var essayInfo = data.data.essay;
+					var newCreateDom = createDom.cloneNode(true);
+					newCreateDom.querySelector(".creator").innerHTML = essayInfo.teachername;
+					newCreateDom.querySelector(".essayname").innerHTML = essayInfo.name;
+					newCreateDom.querySelector(".essaydesc").innerHTML = (essayInfo.desc ? essayInfo.desc : "无内容").replace(/(\n)/gmi, "<br />");
+					newCreateDom.querySelector(".timeline-time").innerHTML = essayInfo.time;
+					timelineDom.appendChild(newCreateDom);
+					//逐个创建时间轴条目
+
+				})
+				.onerror(function (xhr, status, statusText) {
+					k360_popover.create().toast("获取数据错误，可能是网络原因，状态码：" + status)
+				})
+				.send();
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		essay_info_controller.create().init();
+	})
+
+</script>

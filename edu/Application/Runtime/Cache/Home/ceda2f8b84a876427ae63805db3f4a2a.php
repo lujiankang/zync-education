@@ -1,0 +1,220 @@
+<?php if (!defined('THINK_PATH')) exit();?>﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>题型管理</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="/edu/edu/Public/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="/edu/edu/Public/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="/edu/edu/Public/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="/edu/edu/Public/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="/edu/edu/Public/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="/edu/edu/Public/js/k360/k360-scroll-bar.js"></script>
+	<script src="/edu/edu/Public/js/k360/k360-http.js"></script>
+	<script src="/edu/edu/Public/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="/edu/edu/Public/css/base/page.css" rel="stylesheet" />
+
+	<!-- 当前页面js -->
+	<script src="/edu/edu/Public/js/base/k360-bt-page.js"></script>
+	<script src="/edu/edu/Public/js/base/func.js"></script>
+	<script src="/edu/edu/Public/js/base/k360-show-table.js"></script>
+	<script src="/edu/edu/Public/js/base/resp-head.js"></script>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-tint icon"></div>
+			<span class="title">题型管理</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="handle-item btn btn-danger" onclick="typeCreator.style.display = 'inline-block'; inputerCenter(typeCreator)">添加题型</button>
+		</div>
+	</div>
+
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShowerTable">
+				<thead>
+					<tr>
+						<th>题型</th>
+						<th>说明</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="cloned">
+						<td name="name">xxxx</td>
+						<td name="desc">xxxx</td>
+						<td width="95">
+							<button callback="onDeleteType" class="btn btn-sm btn-danger fa fa-trash" title="删除该题型"></button>
+							<button callback="onUpdateType" class="btn btn-sm btn-warning fa fa-pencil" title="修改信息"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 添加题型 -->
+	<div class="inputer" id="typeCreator">
+		<div>
+			<div class="container-400">
+				<form action="/edu/edu/index.php/Home/Exam/aCreateType" method="post" id="typeCreateForm">
+					<div class="form-group">
+						<label>题型</label>
+						<input type="text" class="form-control" name="name" placeholder="如：单选题" required>
+					</div>
+					<div class="form-group">
+						<label>说明</label>
+						<textarea class="form-control" name="desc" placeholder="如：从4个答案中选出正确的一个" ></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;添&nbsp;加&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="typeCreator.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 修改题型 -->
+	<div class="inputer" id="typeUpdater">
+		<div>
+			<div class="container-400">
+				<form action="/edu/edu/index.php/Home/Exam/aUpdateType" method="post" id="typeUpdateForm">
+					<input type="text" name="tid" style="display:none" />
+					<div class="form-group">
+						<label>题型</label>
+						<input type="text" class="form-control" name="name" placeholder="如：单选题" required>
+					</div>
+					<div class="form-group">
+						<label>说明</label>
+						<textarea class="form-control" name="desc" placeholder="如：从4个答案中选出正确的一个"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="typeUpdater.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+
+
+<script>
+
+	window.EXAM_TYPES_GETTER = "/edu/edu/index.php/Home/Exam/gTypes";
+	window.EXAM_TYPE_DELETER = "/edu/edu/index.php/Home/Exam/aDeleteType";
+
+	window.exam_type_controller = {
+		create: function () {
+			var obj = {};
+			var shower = k360_show_table.create(mainShowerTable);
+
+			obj.init = function () {
+				//点击表格中的删除
+				shower.onDeleteType = function (id) {
+					k360_popover.create().confirm("警告", "是否真要删除该题型？", "删除")
+					.onok(function () {
+						var loading = k360_popover.create().loading();
+						var http = k360_http.create().setUrl(EXAM_TYPE_DELETER).addData({ id: id });
+						dataLoad(http, "删除题型表错误", function (data) {
+							loadTypes();
+						}, function (err) {
+							k360_popover.create().toast(err);
+						}, function () {
+							loading.distroy();
+						});
+					});1
+				}
+				//点击表格中的修改
+				shower.onUpdateType = function (id) {
+					typeUpdater.style.display = "inline-block";
+					inputerCenter(typeUpdater);
+					var data = shower.getDataByKey(id);
+					typeUpdateForm.tid.value = id;
+					typeUpdateForm.name.value = data.name;
+					typeUpdateForm.desc.value = data.desc;
+				}
+				//创建表单提交
+				typeCreateForm.onsubmit = function () {
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					var http = k360_http.create().addForm(this);
+					dataLoad(http, "创建提醒错误", function (data) {
+						loadTypes();
+						typeCreator.style.display = "none";
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						loading.disabled = false;
+					});
+					return false;
+				}
+				//修改表单提交
+				typeUpdateForm.onsubmit = function () {
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					var http = k360_http.create().addForm(this);
+					dataLoad(http, "修改提醒错误", function (data) {
+						loadTypes();
+						typeUpdater.style.display = "none";
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						loading.disabled = false;
+					});
+					return false;
+				}
+
+				loadTypes();
+				return obj;
+			}
+
+			function loadTypes() {
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				var http = k360_http.create().setUrl(EXAM_TYPES_GETTER);
+				dataLoad(http, "获取题型列表错误", function (data) {
+					shower.clear();
+					shower.setDatas(data, "id");
+					shower.show();
+				}, function (err) {
+					k360_popover.create().toast(err);
+				}, function () {
+					loading.style.display = "none";
+				});
+			}
+
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		exam_type_controller.create().init();
+	});
+
+</script>

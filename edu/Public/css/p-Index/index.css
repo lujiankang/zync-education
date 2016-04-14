@@ -1,0 +1,369 @@
+﻿
+body {
+	margin: 0px;
+	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
+}
+
+
+input{
+	border-radius:0px;
+}
+
+
+.number-dot {
+	padding: 0px 3px;
+	background: #f89406;
+	border-radius: 10px;
+	display: inline-block;
+	min-width: 18px;
+	text-align: center;
+	line-height: 18px;
+	margin-left: 10px;
+}
+
+
+
+
+
+#background-img {
+	background: url(__PUBLIC__/images/index/background.jpg) no-repeat;
+	background-size: cover;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+
+#top-navigate {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	height: 42px;
+	background: #292929;
+}
+
+.nav-left {
+	width: 75%;
+	height: 100%;
+	float: left;
+}
+
+	.nav-left > div {
+		display: inline-block;
+		padding: 0px 24px;
+		line-height: 41px;
+		color: #FFF;
+		font-size: 13px;
+		transition: background 0.2s cubic-bezier(.7,0,.7,1) 0s;
+	}
+
+	.nav-left .logo {
+		font-family: 微软雅黑;
+		font-size: 16px;
+		color: #EF6C00;
+	}
+
+	.nav-left > .item {
+		cursor: pointer;
+	}
+
+		.nav-left > .item:hover {
+			background: #000;
+		}
+
+	.nav-left > .search {
+		background: #FFF;
+		height: auto;
+		border-radius: 3px;
+		vertical-align: middle;
+		padding: 0px 6px;
+		margin-left: 20px;
+	}
+
+		.nav-left > .search > * {
+			float: left;
+		}
+
+		.nav-left > .search > i {
+			color: #707070;
+			font-size: 16px;
+			line-height: 27px;
+		}
+
+		.nav-left > .search input {
+			font-size: 13px;
+			border: 0px;
+			height: 20px;
+			width: 130px;
+			float: left;
+			outline: none;
+			padding: 3px 6px 3px 6px;
+			width: 130px;
+			transition: all 0.2s cubic-bezier(.7,0,.7,1) 0s;
+			line-height: 20px;
+			color: #000;
+			margin-top:4px;
+		}
+
+			.nav-left > .search input:focus {
+				width: 200px;
+			}
+
+.nav-right {
+	float: right;
+	height: 100%;
+	width: 25%;
+}
+
+	.nav-right > div {
+		float: right;
+		padding: 0px 20px;
+		color: #FFF;
+		line-height: 42px;
+		cursor: pointer;
+	}
+
+		.nav-right > div:hover {
+			background: #000;
+		}
+
+	.nav-right > .user-head {
+		margin-right: 20px;
+		padding-right: 10px;
+		width: 120px;
+		position: relative;
+		box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+		line-height:40px;
+	}
+
+		.nav-right > .user-head > * {
+			display: inline-block;
+			vertical-align: middle;
+			font-size: 14px;
+		}
+
+		.nav-right > .user-head > img {
+			width: 32px;
+			height: 32px;
+			border-radius: 16px;
+		}
+
+		.nav-right > .user-head .name {
+			padding: 0px 5px;
+		}
+
+		.nav-right > .user-head ul {
+			display: none;
+			position: absolute;
+			background: rgba(0,0,0,.8);
+			z-index: 999;
+			list-style-type: none;
+			padding: 0px;
+			left: 0px;
+			top: 42px;
+			right: 0px;
+			box-sizing: content-box;
+			-webkit-box-sizing: content-box;
+		}
+
+		.nav-right > .user-head:hover ul {
+			display: inline-block;
+		}
+
+			.nav-right > .user-head ul li {
+				padding: 0px 20px;
+				font-size: 13px;
+			}
+
+				.nav-right > .user-head ul li:hover {
+					background: #27ae5b;
+				}
+
+		.nav-right > .user-head .nav-has-msg {
+			position: absolute;
+			left: 44px;
+			top: 4px;
+			width: 8px;
+			height: 8px;
+			border-radius: 4px;
+			background: #F00;
+		}
+
+
+
+
+
+
+
+/* *********************** 窗口显示器 ******************************* */
+
+#main-container {
+	position: absolute;
+	left: 15px;
+	top: 55px;
+	right: 15px;
+	bottom: 14px;
+}
+
+/*左侧菜单*/
+.left-menu {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 130px;
+	bottom: 0px;
+	background: rgba(0,0,0,.6);
+	overflow:hidden;
+}
+
+
+.menu-item {
+	height: 90px;
+	color: #FFF;
+	text-align: center;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(.7,0,.7,1) 0s;
+}
+
+	.menu-item:not(.active):hover {
+		background: #0f1012;
+	}
+
+	.menu-item.active {
+		background: #FFF;
+		color: #666666;
+		box-shadow: -1px 2px 1px rgba(0,0,0,.4);
+	}
+
+	.menu-item i {
+		margin-top: 19px;
+		font-size: 24px;
+	}
+
+	.menu-item .name {
+		font-size: 14px;
+		position: absolute;
+		bottom: 19px;
+		width: 100%;
+	}
+
+.body-win {
+	position: absolute;
+	left: 130px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*登录界面*/
+
+.u-login {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: rgba(52, 73, 94, 0.5);
+	display: none;
+	z-index: 999;
+}
+
+.login-container {
+	width: 300px;
+	margin: auto;
+	height: 350px;
+	background: #FBFCFC;
+	padding: 0px 30px;
+}
+
+.login-container input,
+.login-container button
+{
+	border-radius:0px;
+}
+
+.login-title {
+	font-family: 微软雅黑;
+	width: 100%;
+	line-height: 65px;
+	font-size: 13pt;
+	color: #2980B9;
+}
+
+.login-key-anim {
+	animation: loginKeyAnim 2s infinite ease;
+}
+
+.login-logo {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 200px;
+	height: 200px;
+	display: none;
+}
+
+
+
+
+
+
+
+
+#indexLoading{
+	position:fixed;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	background: rgba(52, 73, 94, 0.5);
+	display:none;
+}
+
+#indexLoading >div{
+	width:100%;
+	height:100px;
+	margin-top:100px;
+	background:#FFF;
+	color:#7ccd9b;
+	text-align:center;
+	line-height:30px;
+	padding:20px 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1140px) {
+	.left-menu {
+		width: 80px;
+	}
+
+	.body-win {
+		left: 80px;
+	}
+}

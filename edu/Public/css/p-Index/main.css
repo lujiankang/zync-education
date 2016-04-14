@@ -1,0 +1,35 @@
+﻿body {
+	margin: 0px;
+	font-family: 'Microsoft Yahei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+
+
+.main {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 250px;
+	bottom: 0px;
+	background: #FFF;
+}
+
+.user {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 250px;
+	background: rgba(255,255,255,.85);
+	overflow:hidden;
+}
+
+
+
+
+
+
+
+
+

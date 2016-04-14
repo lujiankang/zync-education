@@ -1,0 +1,748 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>试卷设计</title>
+	<meta charset="utf-8" />
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<link href="__PUBLIC__/tools/keditor/css/ke.css" rel="stylesheet" />
+	<script src="__PUBLIC__/tools/keditor/js/ke.js"></script>
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<link href="__PUBLIC__/css/p-Exam/design.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/p-Exam/paper-previewer.js"></script>
+
+</head>
+
+
+<body style="color:#000000">
+
+	<div id="shower" k360-scroll-y="4">
+		<div class="big">
+			<div class="topic-title editable title1"><span class="num" name="num1">一</span>、<span name="text">xxxxxxxxxx</span></div>
+			<div class="small">
+				<div class="topic-text editable title2"><span class="num" name="num2">7</span>．<span name="text">xxxxxxxxxxxxxxxxxxxxxxxxx</span></div>
+			</div>
+		</div>
+	</div>
+
+	<div id="editor">
+		<div class="line">
+			<button class="btn btn-success" id="moveupbtn">上移</button>
+			<button class="btn btn-success" id="movedownbtn">下移</button>
+			<button class="btn btn-danger" id="removebtn">删除</button>
+			<button class="btn btn-warning" id="insertbtn" disabled>添加题目</button>
+			<button class="btn btn-primary" id="previewbtn">预览</button>
+		</div>
+		<div class="line">
+			<div contenteditable="true" class="form-control" id="editTextarea" spellcheck="false"></div>
+			<button class="btn btn-primary used" style="margin-top:10px; width:100px;">应用</button>
+		</div>
+		<div class="line">
+			<button class="btn btn-primary save" style="width:100px">保存试卷</button>
+		</div>
+		<div class="line">
+			<div style="font-family:微软雅黑; line-height:30px;">特殊字符表</div>
+			<div class="schar" k360-scroll-y="3">
+			</div>
+		</div>
+	</div>
+
+	<div class="inputer" id="paperCreator">
+		<div>
+			<div class="container-400" step="1">
+				<div class="form-group">
+					<label>选择科目</label>
+					<select class="form-control subject" style="height:auto">
+						<volist name="subjects" id="vo">
+							<option value="{$vo.id}">{$vo.name}</option>
+						</volist>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>请选择题型（按住Ctrl多选）</label>
+					<select class="form-control types" multiple style="height:100px">
+						<volist name="types" id="vo">
+							<option value="{$vo.id}">{$vo.name}</option>
+						</volist>
+					</select>
+				</div>
+				<div style="margin-top:20px">
+					<button type="button" class="btn btn-success step1next btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>下一步
+					</button>
+					<button type="button" class="btn btn-warning" onclick="document.write('操作已取消，请关闭窗口')">取消</button>
+				</div>
+			</div>
+
+			<div class="container-400" step="2">
+				<div id="setternumbershower" k360-scroll-y="4">
+					<div class="form-group" cloned>
+						<label>选择题数量</label>
+						<input class="form-control" type="text" value="6" style="height:auto" />
+						<p class="help-block">这里是块级帮助文本的实例。</p>
+					</div>
+				</div>
+				<div style="margin-top:20px">
+					<button type="button" class="btn btn-success step2last">上一步</button>
+					<button type="button" class="btn btn-primary step2build btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>马上生成试卷
+					</button>
+					<button type="button" class="btn btn-warning" onclick="document.write('操作已取消，请关闭窗口')">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="preview" style="display:none" k360-scroll-y="6">
+		<div class="paper-container">
+			<div class="paper">
+				<div class="page-fotter">第<span>1</span>页&nbsp;&nbsp;共<span>3</span>页（<span>A</span>卷）</div>
+				<img src="__PUBLIC__/images/Exam/pack-line.png" class="packLine" />
+				<div class="page">
+					<!-- 顶部 -->
+					<div id="paperHead">
+						<div style="float:left">
+							<img src="__PUBLIC__/images/Exam/paper-log.png" width="181" height="31" onmousedown="return false" />
+							<div class="paper-title">期末考试试卷(X卷)</div>
+							<div style="margin-top:10px; text-align:center; font-size:10.5pt"><span style="font-family:'Times New Roman'">xxxx~xxxx</span>学年度第X学期</div>
+						</div>
+						<table class="bordered table-top-logo" cellspacing="0" cellpadding="0" style="float:right">
+							<tr>
+								<td>考核课程名称</td>
+								<td>开(闭)卷</td>
+								<td>X</td>
+							</tr>
+							<tr>
+								<td rowspan="2">xxxxxxxx</td>
+								<td>可否用计算器</td>
+								<td>X</td>
+							</tr>
+							<tr>
+								<td>考试时间(分钟)</td>
+								<td>120</td>
+							</tr>
+						</table>
+						<div style="clear:both"></div>
+					</div>
+					<!-- 考生信息 -->
+					<div style="font-size:9pt; line-height:30px" id="paperStudent">
+						<div>
+							<span style="font-family:宋体">试卷适用专业、年级</span>
+							<span style="font-family:楷体; text-decoration:underline">计算机科学与技术专业xxx级xxxxxx班</span>
+						</div>
+						<div>
+							<span style="font-family:宋体">考生所在专业、年级、班级 </span>
+							<span style="font-family:楷体; text-decoration:underline">xxx计科（ ）班  </span>
+							<span style="font-family:宋体">姓名</span>
+							<span style="font-family:楷体; text-decoration:underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span style="font-family:宋体">学号 </span>
+							<span style="font-family:楷体; text-decoration:underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+					</div>
+					<!-- 考生须知 -->
+					<div id="paperDesc">
+						<div style="font-family:宋体; font-size:9pt; font-weight:bold; line-height:25px">考生须知！</div>
+						<div style="font-family:楷体; font-size:9pt; line-height:20px;">
+							1．本试卷共<span class="pages">x</span>页，有<span class="typenum">xx</span>个大题，<span class="topicnum">xxx</span>个小题．<br />
+							2．所有试题都必须在答题纸相应位置做答，否则不给分．<br />
+							3．如加有空白答题纸，请在空白答题纸右上方顶端写明所在班级、姓名及学号．<br />
+							4．考试结束，本试卷与答题纸一同上交，缺一不可．<br />
+							5．本试卷为两面印刷．
+						</div>
+					</div>
+					<!--<div id="dataInsertPos"></div>-->
+					<!-- ----------------------题目数据---------------------- -->
+				</div>
+			</div>
+		</div>
+		<div class="preview-close"><i class="fa fa-remove"></i></div>
+	</div>
+
+	<div class="inputer" id="paperSaver">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aSavePaper" method="post" id="paperSaveForm">
+					<input type="text" name="paperid" style="display:none" /><!-- 试卷id，如果有则保存 -->
+					<input type="text" name="html" style="display:none" /><!-- 试卷内容 -->
+					<div style="height:210px; position:relative; padding-right:20px" k360-scroll-y="4">
+						<div class="form-group">
+							<label>试卷名称</label>
+							<input type="text" name="name" class="form-control" placeholder="如：期末考试试卷(Ａ卷)" required />
+						</div>
+						<div class="form-group">
+							<label>考核课程名称</label>
+							<input type="text" name="course" class="form-control" placeholder="如：C语言基础教程" required />
+						</div>
+						<div class="form-group">
+							<label>开(闭)卷</label>
+							<select type="text" name="opened" class="form-control" required>
+								<option value="开">开卷</option>
+								<option value="闭" selected>闭卷</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>可否用计算器</label>
+							<select type="text" name="caculatored" class="form-control" required>
+								<option value="是">是</option>
+								<option value="否" selected>否</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>考试时间(分钟)</label>
+							<input type="text" name="examtime" class="form-control" value="120" required />
+						</div>
+						<!--<div class="form-group">
+							<label>学期</label>
+							<input type="text" name="terms" class="form-control" placeholder="如：2014~2015学年度第二学期" required />
+						</div>-->
+						<div class="form-group">
+							<label>试卷适用专业、年级</label>
+							<input type="text" name="grade" class="form-control" placeholder="如：计算机科学与技术专业13级本科班（简称：13计科班）" required />
+						</div>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;存&nbsp;保&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="paperSaver.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+<script>
+
+	window.TYPES = {$json_type};
+
+	window.PAPER_TOPIC_GETTER = "__CONTROLLER__/gBuildPaper";
+	window.TOPIC_NUM_GETTER = "__CONTROLLER__/gTypeNumber";
+
+	//window.PACKLINE_CLONED = document.querySelector(".packLine").cloneNode(true);
+
+	window.SCHAR = {
+		"特殊标点": "。，、＇：∶；?‘’“”〝〞ˆˇ﹕︰﹔﹖﹑·¨….¸;！´？！～—ˉ｜‖＂〃｀@﹫¡¿﹏﹋﹌︴々﹟#﹩$﹠&﹪%*﹡﹢﹦﹤‐￣¯―﹨ˆ˜﹍﹎+=<­＿_-\ˇ~﹉﹊（）〈〉‹›﹛﹜『』〖〗［］《》〔〕{}「」【】︵︷︿︹︽_﹁﹃︻︶︸﹀︺︾ˉ﹂﹄︼",
+		"数字序号": "㈠㈡㈢㈣㈤㈥㈦㈧㈨㈩ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ❶❷❸❹❺❻❼❽❾❿①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇",
+		"数学/单位": "＋－×÷﹢﹣±／＝≈≡≠∧∨∑∏∪∩∈⊙⌒⊥∥∠∽≌＜＞≤≥≮≯∧∨√﹙﹚[]﹛﹜∫∮∝∞⊙∏º¹²³⁴ⁿ₁₂₃₄·∶½⅓⅔¼¾⅛⅜⅝⅞∴∵∷αβγδεζηθικλμνξοπρστυφχψω％‰℅°℃℉′″￠〒¤○㎎㎏㎜㎝㎞㎡㎥㏄㏎mlmol㏕Pa＄￡￥㏒㏑",
+		"拼音": "āáǎàōóǒòêēéěèīíǐìūúǔùǖǘǚǜü",
+		"音标": ["i:", "ə:", "a:", "ɔ:", "u:", "i", "e", "æ", "ə", "ʌ", "ɔ", "u", "ei", "ai", "ɔi", "əu", "au", "iə", "εə", "uə", "p", "t", "k", "f", "θ", "s", "ʃ", "h", "tʃ", "ts", "tr", "b", "d", "g", "v", "ð", "z", "ʒ", "r", "dʒ", "dz", "dr", "j", "w", "m", "n", "ŋ", "l"],
+		"制表符": "┌┬┐├┼┤└┴┘┏┳┓┣╋┫┗┻┛╒╤╕╞╪╡╘╧╛╭─╮│╳│╰─╯┏━┓┃┃┗━┛╔╦╗╠╬╣╚╩╝─│━┃┄┆┅┇┈┊┉┋╲╱┞┟┠┡┢┦┧┨┩┪╉╊┭┮┯┰┱┲┵┶┷┸╇╈┹┺┽┾┿╀╁╂╃╄╅╆"
+	};
+
+	
+
+	window.exam_design_controller = {
+		create: function () {
+			var obj = {};
+
+			var step1nextBtn = paperCreator.querySelector(".step1next");
+			var step2lastBtn = paperCreator.querySelector(".step2last");
+			var step2buildBtn = paperCreator.querySelector(".step2build");
+
+			var step1Dom = paperCreator.querySelector("[step='1']");
+			var step2Dom = paperCreator.querySelector("[step='2']");
+
+			var numDom = step2Dom.querySelector("[cloned]");
+			var numCloned = numDom.cloneNode(true);
+			setternumbershower.removeChild(numDom);
+
+			var subjectSelect = paperCreator.querySelector("select.subject");
+			var typesSelect = paperCreator.querySelector("select.types");
+
+			var usedBtn = editor.querySelector("button.used");
+			var saveBtn = editor.querySelector("button.save");
+
+
+			var topicCloned = shower.children[0].cloneNode(true);
+			shower.removeChild(shower.children[0]);
+
+			var bufferDom = null;
+
+			var editorCanFocus = true;
+
+			var insertMode = false;				//是否是插入模式
+
+			var paperId = "";
+
+
+			//var editorDom = document.querySelector("[kEditor]");
+
+			obj.init = function () {
+				initSChar();
+				//显示开始窗口
+				paperCreator.style.display = "inline-block";
+				//居中
+				setTimeout(function () {
+					inputerCenter(paperCreator);
+				}, 100);
+				step2Dom.style.display = "none";
+				//下一步
+				step1nextBtn.onclick = function () {
+					//检查数据
+					var selOpt = typesSelect.children;
+					var types = [];
+					var subject = subjectSelect.value;
+					for (var i = 0; i < selOpt.length; i++) {
+						if (!selOpt.item(i).selected) continue;
+						types.push({ id: selOpt.item(i).value, name: selOpt.item(i).innerHTML });
+					}
+					if (!types || !subject || types.length == 0) {
+						k360_popover.create().toast("请先选择条目");
+						return;
+					}
+					var typeIds = [];
+					for (var i in types) {
+						typeIds.push(types[i].id);
+					}
+					step1nextBtn.disabled = true;
+					//获取数量数据
+					var http = k360_http.create().setUrl(TOPIC_NUM_GETTER).addData({ subject: subject, types: typeIds });
+					dataLoad(http, "获取题目数量错误", function (data) {
+						showStep2.call(step1nextBtn, types, data);
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						step1nextBtn.disabled = false;
+					});
+				}
+				//上一步
+				step2lastBtn.onclick = function () {
+					step1Dom.style.display = "block";
+					step2Dom.style.display = "none";
+					inputerCenter(paperCreator);
+				}
+				//生成试卷
+				step2buildBtn.onclick = function () {
+					this.disabled = true;
+					//得到输入数据
+					var inputs = step2Dom.querySelectorAll("input");
+					var typesArr = [];
+					var numsArr = [];
+					for(var i=0; i<inputs.length; i++){
+						var ipt = inputs.item(i);
+						typesArr.push(ipt.typeId);
+						numsArr.push(ipt.value);
+					}
+					var http = k360_http.create().setUrl(PAPER_TOPIC_GETTER)
+						.addData({ subject: subjectSelect.value, "types": typesArr, "numbers": numsArr });
+					//获取数据
+					dataLoad(http, "获取题目列表错误", function (data) {
+						showTopics(data);
+						paperCreator.style.display = "none";
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						step2buildBtn.disabled = false;
+					});
+				}
+				//应用
+				usedBtn.onclick = function () {
+					var html = editTextarea.innerText.replace(/  /gim, " &nbsp;").replace(/</gim, "&lt;").replace(/\n/gim, "<br />");
+					//是否插入模式
+					if (insertMode) {
+						var smalldom = bufferDom.parentElement.parentElement.querySelector(".small");
+						//<div class="topic-text editable title2"><span class="num" name="num2">7</span>．<span name="text">xxxxxxxxxxxxxxxxxxxxxxxxx</span></div>
+						//生成dom
+						var dom = createElem("div", "topic-text editable title2");
+						var span = createElem("span", "num");
+						span.setAttribute("name", "num2");
+						var dot = document.createTextNode("．");
+						var text = createElem("span", "");
+						text.setAttribute("name", "text");
+						text.innerHTML = html;
+						//设置关系
+						dom.appendChild(span);
+						dom.appendChild(dot);
+						dom.appendChild(text);
+						smalldom.appendChild(dom);		//添加dom
+						autoNumbered();	//自动编号
+						setEvent(dom);//单独设置事件
+					}
+					else bufferDom.innerHTML = html;
+				}
+				//编辑框设置
+				editTextarea.onblur = function () {
+					//永不失去焦点
+					editorCanFocus && (editTextarea.focus());
+				}
+				editTextarea.onfocus = function () {
+					//得到焦点时固定焦点
+					editorCanFocus = true;
+				}
+				editTextarea.onkeydown = function (e) {
+					//回车处理，
+					if (e.keyCode == 13) {
+						insert("<br />");
+						shower.click();
+						return false;
+					}
+					e.stopPropagation();
+				}
+				editTextarea.onmousedown = function (e) {
+					//阻止事件冒泡
+					e.stopPropagation();
+				}
+				document.onmousedown = function () {
+					//让编辑款失去焦点
+					editorCanFocus = false;
+				}
+				//上移
+				moveupbtn.onclick = function () {
+					var dom = bufferDom.parentElement;
+					if (/title1/.test(dom.className)) dom = dom.parentElement;
+					if (dom == dom.parentElement.firstElementChild) return;
+					dom.parentElement.insertBefore(dom, dom.previousElementSibling);
+					autoNumbered();
+				}
+				//下移
+				movedownbtn.onclick = function () {
+					var dom = bufferDom.parentElement;
+					if (/title1/.test(dom.className)) dom = dom.parentElement;
+					if (dom == dom.parentElement.lastElementChild) return;
+					dom.parentElement.insertBefore(dom.nextElementSibling, dom);
+					autoNumbered();
+				}
+				//删除
+				removebtn.onclick = function () {
+					var dom = bufferDom.parentElement;
+					if (/title1/.test(dom.className)) dom = dom.parentElement;
+					dom.parentElement.removeChild(dom);
+					autoNumbered();
+				}
+				//添加题目
+				insertbtn.onclick = function () {
+					editTextarea.innerHTML = "请在此输入题目内容";
+					insertMode = true;
+				}
+				//试卷预览
+				previewbtn.onclick = function () {
+					//清空数据
+					paperObj.clear();
+					var pageDom = preview.querySelector(".page");
+					//解析新数据
+					var paperInfo = getPaperInnerHTML();
+					var htmls = paperInfo.html;
+					for (var i in htmls) {
+						pageDom.appendChild(htmls[i]);
+					}
+					//显示
+					preview.style.display = "inline-block";
+					paperObj.format();
+				}
+				//关闭预览
+				document.querySelector(".preview-close").onclick = function () {
+					preview.style.display = "none";
+				}
+				//保存试卷
+				saveBtn.onclick = function () {
+					//得到试卷题目HTML
+					//"pages">x</span>页，有<span class="typenum">xx</span>个大题，<span class="topicnum"
+					var paperInfo = getPaperInnerHTML();
+					var htmls = paperInfo.html;
+					//var dom = document.createElement("div");
+					//paperDesc.querySelector(".pages").innerHTML = "4";
+					//paperDesc.querySelector(".typenum").innerHTML = paperInfo.typenum;
+					//paperDesc.querySelector(".topicnum").innerHTML = paperInfo.topicnum;
+					//dom.appendChild(paperHead.cloneNode(true));
+					//dom.appendChild(paperStudent.cloneNode(true));
+					//dom.appendChild(paperDesc.cloneNode(true));
+					//for (var i in htmls) {
+					//	dom.appendChild(htmls[i]);
+					//}
+					//var html = dom.innerHTML;
+					var jsonObj = [];
+					for (var i in htmls) {
+						var html = htmls[i];
+						if (/title1/.test(html.className)) {
+							jsonObj.push({ type: "typename", text: html.innerText });
+						} else {
+							jsonObj.push({ type: "topicname", text: html.innerText });
+						}
+					}
+					paperSaveForm.html.value = JSON.stringify(jsonObj);//dom.innerHTML;
+					paperSaver.style.display = "inline-block";
+				}
+				//点击保存试卷按钮
+				paperSaveForm.onsubmit = function () {
+					var btn = this.querySelector("button[type='submit']");
+					btn.disabled = true;
+					var http = k360_http.create().addForm(this);
+					dataLoad(http, "保存试卷错误", function (insertId) {
+						paperSaveForm.paperid.value = insertId;
+						k360_popover.create().tip("试卷已保存");
+						paperSaver.style.display = "none";
+					}, function (err) {
+						k360_popover.create().toast(err);
+					}, function () {
+						btn.disabled = false;
+					});
+					return false;
+				}
+			}
+
+			function getPaperInnerHTML() {
+				var buffer = [];
+				var typeIndex = 0;
+				var itemIndex = 0;
+				//遍历题型
+				var bigs = shower.querySelectorAll(".big");			//题型
+				for (var i = 0; i < bigs.length; i++) {
+					var big = bigs.item(i);
+					typeIndex++;
+					var typename = big.querySelector(".topic-title [name='text']").innerHTML;
+					//保存题型
+					var typedom = createElem("div", "topic-title title1");
+					typedom.innerHTML = getBigNumber(typeIndex) + "、" + typename;
+					//dataInsertPos.parentElement.insertBefore(typedom, dataInsertPos);
+					//pageDom.appendChild(typedom);
+					buffer.push(typedom);
+					//遍历题目
+					var items = big.querySelectorAll(".small .topic-text [name='text']");
+					for (var j = 0; j < items.length; j++) {
+						itemIndex++;
+						var text = items.item(j).innerText;
+						//对text进一步分割成行
+						var lines = text.split("\n")
+						for (var k in lines) {
+							//保存题目
+							var itemdom = createElem("div", (k == 0) ? "topic-text title2 title2-first" : "topic-text title2");
+							itemdom.innerHTML = ((k == 0) ? (itemIndex + "．") : "") + lines[k];
+							//dataInsertPos.parentElement.insertBefore(itemdom, dataInsertPos);
+							//pageDom.appendChild(itemdom);
+							buffer.push(itemdom);
+						}
+					}
+				}
+				return { html: buffer, typenum: typeIndex, topicnum: itemIndex };
+			}
+			
+			//显示第二步，this为第一步btn
+			function showStep2(types, counts) {
+				//填充数量选择器
+				//var handleBtns = step2Dom.lastElementChild;
+				//删除原有dom
+				var delDoms = setternumbershower.querySelectorAll(".form-group");
+				while (delDoms.length > 1) {
+					setternumbershower.removeChild(delDoms.item(0));
+					delDoms = setternumbershower.querySelectorAll(".form-group");
+				}
+				//填写数据
+				for (var i in types) {
+					var dom = numCloned.cloneNode(true);
+					dom.children[0].innerHTML = types[i].name + "数目";
+					dom.querySelector(".help-block").innerHTML = "该题型有<span style='color:#D35400'>" + getTypeNum(types[i].id, counts) + "</span>条数据";
+					setternumbershower.appendChild(dom);
+					dom.querySelector("input").typeId = types[i].id;
+				}
+				//将第一个排到最后
+				//step2Dom.appendChild(handleBtns);
+				//显示/隐藏
+				step1Dom.style.display = "none";
+				step2Dom.style.display = "block";
+				//居中
+				inputerCenter(paperCreator);
+			}
+
+			//获取某种题型的数量，counts为服务器返回的数量数据
+			function getTypeNum(typeid, counts) {
+				for (var i in counts) {
+					if (counts[i].type == typeid) {
+						return counts[i].count;
+					}
+				}
+				return 0;
+			}
+
+			//初始化特殊字符表
+			function initSChar() {
+				var scharDom = document.querySelector(".schar");
+				for (var i in SCHAR) {
+					var chars = SCHAR[i];
+					var dom = createElem("div", "item");
+					var title = createElem("div", "title");
+					title.innerHTML = "────────" + i + "────────";
+					dom.appendChild(title)
+					for (var j in chars) {
+						var cdom = createElem("div", "char");
+						cdom.innerHTML = chars[j];
+						dom.appendChild(cdom);
+					}
+					dom.appendChild(createElem("div", "clearfloat"));
+					scharDom.appendChild(dom);
+				}
+				scharEvent();
+			}
+
+			//设置特殊字符事件
+			function scharEvent() {
+				var schars = document.querySelectorAll(".schar .item .char");
+				for (var i = 0; i < schars.length; i++) {
+					schars.item(i).onmousedown = function (e) {
+						editorCanFocus && insert(this.innerHTML);
+						e.stopPropagation();
+					}
+				}
+			}
+
+			//插入字符
+			function insert(ch) {
+				var selection = window.getSelection();
+				var range = window.getSelection().getRangeAt(0);
+				range.deleteContents();
+				if (ch == "<br />") {
+					var newP = document.createElement("br");
+				} else {
+					var newP = document.createTextNode(ch);
+				}
+				range.insertNode(newP);
+				range.setStart(range.endContainer, range.endOffset);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			}
+
+			//显示试卷
+			function showTopics(topics) {
+				var nTopics = rebuildTopics(topics);
+				var num1 = 0;
+				var num2 = 0;
+				for (var i in nTopics) {
+					var bigType = nTopics[i];
+					var datas = bigType.datas;
+					num1++;
+					var bigDom = topicCloned.cloneNode(true);
+					bigDom.querySelector("[name='text']").innerHTML = bigType.type;
+					bigDom.querySelector("[name='num1']").innerHTML = getBigNumber(num1);
+					var smallDom = bigDom.querySelector(".small");
+					var smallCloned = smallDom.children[0].cloneNode(true);
+					smallDom.removeChild(smallDom.children[0]);
+					for (var j in datas) {
+						num2++;
+						var topicDom = smallCloned.cloneNode(true);
+						topicDom.querySelector("[name='text']").innerHTML = datas[j].text.replace(/  /gim, " &nbsp;").replace(/</gim, "&lt;").replace(/\n/gim, "<br />");
+						topicDom.querySelector("[name='num2']").innerHTML = num2;
+						smallDom.appendChild(topicDom);
+					}
+					shower.appendChild(bigDom);
+				}
+				setEvent();
+			}
+
+			//创建一个元素
+			function createElem(type, className) {
+				var dom = document.createElement(type);
+				dom.className = className;
+				return dom;
+			}
+
+			//自动生成编号
+			function autoNumbered() {
+				var num1s = shower.querySelectorAll("[name='num1']");
+				for (var i = 0; i < num1s.length; i++) {
+					num1s.item(i).innerHTML = getBigNumber(i + 1);
+				}
+				num1s = shower.querySelectorAll("[name='num2']");
+				for (var i = 0; i < num1s.length; i++) {
+					num1s.item(i).innerHTML = i + 1;
+				}
+			}
+
+			//设置每个题目的点击事件，如果传入dom则为指定dom设置点击事件
+			function setEvent(dom) {
+				if (dom) {
+					dom.onclick = onEdit;
+				} else {
+					var items = shower.querySelectorAll(".editable");
+					for (var i = 0; i < items.length; i++) {
+						items.item(i).onclick = onEdit;
+					}
+				}
+			}
+
+			//编辑时调用
+			function onEdit(e) {
+				insertMode = false;			//关闭插入模式
+				checkDom(this);
+				bufferDom = this.querySelector("[name='text']");
+				if (/title1/.test(this.className)) {
+					//alert("T1");
+				} else if (/title2/.test(this.className)) {
+					//alert("T2");
+				}
+				
+				editTextarea.innerHTML = bufferDom.innerHTML
+				e.stopPropagation();
+			}
+
+			//选中某个题目
+			function checkDom(dom) {
+				var doms = shower.querySelectorAll(".editable");
+				for (var i = 0; i < doms.length; i++) {
+					var aDom = doms.item(i);
+					if (dom == aDom) {
+						aDom.setAttribute("clicked", "true");
+						continue;
+					}
+					aDom.setAttribute("clicked", "false");
+				}
+				insertbtn.disabled = (/title2/.test(dom.className));
+			}
+
+			//将服务器返回的题目按照题目类型排列
+			function rebuildTopics(topics) {
+				var buffer = [];			//[{type:xxxx, tid:xxx, datas:{qid:xxxxx, text:xxxxxx, answer:xxx}}, ...]
+				for (var i in topics) {
+					var topic = topics[i];
+					//查找是否buffer中是否有对应类型的题目
+					var finded = false;
+					var textArr = [];
+					for(var j in buffer){
+						if(buffer[j].tid == topic.type){
+							finded = true;
+							textArr = buffer[j].datas;
+							break;
+						}
+					}
+					//如果没有找到则声称一条
+					if(!finded){
+						var tname = getTypeName(topic.type);
+						var itemObj = { type: tname, tid: topic.type, datas: textArr };
+						buffer.push(itemObj);
+					}
+					//放入数据
+					var item = { qid: topic.id, text: topic.text, answer: topic.answer };
+					textArr.push(item);
+				}
+				return buffer;
+			}
+
+			//通过题目类型的id获取题目类型名称
+			function getTypeName(tid) {
+				for (var i in TYPES) {
+					if (TYPES[i].id == tid)
+						return TYPES[i].name;
+				}
+				return "其他题型";
+			}
+
+			//获取大写数字
+			function getBigNumber(number) {
+				return ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三"][number];
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		exam_design_controller.create().init();
+		window.paperObj = exam_design_paper.create();
+		paperObj.format();
+		paperObj.clear();
+	});
+</script>

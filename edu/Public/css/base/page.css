@@ -1,0 +1,503 @@
+﻿/*全局设置*/
+body {
+	margin:20px;
+	overflow-x:hidden;
+	background:none;
+}
+table tr td{
+	cursor:default;
+}
+.btn{
+	outline:none;
+}
+/*按钮去圆角*/
+.btn{
+	border-radius:0px;
+}
+/*panel去圆角*/
+.panel{
+	border-radius:0px;
+}
+.panel >*{
+	border-radius:0px;
+}
+/*提醒框重设大小*/
+.alert{
+	border-radius:0px;
+	padding-top:8px;
+	padding-bottom:8px;
+}
+/*输入框去圆角*/
+.form-control{
+	border-radius:0px;
+}
+/*滚动条控件*/
+[k360-scroll-x]{
+	position:relative;
+}
+/*针对按钮点击的时候加载中图标显示/隐藏控制*/
+.btn-loading:disabled >i{
+	display:inline-block;
+}
+.btn-loading:not(:disabled) >i{
+	display:none;
+}
+/*输入框+按钮组合输入控件*/
+.item-group{
+	display:inline-block;
+	vertical-align:middle;
+}
+.item-group >*{
+	float:left;
+	white-space:nowrap;
+	overflow:hidden;
+}
+.item-group >:not(:nth-last-child(2)){
+	/*border-right:none;*/
+}
+/*头部通用标签*/
+.row.header{
+	margin-top:50px;
+}
+.header .icon{
+	font-size:26pt;
+	color:#E74C3C;
+	line-height:60px;
+}
+.header .title{
+	font-size:16pt;
+	color:#2C3E50;
+	line-height:60px;
+	margin-left:20px;
+}
+/*弹出输入窗口*/
+.inputer{
+	background:rgba(0, 0, 0, 0.5);
+	position:fixed;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	display:none;
+	z-index:1000;
+}
+.inputer >div{
+	position:absolute;
+	left:0px;
+	top:100px;
+	width:100%;
+	background:#FFF;
+	padding:60px;
+}
+.inputer >div >div{
+	margin:auto;
+	max-height:100%;
+}
+
+.container-400{
+	width:400px;
+}
+
+
+/*数据区域的Loading控件*/
+.dataLoading{
+	width:100%;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	color:#2980B9;
+	display:none;
+}
+.dataLoading >i{
+	margin-right:10px;
+}
+/*距离顶部一定距离*/
+.margin-top-10{
+	margin-top:10px;
+}
+.margin-top-20{
+	margin-top:20px;
+}
+.margin-top-30{
+	margin-top:30px;
+}
+.margin-top-40{
+	margin-top:40px;
+}
+.margin-top-50{
+	margin-top:50px;
+}
+/*清除浮动*/
+.float-clear{
+	clear:both;
+}
+
+/*右边弹输入出框*/
+.inputer-right{
+	position:fixed;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	background:rgba(0, 0, 0, 0.5);
+	display:none;
+}
+.inputer-right >div{
+	position:absolute;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	width:300px;
+	background:#FFF;
+}
+.inputer-right .atd-head{
+	position:absolute;
+	left:10px;
+	top:0px;
+	right:10px;
+	height:60px;
+}
+.inputer-right .atd-body{
+	position:absolute;
+	left:10px;
+	top:60px;
+	right:10px;
+	bottom:50px;
+	overflow:hidden;
+}
+.inputer-right .atd-foot{
+	position:absolute;
+	left:10px;
+	right:10px;
+	bottom:0px;
+	height:40px;
+}
+.inputer-right .waiting{
+	width:100%;
+	height:40px;
+	line-height:40px;
+	color:#2980B9;
+}
+
+/*有边框内容加载锁*/
+[is-loading='true'] table{
+	display:none;
+}
+[is-loading='true'] .waiting{
+	display:inline-block;
+}
+[is-loading='false'] table{
+	display:table;
+}
+[is-loading='false'] .waiting{
+	display:none;
+}
+
+.header .header-close{
+	display:none;
+}
+
+.header .header-menu{
+	display:none;
+}
+
+.btn-filter{
+	display:none;
+}
+
+
+.data-core{
+	position:absolute;
+	top:51px;
+	left:0px;
+	right:250px;
+	bottom:0px;
+	overflow:auto;
+	background:#FFF;
+	overflow:auto;
+	overflow-x:hidden;
+	padding:10px;
+}
+
+.data-detail{
+	position:absolute;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	width:250px;
+	background: rgba(255,255,255,.85);
+}
+
+.data-detail .detail-icon{
+	font-size:30px;
+}
+
+
+button i{
+	margin-right:5px;
+}
+
+.data-core >.main{
+	position:absolute;
+    left: 10px;
+    top: 40px;
+    right: 25px;
+    bottom: 50px;
+	overflow:auto;
+}
+
+.data-core >.page{
+	position:absolute;
+	bottom:5px;
+	width:100%;
+	text-align:center;
+}
+
+
+
+
+.detail-img{
+	width:85%;
+	height:200px;
+	overflow:hidden;
+	text-align:center;
+	margin:auto;
+	margin-top:20px;
+}
+
+.detail-title{
+	font-weight:bold;
+}
+
+.detail-info,.detail-btn{
+	width:93%;
+	margin:auto;
+	margin-top:10px;
+}
+
+.detail-info{
+	line-height:30px;
+}
+
+.detail-info .detail-text{
+	line-height:25px;
+}
+
+.detail-info span{
+	font-size:12px;
+	color:#888;
+}
+
+
+/*响应式*/
+@media screen and (max-width: 600px){
+	body{
+		padding-top:0px;
+		margin:0px;
+		margin-top:60px;
+		overflow-x:hidden;
+	}
+
+	.inputer >div{
+		position:absolute;
+		left:0px;
+		top:50px;
+		right:0px;
+		bottom:0px;
+	}
+
+	.inputer >div{
+		padding:30px 20px;
+	}
+
+	.container-400{
+		width:100%;
+	}
+
+	
+	/*头部通用标签*/
+	.header{
+		height:50px;
+		line-height:50px;
+		background:#E74C3C;
+		color:#FFF;
+		position:fixed;
+		left:0px;
+		top:0px;
+		width:100%;
+		z-index:1000;
+	}
+
+	.header >div{
+		padding:0px;
+	}
+
+	.header .icon{
+		display:none;
+	}
+
+	.header .title{
+		font-size:10.5pt;
+		color:#FFFFFF;
+		line-height:50px;
+	}
+
+	.header .title span{
+		display:none;
+	}
+
+	.header .header-close{
+		display:inline-block;
+		width:40px;
+		text-align:center;
+	}
+
+	.header .header-menu{
+		display:inline-block;
+		float:right;
+		width:40px;
+		text-align:center;
+	}
+
+	.row{
+		margin-left:0px;
+		margin-right:0px;
+	}
+
+	.top-btns{
+		position:fixed;
+		right:0px;
+		top:50px;
+		width:130px;
+		background:#FFF;
+		z-index:1000;
+		padding:10px 0px;
+		border:solid 1px #7F8C8D;
+		display:none;
+	}
+	
+	.btn-filter{
+		display:inline-block;
+	}
+
+	.top-btns >.btn:not(.btn-goback){
+		background:none;
+		color:#000;
+		display:block;
+		width:100%;
+		border:none;
+		color:#000;
+		text-align:center;
+	}
+
+	.top-btns .item-group{
+		display:none;
+	}
+
+	.header form{
+		width:100%
+	}
+
+	.top-search{
+		border-bottom:solid 1px #27AE60;
+		height:30px;
+		width:94%;
+		margin:auto;
+	}
+
+	.top-search input{
+		border:none;
+		box-shadow:none;
+		background:transparent;
+		position:absolute;
+		left:0px;
+		right:30px;
+	}
+
+	.top-search button{
+		border:none;
+		box-shadow:none;
+		background:transparent;
+		color:#27AE60;
+		display:inline-block;
+		position:absolute;
+		right:0px;
+	}
+
+	.top-search button span{
+		display:none;
+	}
+
+	.top-filter{
+		position:fixed;
+		left:0px;
+		top:50px;
+		right:0px;
+		bottom:0px;
+		z-index:900;
+		display:none;
+		background:#FFF;/*rgba(44, 62, 80, 0.5);*/
+		padding:0px 10px;
+	}
+
+	.top-filter *{
+		width:100%;
+		margin-top:20px;
+		float:none;
+	}
+	
+	.handles .btn-primary:focus,
+	.handles .btn-primary:active:focus,
+	.handles .btn-primary.active:focus,
+	.handles .btn-primary.focus,
+	.handles .btn-primary:active.focus,
+	.handles .btn-primary.active.focus
+	.handles .form-control:focus,
+	.handles .form-control:active:focus,
+	.handles .form-control.active:focus,
+	.handles .form-control.focus,
+	.handles .form-control:active.focus,
+	.handles .form-control.active.focus {
+	  outline: none;
+	  background:none;
+	  box-shadow:none;
+	}
+	.handles .btn-primary:hover,
+	.handles .btn-primary:focus,
+	.handles .btn-primary.focus
+	.handles .form-control:hover,
+	.handles .form-control:focus,
+	.handles .form-control.focus {
+	  color: #27AE60;
+	  text-decoration: none;
+	  box-shadow:none;
+	  background:none;
+	}
+	.handles .form-control:hover,
+	.handles .form-control:focus,
+	.handles .form-control.focus{
+		color:#000;
+	}
+
+	.handles .btn-primary:active,
+	.handles .btn-primary.active
+	.handles .form-control:active,
+	.handles .form-control.active {
+	  background-image: none;
+	  outline: 0;
+	  box-shadow:none;
+	  background:none;
+	}
+	
+	.table-responsive{
+		padding:0px;
+		width:94%;
+		margin:auto;
+	}
+	
+	.btn-goback{
+		display:none;
+	}
+
+}
+

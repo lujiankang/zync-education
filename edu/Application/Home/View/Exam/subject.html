@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>考试科目管理</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-globe icon"></div>
+			<span class="title">考试科目管理</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-12 top-btns">
+			<button class="handle-item btn btn-danger" onclick="subjectCreator.style.display = 'inline-block'; inputerCenter(subjectCreator)">添加考试科目</button>
+			<button class="handle-item btn btn-success">使用说明</button>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShowerTable">
+				<thead>
+					<tr>
+						<th>科目</th>
+						<th>说明</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr name="cloned">
+						<td name="name">xxxx</td>
+						<td name="desc">xxxx</td>
+						<td width="95">
+							<button callback="onDeleteSubject" class="btn btn-sm btn-danger fa fa-trash" title="删除该科目"></button>
+							<button callback="onUpdateSubject" class="btn btn-sm btn-warning fa fa-pencil" title="修改信息"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加科目 -->
+	<div class="inputer" id="subjectCreator">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aCreateSubject" id="subjectCreateForm">
+					<div class="form-group">
+						<label>科目名称</label>
+						<input type="text" name="name" class="form-control" placeholder="如：C语言基础教程" required />
+					</div>
+					<div class="form-group">
+						<label>科目描述</label>
+						<textarea type="text" name="desc" class="form-control"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;添&nbsp;加&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="subjectCreator.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改科目信息 -->
+	<div class="inputer" id="subjectUpdater">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aUpdateSubject" id="subjectUpdateForm">
+					<input type="text" name="sid" required style="display:none" />
+					<div class="form-group">
+						<label>科目名称</label>
+						<input type="text" name="name" class="form-control" placeholder="如：C语言基础教程" required />
+					</div>
+					<div class="form-group">
+						<label>科目描述</label>
+						<textarea type="text" name="desc" class="form-control"></textarea>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="subjectUpdater.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+<script>
+
+	window.SUBJECT_GETTER = "__CONTROLLER__/gSubjects";
+	window.SUBJECT_DELETER = "__CONTROLLER__/aDeleteSubject";
+
+	window.exam_subject_controller = {
+		create: function () {
+			var obj = {};
+			var shower = k360_show_table.create(mainShowerTable);
+			var pager = k360_bt_page.create(".page");
+
+			obj.init = function () {
+				//分页
+				pager.onpage(function (page) {
+					loadSubjects(page);
+				});
+				pager.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//表格事件
+				shower.onDeleteSubject = function (id) {
+					k360_popover.create().confirm("警告", "是否要删除该科目", "删除")
+					.onok(function () {
+						var loading = k360_popover.create().loading();
+						var http = k360_http.create().setUrl(SUBJECT_DELETER).addData({ id: id });
+						dataLoad(http, "删除科目错误", function (data) {
+							loadSubjects(pager.getCurPage());
+						}, function (err) {
+							k360_popover.create().toast(err);
+						}, function () {
+							loading.distroy();
+						});
+					});
+				}
+				shower.onUpdateSubject = function (id) {
+					var data = shower.getDataByKey(id);
+					subjectUpdater.style.display = "inline-block";
+					inputerCenter(subjectUpdater);
+					subjectUpdateForm.sid.value = id;
+					subjectUpdateForm.name.value = data.name;
+					subjectUpdateForm.desc.value = data.desc;
+				}
+				//页面事件
+				subjectCreateForm.onsubmit = function () {
+					formSubmitor(this, "添加科目错误", function () {
+						loadSubjects(pager.getCurPage());
+						subjectCreator.style.display = "none";
+					});
+					return false;
+				}
+				subjectUpdateForm.onsubmit = function () {
+					formSubmitor(this, "修改科目信息错误", function () {
+						loadSubjects(pager.getCurPage());
+						subjectUpdater.style.display = "none";
+					});
+					return false;
+				}
+				loadSubjects(0);
+			}
+
+
+			function loadSubjects(page) {
+				shower.clear();
+				var loading = $$(".dataLoading");
+				loading.style.display = "inline-block";
+				var http = k360_http.create().setUrl(SUBJECT_GETTER).addData({ page: page });
+				dataLoad(http, "获取科目列表错误", function (data) {
+					shower.setDatas(data.subjects, "id");
+					shower.show();
+					pager.setInfo(data.pages, data.count, page);
+				}, function (err) {
+					k360_popover.create().toast(err);
+				}, function () {
+					loading.style.display = "none";
+				});
+			}
+
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		exam_subject_controller.create().init();
+	});
+
+
+</script>

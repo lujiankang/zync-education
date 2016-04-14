@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>作业中心</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+
+	<link href="__PUBLIC__/tools/keditor/css/ke.css" rel="stylesheet" />
+	<script src="__PUBLIC__/tools/keditor/js/ke.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-bug icon"></div>
+			<span class="title">作业中心<span style="font-size:11px; color:#808080">（布置作业请到“我的课程”，并进入相应课程，注意：仅在线作业会有已上交状态，如果作业是写在作业本上的则不会有已上交状态）</span></span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-6 top-btns">
+			<button class="handle-item btn btn-danger btn-filter" for="homeworkfilter">作业筛选</button>
+			<div class="item-group top-filter" filter="homeworkfilter">
+				<select class="form-control" style="width:150px" id="homeworkGrade">
+					<volist name="grades" id="vo">
+						<option value="{$vo.grade}">{$vo.grade}级</option>
+					</volist>
+				</select>
+				<button class="btn btn-warning btn-group" id="viewHomeworkdBtn">查看作业</button>
+				<div class="float-clear"></div>
+			</div>
+			<button class="btn btn-success">使用帮助</button>
+		</div>
+		<div class="col-sm-6 top-search">
+			<div class="handle-item">
+				<form class="item-group pull-right" id="searchForm">
+					<input type="text" name="key" class="form-control" placeholder="关键字：作业名、课程名、课程编号" style="width:300px">
+					<button type="submit" class="btn btn-primary btn-group"><i class="fa fa-search">&nbsp;</i>检索</button>
+					<div class="float-clear"></div>
+				</form>
+			</div>
+			<div class="float-clear"></div>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>课程</th>
+						<th>作业</th>
+						<th width="9%">学生数</th>
+						<th width="9%">已上交</th>
+						<th width="9%">已批改</th>
+						<th width="170">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dataShower">
+					<tr>
+						<td>xxxx</td>
+						<td>xxxx</td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+						<td>
+							<button class="btn btn-sm btn-danger fa fa-trash to-remove" title="删除作业"></button>
+							<button class="btn btn-sm btn-warning fa fa-pencil to-change" title="修改作业信息"></button>
+							<button class="btn btn-sm btn-warning fa fa-upload to-upload" title="上传作业文件"></button>
+							<button class="btn btn-sm btn-success fa fa-check-square-o to-into" title="批改作业"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改作业信息 -->
+	<div class="inputer" id="homeworkUpdater">
+		<div>
+			<div class="container-400">
+				<form action="__CONTROLLER__/aUpdateHomework" method="post" id="homeworkUpdateForm">
+					<input type="text" name="hid" required style="display:none" />
+					<div class="form-group">
+						<label>作业名称</label>
+						<input type="text" class="form-control" name="name" placeholder="如：计科系（2）班第一次课后作业" required>
+					</div>
+					<div class="form-group">
+						<label>作业内容</label>
+						<!--<textarea type="text" class="form-control" name="content"></textarea>-->
+						<div class="form-control" name="content" style="height:150px" kEditor>
+							<script src="__PUBLIC__/tools/keditor/js/modle.js"></script>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;提交&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="homeworkUpdater.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
+
+
+<script>
+
+	window._GETHOMEWORK = "__CONTROLLER__/gHomeworks";
+	window._DELETEHOMEWORK = "__CONTROLLER__/aRemoveHomework";
+	window._UPLOADFILE = "__CONTROLLER__/aUploadHomeworkFile";
+	window.__CORRECT = "__CONTROLLER__/pCorrect";
+
+	window.course_homework_controller = {
+		create: function () {
+			var obj = {};
+			var page = k360_bt_page.create(".page");
+			var grade = homeworkGrade.value;
+			var key = "";
+
+			var clonedTR = dataShower.children[0].cloneNode(true);
+
+			obj.init = function () {
+				//分页处理
+				page.onpage(function (to) {
+					loadHomework(to);
+				});
+				page.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//修改作业表单提交
+				homeworkUpdateForm.onsubmit = function () {
+					var loading = this.querySelector("button[type='submit']");
+					loading.disabled = true;
+					k360_http.create().addForm(this)
+					.onsuccess(function (data, xhr) {
+						loading.disabled = false;
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						//成功
+						loadHomework(page.getCurPage());
+						homeworkUpdater.style.display = "none";
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.disabled = false;
+						k360_popover.create().toast("修改作业信息失败，可能是网络问题，状态码：" + status);
+					})
+					.send();
+					return false;
+				}
+				//关键字搜索
+				searchForm.onsubmit = function () {
+					var k = this.key.value;
+					key = k ? k : "";
+					loadHomework(0);
+					this.key.focus();
+					return false;
+				}
+				//点击查看作业按钮
+				viewHomeworkdBtn.onclick = function () {
+					grade = homeworkGrade.value;
+					loadHomework(0);
+					hidefilter();
+				}
+				//默认加载一次
+				loadHomework(0);
+			}
+			//加载作业
+			function loadHomework(toPage) {
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				//删除旧数据
+				while (dataShower.children.length > 0) {
+					dataShower.removeChild(dataShower.children[0]);
+				}
+				//获取数据
+				k360_http.create().setUrl(_GETHOMEWORK).addData({ page: toPage, grade: grade, key: key })
+				.onsuccess(function (data, xhr) {
+					loading.style.display = "none";
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					//分页处理
+					page.setInfo(data.data.pages, data.data.count, toPage);
+					//填充数据
+					for (var i in data.data.homeworks) {
+						var homework = data.data.homeworks[i];
+						var tr = clonedTR.cloneNode(true);
+						tr.children[0].innerHTML = homework.coursename;
+						tr.children[1].innerHTML = homework.name;
+						tr.children[2].innerHTML = homework.stunum;
+						tr.children[3].innerHTML = homework.submnum;
+						tr.children[4].innerHTML = homework.corrnum;
+						setDataTREvent(tr.children[5], homework);
+						dataShower.appendChild(tr);
+					}
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.style.display = "none";
+					k360_popover.create().toast("加载作业列表失败，可能是网络问题，状态码：" + status);
+				})
+				.send();
+			}
+			//设置行数据操作事件
+			function setDataTREvent(td, homework) {
+				td.querySelector(".to-remove").onclick = function () {
+					k360_popover.create().confirm("严重警告", "请慎重删除作业，很有可能有一部分学生正在完成此次作业，删除可能会导致严重后果。您是否要删除“" + homework.name + "”，删除后无法恢复?", "我已不顾后果")
+					.setOnOk(function () {
+						var loading = k360_popover.create().loading();
+						k360_http.create().setUrl(_DELETEHOMEWORK).addOne("id", homework.id)
+						.onsuccess(function (data, xhr) {
+							loading.distroy();
+							if (data.reson) {
+								k360_popover.create().toast(data.reson);
+								return;
+							}
+							//刷新
+							loadHomework(page.getCurPage());
+						})
+						.onerror(function (xhr, status, statusText) {
+							loading.distroy();
+							k360_popover.create().toast("删除作业错误，可能是网络问题，状态码：" + status);
+						})
+						.send();
+					});
+				}
+				td.querySelector(".to-change").onclick = function () {
+					k360_popover.create().confirm("严重警告", "请慎重更改作业内容，有可能某些学生正在或已经完成作业，修改作业是一种不恰当的操作，是否继续？", "管不了那么多了", "取消")
+					.setOnOk(function () {
+						homeworkUpdater.style.display = "inline-block";
+						inputerCenter(homeworkUpdater);
+						homeworkUpdateForm.hid.value = homework.id;
+						homeworkUpdateForm.name.value = homework.name;
+						homeworkUpdateForm.querySelector("[kEditor]").setContent(homework.content);
+					});
+				}
+				td.querySelector(".to-upload").onclick = function () {
+					k360_popover.create().confirm("严重警告", "请不要随意变更作业文件，很有可能某些学生正在或已经完成作业，而且此操作会覆盖之前的文件，是否继续？", "管不了那么多了", "取消")
+					.setOnOk(function () {
+						//选择文件
+						var input = document.createElement("input");
+						input.type = "file";
+						input.onchange = function () {
+							//上传文件
+							var loading = k360_popover.create().loading();
+							k360_http.create().setUrl(_UPLOADFILE).addFile("file", input).addOne("id", homework.id)
+							.onsuccess(function (data, xhr) {
+								loading.distroy();
+								if (data.reson) {
+									k360_popover.create().toast(data.reson);
+									return;
+								}
+								k360_popover.create().alert("成功", "文件已上传，并且已覆盖原有内容", "知道了");
+							})
+							.onerror(function (xhr, status, statusText) {
+								loading.distroy();
+								k360_popover.create().toast("上传文件错误，可能是网络问题，状态码：" + status);
+							})
+							.send();
+						}
+						setTimeout(function () {
+							input.click();
+						}, 50);
+					})
+				}
+				td.querySelector(".to-into").onclick = function () {
+					window.location.href = __CORRECT + "/id/" + homework.id;
+				}
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		course_homework_controller.create().init();
+	})
+</script>

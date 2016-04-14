@@ -1,0 +1,198 @@
+﻿
+@media screen and (max-width: 600px) {
+   /*关闭头像和左边Logo*/
+	.item-user-head{
+		display:none;
+	}
+
+	.page-top{
+		background:#E74C3C;
+		color:#FFF;
+	}
+
+	.top-right{
+		width:210px;
+	}
+
+	.top-right i{
+		font-size:10.5pt;
+		color:#FFF;
+	}
+
+	.top-left{
+		width:60px;
+	}
+
+	.top-left >*:not(.top-menu-btn){
+		display:none;
+	}
+
+	.top-menu-btn{
+		margin-left:20px;
+		line-height:60px;
+		font-size:12.5pt;
+	}
+
+	.page-top{
+		height:60px;
+	}
+
+	.page-left,.page-main{
+		top:60px;
+	}
+
+	.page-left{
+		left:-250px;
+		transition:all 200ms;
+	}
+
+	.page-main{
+		left:0px;
+	}
+
+	.item-btn{
+		margin-top:2px;
+		margin-right:10px;
+	}
+
+	.pop-win{
+		top:0px;
+		left:0px;
+		width:100%;
+		height:100%;
+		box-shadow:0px 0px 0px transparent;
+	}
+
+	.pop-title{
+		background:#E74C3C;
+		color:#FFF;
+		height:50px;
+		line-height:50px;
+	}
+
+	.pop-title span{
+		font-size:10.5pt;
+		font-family:微软雅黑;
+		font-weight:normal;
+		margin-left:60px;
+	}
+
+	.pop-title button{
+		color:#FFF;
+	}
+	.pop-title button:hover{
+		color:#FFF;
+	}
+	.pop-title button:active{
+		color:#FFF;
+	}
+
+	.pop-title button >i{
+		margin-right:5px;
+	}
+
+	.pop-content{
+		top:80px;
+	}
+
+	.srch-input{
+		margin-top:20px;
+	}
+
+	.pop-search-rst{
+		top:110px;
+	}
+
+	.viewer-user-container{
+		width:100%;
+	}
+
+	.viewer-user-msg{
+		right:0px;
+		top:90px;
+	}
+
+	.viewer-user-close{
+		padding:10px;
+	}
+
+	.sender-container{
+		left:0px;
+		right:0px;
+		bottom:0px;
+		width:auto;
+		height:auto;
+		border-bottom-right-radius:0px;
+		border-bottom-left-radius:0px;
+	}
+	.sender-close{
+		padding:10px;
+	}
+
+	.sender-container .sender-user{
+		padding-top:41pt;
+		margin-left:20px;
+	}
+
+	.sender-inputer{
+		margin-top:46px;
+		padding:0px 10px 0px 10px;
+	}
+
+	.page-shadow{
+		display:none;
+	}
+
+	.page-left-head{
+		display:inline-block;
+	}
+
+	.response_shower{
+		position:absolute;
+		left:0px;
+		top:0px;
+		right:0px;
+		bottom:0px;
+		background:#FFF;
+		display:none;
+	}
+
+	.help-container{
+		width:100%;
+		height:100%;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 600px){
+	.item-btn{
+		margin-top:15px;
+		margin-right:15px;
+	}
+
+	.pop-win{
+		width:300px;
+		height:460px;
+		box-shadow:0px 0px 3px #95A5A6;
+	}
+
+	.pop-title button{
+		display:none;
+	}
+
+	.page-shadow{
+		display:none;
+	}
+
+	.response_shower{
+		display:none;
+	}
+}

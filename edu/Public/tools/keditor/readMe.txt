@@ -1,0 +1,1 @@
+﻿kEditor是一个在线HTML编辑器，基于HTML5开发。

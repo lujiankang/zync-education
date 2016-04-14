@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<!--
+	系统启动流程：
+		页面加载	->		用户登录	->		用户数据	->		菜单数据	->		Websocket
+								|
+								+——已登录则跳过
+
+	全局变量：
+		user			用户信息
+		users			用户信息缓存，聊天过程中如果发现没有用户则缓存起来，以备再用[{id:xxxx, type:xxx, name:xxx}, ...]
+		preview			预览
+		chat			聊天
+		smenu			系统菜单（左边菜单） 列表
+		msgfilter		消息过滤器{push:T/F, rmnd:T/F, chat:T/F}
+		midiplay		铃声设置{syst:T/F, user:T/F}
+		messageShower	消息显示器
+
+		userinfoviewer	用户信息查看器
+-->
+<html>
+<head>
+    <title>Magic School</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- BootStrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/p-Index/index.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/p-Index/response.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/p-Index/init.js"></script>
+	<script src="__PUBLIC__/js/p-Index/k360-msg-scr-shower.js"></script>
+	<script src="__PUBLIC__/js/p-Index/chat.js"></script>
+	<script src="__PUBLIC__/js/p-Index/preview.js"></script>
+	<script src="__PUBLIC__/js/p-Index/left.js"></script>
+	<script src="__PUBLIC__/js/p-Index/login.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/p-Index/index.js"></script>
+	<script src="__PUBLIC__/js/p-Index/setting.js"></script>
+	<script src="__PUBLIC__/js/p-Index/message.js"></script>
+	<script src="__PUBLIC__/js/p-Index/search.js"></script>
+	<script src="__PUBLIC__/js/p-Index/info-viewer.js"></script>
+	<script src="__PUBLIC__/js/p-Index/userinfo.js"></script>
+</head>
+
+<body><!--oncontextmenu="return false"-->
+	<!-- 主框架 -->
+	<div class="page-container">
+		<!-- 顶部 -->
+		<div class="page-top">
+			<div class="top-left">
+				<img src="__PUBLIC__/images/logo2.png" height="70" style="margin:5px" />
+				<div style="font-family:微软雅黑; font-size:20pt; color:#27AE60; line-height:80px">Magic School</div>
+				<div style="clear:both"></div>
+				<div class="top-menu-btn"><i class="fa fa-reorder"></i></div>
+			</div>
+			<div class="top-right">
+				<img id="userHeadImage" class="item-user-head" src="__PUBLIC__/user/head/head.png" />
+				<div id="topSetting" class="item-btn"><i class="fa fa-cog"></i></div>
+				<div id="topMessage" class="item-btn item-msg"><i class="fa fa-envelope"></i><span class="item-msg-num">0</span></div>
+				<div id="topSearch" class="item-btn"><i class="fa fa-search"></i></div>
+				<div style="clear:both"></div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+
+		<!-- 主界面 -->
+		<div class="page-main">
+			<iframe frameborder="0" width="100%" height="100%" src="__CONTROLLER__/pMain"></iframe>
+			<div class="frame-shadow"></div>
+		</div>
+
+		<!-- 响应式显示器 -->
+		<div class="response_shower" id="respShower">
+			<iframe width="100%" height="100%" frameborder="0"></iframe>
+		</div>
+
+		<!-- 响应式遮挡物 -->
+		<div class="page-shadow"></div>
+
+		<!-- 左边 -->
+		<div class="page-left" k360-scroll-y="1">
+			<div class="loading"><i class="fa fa-spinner fa-spin"></i>数据加载中。。。</div>
+			<div class="page-left-head">
+				<img src="__PUBLIC__/user/head/teacher_6.png" width="60" height="60" style="margin-left:20px" />
+				<div>
+					<div class="page-left-uname">姓名</div>
+					<div class="page-left-unumb">114090102037</div>
+				</div>
+			</div>
+			<div class="left-parent" style="display:none">
+				<div class="icon"><i class="fa fa-user"></i></div>
+				<div class="name">测试菜单</div>
+				<div class="fold"><i class="fa fa-angle-down"></i></div>
+				<div style="clear:both"></div>
+				<div class="left-child">
+					<div class="icon"><i class="fa fa-user"></i></div>
+					<div class="name">添加用户</div>
+					<div style="clear:left"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 登录界面 -->
+	<div class="u-login">
+		<div class="login-container">
+			<div class="login-title"><i class="fa fa-key login-key-anim"></i>&nbsp;&nbsp;请先登录</div>
+			<form style="margin-top:10px" action="__MODULE__/User/aLogin" method="post">
+				<div class="form-group">
+					<label>账号</label>
+					<input type="text" class="form-control" name="number" placeholder="请输入你的登录账号" required>
+				</div>
+				<div class="form-group">
+					<label>密码</label>
+					<input type="password" class="form-control" name="password" placeholder="请输入登录密码" required>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="autoLogin" checked> 记住我
+					</label>
+				</div>
+				<button type="submit" class="btn btn-success btn-block" style="margin-top:30px">
+					<i class="fa fa-home" style="margin-right:10px"></i><span>登录</span>
+				</button>
+			</form>
+		</div>
+		<img class="login-logo" src="__PUBLIC__/images/logo2.png" />
+	</div>
+
+	<!-- 用户数据加载中 -->
+	<div class="u-data">
+		<div class="u-data-text"><i class="fa fa-spinner fa-spin" style="margin-right:10px"></i>正在加载您的信息，马上就好了。。。</div>
+	</div>
+
+	<!-- 设置框 -->
+	<div class="pop-win pop-setting">
+		<div class="pop-title">
+			<button class="btn btn-link" onclick="document.body.click()"><i class="fa fa-close"></i>关闭</button>
+			<span>系统设置</span>
+		</div>
+		<div class="pop-content" k360-scroll-y="3">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<div><b>头像设置</b></div>
+					<div class="head-image-sel" style="background:url(__PUBLIC__/images/Index/head-sel.png);"></div>
+					<span class="head-uploading"><i class="fa fa-spinner fa-spin" style="margin:0px 10px 0px 20px"></i>正在上传。。。</span>
+					<div style="color:#808080">(非正方形头像上传后会进行剪裁)</div>
+				</li>
+				<li class="list-group-item pop-msg-filter">
+					<div><b>消息设置</b></div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="push"> 接收系统推送
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="rmnd"> 接收系统提醒
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="chat"> 接收用户消息
+						</label>
+					</div>
+				</li>
+				<li class="list-group-item pop-midi-filter">
+					<div><b>声音设置</b></div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="syst"> 系统消息铃声
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="user"> 用户消息铃声
+						</label>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div><b>帮助&反馈</b></div>
+					<form class="back-feed-form" action="__CONTROLLER__/aAddBackSeed" method="post">
+						<div class="form-group">
+							<textarea type="text" class="form-control" name="content" placeholder="说说您的建议" required style="height:80px"></textarea>
+						</div>
+						<button type="submit" class="btn btn-success btn-block">立即提交反馈</button>
+					</form>
+					<button class="btn btn-primary btn-block help-view-btn" style="margin-top:10px">查看帮助</button>
+				</li>
+				<li class="list-group-item">
+					<div><b>系统信息</b></div>
+					<div style="line-height:30px">
+						<div>版本号：v1.2.10.20150112_Alpha</div>
+						<div>版本说明：此版本对前一版本的界面做了优化调整，整合登录页面，新加入文档在线预览，实现在线实时通讯。</div>
+						<div>更新人：♥☞酸草莓☜♥</div>
+						<div>最后更新日期：2016-03-15</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 消息框 -->
+	<div class="pop-win pop-message">
+		<div class="pop-title">
+			<button class="btn btn-link" onclick="document.body.click()"><i class="fa fa-close"></i>关闭</button>
+			<span>收信箱</span>
+		</div>
+		<div class="pop-content" k360-scroll-y="3">
+			<ul class="list-group msg-list">
+				<li class="list-group-item li-msg-push">
+					<div>
+						<div class="text-img msg-push">推送</div>
+						<span class="msg-time">2015-03-12 12:00:00</span>
+					</div>
+					<div class="msg-text">附近的开发技术的发大水就发生大幅度升级发射点发射点见风使舵发射点</div>
+				</li>
+				<li class="list-group-item li-msg-rmnd">
+					<div>
+						<div class="text-img msg-rmnd">提醒</div>
+						<span class="msg-time">2015-03-12 12:00:00</span>
+					</div>
+					<div class="msg-text">你妈叫你回家吃饭去啦，听到没？</div>
+				</li>
+				<li class="list-group-item li-msg-user">
+					<img class="mgs-user-head" src="__PUBLIC__/user/head/head.png" />
+					<span class="msg-user-info">
+						<span class="text-img msg-user">用户</span>
+						<span class="msg-name">姓名查询中...</span>
+						<br />
+						<span class="msg-time">03/12 14:00</span>
+					</span>
+					<div style="clear:both"></div>
+					<div class="msg-text">下午去火车站，你懂的，不许迟到哈。</div>
+					<div class="msg-handler">
+						<button type="button" class="btn btn-link showReplyBtn" style="display:none"><i class="fa fa-comments"></i>回复</button>
+						<button type="button" class="btn btn-link mailSendBtn"><i class="fa fa-reply"></i>回复</button>
+						<button type="button" class="btn btn-link infoViewBtn"><i class="fa fa-info-circle"></i>看Ta</button>
+					</div>
+				</li>
+				<li class="list-group-item li-msg-rept">
+					<img class="mgs-user-head" src="__PUBLIC__/user/head/head.png" />
+					<span class="msg-user-info">
+						<span class="text-img msg-rept">发送</span>
+						<span class="msg-name">管理员</span>
+						<br />
+						<span class="msg-time">03/12 14:00</span>
+					</span>
+					<div style="clear:both"></div>
+					<div class="msg-text">我已回复了你啦，别来打扰了。</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 搜索框 -->
+	<div class="pop-win pop-search">
+		<div class="pop-title">
+			<button class="btn btn-link" onclick="document.body.click()"><i class="fa fa-close"></i>关闭</button>
+			<span>全局搜索</span>
+		</div>
+		<div class="srch-input">
+			<form method="get" action="__MODULE__/Search/search">
+				<input type="text" placeholder="输入关键字，多个用空格隔开" name="key" autocomplete="off" spellcheck="false" />
+				<i class="fa fa-search" onclick="var f = this.parentElement; f.onsubmit.call(f)"></i>
+			</form>
+		</div>
+		<div class="pop-content pop-search-rst" k360-scroll-y="3">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<span class="text-img" style="background:#ff6a00">用户</span>
+					<span class="name">贱人</span>
+				</li>
+				<li class="list-group-item">
+					<span class="text-img" style="background:#ff6a00">文件</span>
+					<span class="name">关于遵义师院逗逼行为的研究.doc</span>
+				</li>
+				<li class="list-group-item">
+					<span class="text-img" style="background:#ff6a00">作业</span>
+					<span class="name">计科系（2）班算法设计与分析第一次作业</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 帮助文档 -->
+	<div class="help-viewer">
+		<div class="help-container" k360-scroll-y="4">
+			<button type="button" class="btn btn-link pull-right" onclick="document.querySelector('.help-viewer').style.display='none'">关闭帮助</button>
+			<br /><br />
+			<div class="help-title">一、如何配置邮件服务器</div>
+			<div class="help-text">邮件服务器配置很简单，以QQ邮箱为例，访问QQ邮箱官网，登录自己的邮箱，开启邮件服务，然后将参数填入到系统设置->邮件配置即可。</div>
+			<div class="help-title">二、如何设置让指定的人访问指定的功能</div>
+			<div class="help-text">1、管理员登录<br />2、打开角色管理<br />3、创建一些角色，如（院长、副院长、xxx主任、普通教师等）<br />4、点击权限设置即可勾选功能<br />5、最后给不同用户设置不同角色就能实现权限控制了。</div>
+			<div class="help-title">三、如何快速导入学生</div>
+			<div class="help-text">根据学校提供的学生名单表，复制学号、姓名、性别，进入学生管理->快速导入，然后读取粘贴板即可，具体帮助请进入学生管理页查看帮助。</div>
+			<br />
+			<button type="button" class="btn btn-link pull-right" onclick="document.querySelector('.help-viewer').style.display='none'">关闭帮助</button>
+		</div>
+	</div>
+
+	<!-- 用户信息查看器 -->
+	<div class="viewer-info viewer-userinfo">
+		<div class="viewer-user-container">
+			<span class="viewer-user-close fa fa-close" onclick="document.querySelector('.viewer-userinfo').style.display = 'none'"></span>
+			<div class="viewer-user-top">
+				<div class="viewer-user-head">
+					<div class="view-user-head-shadow"></div>
+					<img src="__PUBLIC__/user/head/head.png" />
+				</div>
+				<div class="viewer-user-top-info">
+					<div>
+						<span class="viewer-user-sex"><i class="fa fa-mars"></i></span>
+						<span class="viewer-user-name">陆建康</span>
+					</div>
+					<div>
+						<span class="viewer-info-numb">114090102037</span>
+					</div>
+				</div>
+				<div class="viewer-user-msg"><i class="fa fa-send"></i>联系Ta</div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="viewer-user-main">
+				<div class="viewer-user-item">
+					<div>类型：</div>
+					<div>学生</div>
+				</div>
+				<div class="viewer-loading"><i class="fa fa-spinner fa-spin"></i>加载中。。。</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 消息发送器 -->
+	<div class="sender-win">
+		<div class="sender-container">
+			<div class="viewer-user-head">
+				<div class="view-user-head-shadow"></div>
+				<img src="__PUBLIC__/user/head/teacher_1.png" />
+			</div>
+			<div class="sender-user">发给【<span style="color:#27AE60">加载中...</span>】</div>
+			<div class="sender-inputer">
+				<textarea></textarea>
+				<div>
+					<button class="btn btn-link btn-sm sender-msg" title="发送消息"><i class="fa fa-paper-plane"></i></button>
+					<button class="btn btn-link btn-sm sender-mail" title="发送邮件"><i class="fa fa-envelope"></i></button>
+				</div>
+			</div>
+			<i class="sender-close fa fa-close" onclick="document.querySelector('.sender-win').style.display = 'none'"></i>
+			<div class="sender-msg-tip"><i class="fa fa-paper-plane-o"></i></div>
+		</div>
+	</div>
+
+	<audio src="__PUBLIC__/audios/msg.mp3" id="msgMid"></audio>
+	<audio src="__PUBLIC__/audios/tip.mp3" id="tipMid"></audio>
+
+</body>
+</html>
+
+
+<script>
+window.logined = "{$logined}";			//是否已经登录
+
+window.USER_INFO_GETTER = "__MODULE__/User/gMyInfo";
+window.MENU_INFO_GETTER = "__CONTROLLER__/gFuncs";
+window.USER_HEAD_SETTER = "__MODULE__/User/aSetHead";
+window.USER_NAME_GETTER = "__MODULE__/User/gUserName";
+window.USER_SHOW_GETTER = "__MODULE__/User/gUserInfo";
+window.USER_MAIL_SENDER = "__MODULE__/User/aSendTextMail";
+window.MSG_UNREAD_GETTER = "__CONTROLLER__/gUnReadMsg";
+
+
+window.APP_PATH = "__APP__";
+
+//设置消息过滤器
+window.msgfilter = { push: "T", rmnd: "T", chat: "T" };
+window.midiplay = { syst: "T", user: "T" };
+
+window.users = [];			//消息---用户信息缓存
+
+
+//获取用户头像
+function getUserHead(type, id, keep) {
+	var str = "__MODULE__/User/gHead/type/" + type + "/id/" + id;
+	if(!keep) str += "/rand/" + Math.random()*1000;
+	return str;
+}
+
+//获取文件预览url
+function getPreviewURL(fid) {
+	return "__MODULE__/File/pPreview/id/" + fid;
+}
+
+//从服务器加载用户姓名，加载成功后回调姓名
+function loadUserName(id, type, callback) {
+	var http = k360_http.create().setUrl(USER_NAME_GETTER).addData({ id: id, type: type });
+	dataLoad(http, "获取用户姓名错误", function (data) {
+		callback(data);
+	}, function (err) {
+		k360_popover.create().toast(err);
+	}, null);
+}
+
+//获取本地缓存的用户姓名，如果没有返回false
+function getUserName(id, type) {
+	for (var i = 0; i < window.users.length; i++) {
+		var aUser = window.users[i];
+		if (aUser.id == id && aUser.type == type) {
+			return aUser.name;
+		}
+	}
+	return false;
+}
+
+//将服务器端返回的用户信息缓存到浏览器
+function user2local(id, type, name) {
+	window.users.push({ id: id, type: type, name: name });
+}
+
+/*
+	当左边菜单加载完成，调用这个函数对其他的内容进行加载
+*/
+window.loadOther = function () {
+	userHeadImage.src = getUserHead(user.type, user.id);	//设置头像
+	document.querySelector(".page-left-head img").src = getUserHead(user.type, user.id, true);	//设置头像
+	document.querySelector(".page-left .page-left-uname").innerHTML = user.name;
+	document.querySelector(".page-left .page-left-unumb").innerHTML = user.number;
+	pSettingMain();			//系统设置
+	pMessageMain();			//消息提醒
+	pSearchMain();			//全局搜索
+	chatMain();				//websocket
+	preveiwMain();			//文档预览
+	userInfoMain();			//用户基本信息设置页面
+}
+</script>

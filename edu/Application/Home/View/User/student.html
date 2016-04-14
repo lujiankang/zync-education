@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>学生管理</title>
+	<meta charset="utf-8" />
+	<link rel='icon' href="__PUBLIC__/images/index.ico" />
+	<!-- 移动端适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- jQuery -->
+	<script src="__PUBLIC__/js/jQuery/jquery-2.1.4.min.js"></script>
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/bootstrap/bootstrap.min.js"></script>
+	<!-- 字体图标 -->
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+	<!-- k360 -->
+	<script src="__PUBLIC__/js/k360/k360-scroll-bar.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+
+	<css root="__PUBLIC__/css/p-User">["detail"]</css>
+	<!-- 当前页面css -->
+	<link href="__PUBLIC__/css/base/page.css" rel="stylesheet" />
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+	<script src="__PUBLIC__/js/base/top-nav.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-tag.js"></script>
+	<link href="__PUBLIC__/css/base/animate.css" rel="stylesheet" />
+	<script src="__PUBLIC__/js/p-User/student-controller.js"></script>
+
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-tree icon"></div>
+			<span class="title">学生管理</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+
+	<div class="data-detail" style="overflow:hidden">
+		<div class="head-info" style="opacity:0">
+			<img id="userHeadImage" src="__CONTROLLER__/gHead/type/student/id/-1" />
+			<div>
+				<div class="user-name"><span name="name">姓名</span><span class="levo" name="levo">0</span></div>
+				<div class="user-id">ID:<span name="number">无</span></div>
+			</div>
+		</div>
+		<div class="user-info">
+			<div class="user-info-title">信息</div>
+			<div class="user-info-data">
+				<div>姓名：<span name="name"></span></div>
+				<div>账号：<span name="number"></span></div>
+				<div>性别：<span name="sex"></span></div>
+				<div>电子邮箱：<span name="email"></span></div>
+				<div>电话号码：<span name="tel"></span></div>
+				<div>QQ号：<span name="qq"></span></div>
+			</div>
+			<div class="buttons-ta">
+				<button class="btn btn-primary btn-sm">看Ta</button>
+				<button class="btn btn-primary btn-sm">联系Ta</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="data-core">
+		<!-- 顶部操作 -->
+		<div class="row handles">
+			<div class="col-sm-7 top-btns">
+				<button class="handle-item btn btn-danger" id="studentCreateBtn">新建学生</button>
+				<button class="handle-item btn btn-danger" id="studentImportBtn">极速导入</button>
+				<button class="handle-item btn btn-danger btn-filter" for="stufilter">学生筛选</button>
+				<div class="item-group top-filter" filter="stufilter">
+					<select class="form-control" style="width:200px" id="stuClass">
+						<volist name="classes" id="vo">
+							<option value="{$vo.id}">{$vo.name}</option>
+						</volist>
+					</select>
+					<button class="btn btn-warning btn-group" id="studentViewBtn">查看学生</button>
+					<div class="float-clear"></div>
+				</div>
+			</div>
+			<div class="col-sm-5 top-search">
+				<div class="handle-item">
+					<form class="item-group" id="studentSearchForm" style="float:right">
+						<input type="text" name="key" class="form-control" placeholder="关键字：姓名、学号、班级、年级" style="width:200px">
+						<button type="submit" class="btn btn-primary btn-group"><i class="fa fa-search">&nbsp;</i><span>检索</span></button>
+						<div class="float-clear"></div>
+					</form>
+				</div>
+				<div class="float-clear"></div>
+			</div>
+		</div>
+
+		<!-- 主体 -->
+		<div class="row main margin-top-20" k360-scroll-y="4" k360-scroll-keep>
+			<div class="col-md-12 table-responsive">
+				<table class="table table-hover" id="dataShower">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>学号</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr name="cloned" callback="onTRClick">
+							<td name="name">xxxxx</td>
+							<td name="sex">xxxxx</td>
+							<td name="number">xxxxx</td>
+							<td width="175">
+								<button class="btn btn-sm btn-danger fa fa-trash" callback="onDeleteTeacher" title="删除用户"></button>
+								<button class="btn btn-sm btn-danger fa fa-eraser" callback="onClearPassowrd" title="重置密码"></button>
+								<button class="btn btn-sm btn-warning fa fa-pencil" callback="onUpdateStudent" title="修改信息"></button>
+								<button class="btn btn-sm btn-success fa fa-send" callback="onSendMessage" title="发送消息"></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+			</div>
+		</div>
+
+		<!-- 分页控件 -->
+		<div class="row page margin-top-20">
+			<div class="col-md-12" style="text-align:center">
+				<div style="display:inline-block">
+					<button class="btn btn-success goto-last">上一页</button>
+					<button class="btn btn-success goto-next">下一页</button>
+					<div class="item-group">
+						<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+						<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+					</div>
+				</div>
+				<div style="display:inline-block; margin-left:30px" class="k-page-info">
+					共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 添加学生div -->
+	<div class="inputer" id="studentCreator">
+		<div class="animated zoomInRight">
+			<div class="container-400">
+				<form id="studentCreateForm" action="__CONTROLLER__/aCreateStudent">
+					<div class="form-group">
+						<label>学生姓名</label>
+						<input type="text" class="form-control" name="name" placeholder="如：张三" required>
+					</div>
+					<div class="form-group">
+						<label>学生学号</label>
+						<input type="text" class="form-control" name="number" placeholder="如：114090102001" required>
+					</div>
+					<div class="form-group">
+						<label>班级</label>
+						<select class="form-control" name="class" required></select>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;添&nbsp;加&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="studentCreator.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改学生信息div -->
+	<div class="inputer" id="studentUpdater">
+		<div class="animated zoomInRight">
+			<div class="container-400">
+				<form id="studentUpdateForm" action="__CONTROLLER__/aUpdateStudent">
+					<input type="text" name="uid" style="display:none" />
+					<div class="form-group">
+						<label>学生姓名</label>
+						<input type="text" class="form-control" name="name" placeholder="如：张三">
+					</div>
+					<div class="form-group">
+						<label>学生学号</label>
+						<input type="text" class="form-control" name="number" placeholder="如：114090102001">
+					</div>
+					<div class="form-group">
+						<label>班级</label>
+						<select class="form-control" name="class" required></select>
+					</div>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="studentUpdater.style.display='none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 快速导入 -->
+	<div id="studentImporter" class="inputer">
+		<div class="animated zoomInRight">
+			<div class="container-400">
+				<form id="studentImportForm" method="post" action="__CONTROLLER__/aCreateStudents">
+					<div class="form-group">
+						<label>班级（下列所有学生均是此班级，<span style="color:#F00">请注意选择</span>）</label>
+						<select class="form-control" name="class" required></select>
+					</div>
+					<div class="form-group">
+						<label>将学生数据粘贴到这里</label>
+						<textarea class="form-control clipboard-read" style="height:30px; resize:none"></textarea>
+					</div>
+					<div class="form-group">
+						<label>学生列表</label>
+						<div style="position:relative; width:100%; max-height:190px; padding:10px" k360-scroll-y="4">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>姓名</th>
+										<th>学号</th>
+										<th>性别</th>
+									</tr>
+								</thead>
+								<tbody id="importStudentShower">
+									<tr>
+										<td>xxxxxxx</td>
+										<td>xxxxxxxxx</td>
+										<td>xxxxx</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<button type="button" class="btn btn-success" name="readClipBordBtn">数据分析</button>
+					<button type="submit" class="btn btn-success btn-loading">
+						&nbsp;&nbsp;<i class="fa fa-spin fa-spinner"></i>&nbsp;&nbsp;保&nbsp;存&nbsp;&nbsp;
+					</button>
+					<button type="button" class="btn btn-warning" onclick="studentImporter.style.display = 'none'">&nbsp;&nbsp;取&nbsp;消&nbsp;&nbsp;</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+
+	window._GETSTUDENT = "__CONTROLLER__/gStudent";
+	window._CLEARPASSWORD = "__CONTROLLER__/aPswClear/type/student";
+	window._GETCLASSES = "__CONTROLLER__/getClasses";
+
+	
+
+	window.addEventListener("load", function () {
+		user_student_controller.create().init();
+
+		var animdom = document.querySelector(".head-info");
+		animdom.style.opacity = 1;
+		anim(animdom, "flipInX");
+	});
+</script>

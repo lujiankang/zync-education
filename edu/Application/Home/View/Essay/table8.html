@@ -1,0 +1,778 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>八个表</title>
+	<meta charset="utf-8" />
+	<script src="__PUBLIC__/js/k360/k360-http.js"></script>
+	<script src="__PUBLIC__/js/k360/k360-popover.js"></script>
+	<link href="__PUBLIC__/css/p-Essay/table8.css" rel="stylesheet" />
+	<link href="__PUBLIC__/css/awesome/font-awesome.css" rel="stylesheet" />
+
+</head>
+<body>
+	<!-- 封面 -->
+	<div class="page base">
+		<div class="head">
+			<img class="item" src="data:image/jpg;base64,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" />
+			<div class="item" style="margin-top:55px">
+				<div>厚德树人　笃学致用</div>
+				<div>******************************************************************</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="title">遵义师范学院毕业论文（设计）</div>
+		<div class="infos" style="margin-top:150px">题目<input type="text" name="essay_name" readonly /></div>
+		<div class="infos" style="margin-top:74px">系别<input type="text" name="faculty" submit="student" /></div>
+		<div class="infos">专业<input type="text" name="profession" submit="student" /></div>
+		<div class="infos">年级<input type="text" name="grade" readonly /></div>
+		<div class="infos">姓名<input type="text" name="student_name" readonly /></div>
+		<div class="infos">学号<input type="text" name="student_number" readonly /></div>
+		<div class="infos">指导教师：<input type="text" style="width:240px" name="guid_teacher" readonly /></div>
+		<div class="date">
+			<input type="text" style="width:50px" name="base_year" submit="student" />年
+			<input type="text" name="base_month" submit="student" />月
+			<input type="text" name="base_daty" submit="student" />日
+		</div>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 选题审批表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表一</div>
+		<div class="title">选题审批表</div>
+		<table border="1" cellspacing="0" cellpadding="4" style="margin-top:20px">
+			<tbody>
+				<tr height="60">
+					<td width="35">姓名</td>
+					<td width="74" colspan="2"><input type="text" name="student_name" readonly /></td>
+					<td width="96">专业、年级</td>
+					<td width="137"><textarea name="profession_grade" style="text-align:center" readonly></textarea></td>
+					<td width="77">学号</td>
+					<td width="106"><input type="text" name="student_number" readonly /></td>
+				</tr>
+				<tr height="50">
+					<td width="88" colspan="2">论文题目</td>
+					<td width="453" colspan="5"><input type="text" name="essay_name" readonly /></td>
+				</tr>
+				<tr height="290">
+					<td width="542" colspan="7" valign="top">
+						<div style="margin:5px">选做本课题的理由及条件分析：</div>
+						<textarea style="width:533px; height:250px; font-size:10.5pt; margin:5px" name="essay_reson" submit="student"></textarea>
+					</td>
+				</tr>
+				<tr height="175">
+					<td width="542" colspan="7" valign="top">
+						<div>指导教师意见：</div>
+						<textarea style="height:100px" name="t1_teacher_option" submit="teacher"></textarea>
+						<div style="float:right; line-height:27px; width:135px">
+							<div>签名：</div>
+							<div>&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+						</div>
+					</td>
+				</tr>
+				<tr height="175">
+					<td width="542" colspan="7" valign="top">
+						<div>系毕业论文（设计）领导小组意见：</div>
+						<textarea style="height:100px" name="t1_group_option" submit="teacher"></textarea>
+						<div style="float:right; line-height:27px; width:135px">
+							<div>签名：</div>
+							<div>&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="tips"><br />&nbsp;&nbsp;&nbsp;注：选题应当符合学院的人才培养目标，符合专业培养方向，能够提高学生的综合能力。师范专业的应当尽量地联系基础教育实际。</div>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 任务书（1） -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表二</div>
+		<div class="title">任务书</div>
+		<div class="top-text">
+			<span class="big"><input type="text" class="input-base input-center" name="profession" style="width:150px"  readonly />专业<input type="text" class="input-base input-center" name="student_name" style="width:80px"  readonly />同学（学号：<input type="text" class="input-base input-center" name="student_number"  readonly />）：</span>
+			<span class="small">现将毕业论文（设计）任务书下达给你，具体内容如下：</span>
+		</div>
+		<table cellspacing="0" cellpadding="5" border="1" style="margin-top:20px" width="100%">
+			<tr height="50">
+				<td width="130">1.论文题目</td>
+				<td><input type="text" name="essay_name" readonly /></td>
+			</tr>
+			<tr height="200">
+				<td width="130">2.主要内容</td>
+				<td valign="top"><textarea style="width:98%; height:190px" name="task_main_content" submit="student"></textarea></td>
+			</tr>
+			<tr height="50">
+				<td width="130">3.主要方法</td>
+				<td><input type="text" name="task_main_way" submit="student" /></td>
+			</tr>
+			<tr height="250">
+				<td width="130">4.主要参考文献</td>
+				<td valign="top"><textarea style="width:98%; height:235px" name="task_reference" submit="student"></textarea></td>
+			</tr>
+			<tr height="35">
+				<td width="130" colspan="2" align="center">5.写作进度</td>
+			</tr>
+			<tr height="25">
+				<td width="130">起止时间</td>
+				<td>工作内容</td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 任务书（2） -->
+	<div class="page tables">
+		<table cellspacing="0" cellpadding="5" border="1" style="margin-top:20px" width="100%">
+			<tr height="45" class="task-progress">
+				<td width="150"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+			<tr height="45" class="task-progress">
+				<td width="130"><input type="text" /></td>
+				<td><input type="text" /></td>
+			</tr>
+		</table>
+		<div class="sig">
+			<div class="sig1">
+				<span class="name">指导教师：</span>
+				<span class="date">年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span>
+			</div>
+			<div class="sig1">
+				<span class="name">学　　生：</span>
+				<span class="date">年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span>
+			</div>
+			<div class="sig1">
+				<span class="name">系 主 任：</span>
+				<span class="date">年&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;日</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 答辩申请暨资格审查表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表三</div>
+		<div class="title">答辩申请暨资格审查表</div>
+		<div style="margin-top:20px">学生姓名：<input type="text" class="input-base input-center" name="student_name" readonly />论文题目：<input type="text" class="input-base input-center" style="width:250px" name="essay_name" readonly /></div>
+		<table cellspacing="0" cellpadding="5" border="1" style="margin-top:10px">
+			<tr>
+				<td colspan="2" height="350" valign="top" style="line-height:25px; font-size:10.5pt">
+					<div>答辩申请（对毕业论文的研究步骤和方法、主要内容及创新之处进行综述，提出答辩申请）：</div>
+					<div>申请答辩的理由：</div>
+					<textarea style="height:240px" name="apply_content" submit="student"></textarea>
+					<div style="float:right; margin-right:30px">申请人签名：<input type="text" style="width:100px" name="student_name" readonly /></div>
+				</td>
+			</tr>
+			<tr height="32">
+				<td colspan="2" align="center">资格审查项目</td>
+			</tr>
+			<tr height="45">
+				<td width="475">1.文档资料是否齐全（任务书、答辩申请、论文定稿及其相关资料）</td>
+				<td width="80"><input type="text" name="apply_doc_has" submit="teacher" /></td>
+			</tr>
+			<tr height="45">
+				<td>2.文档格式是否符合规范</td>
+				<td><input type="text" name="apply_doc_ok" submit="teacher" /></td>
+			</tr>
+			<tr height="45">
+				<td>3.是否按时向指导教师提交全部正式材料</td>
+				<td><input type="text" name="apply_data_sub" submit="teacher" /></td>
+			</tr>
+			<tr height="45">
+				<td>4.是否剽窃他人成果</td>
+				<td><input type="text" name="apply_use_other" submit="teacher" /></td>
+			</tr>
+			<tr height="125">
+				<td colspan="2" valign="top">
+					<div>指导教师意见：</div>
+					<textarea style="height:85px" name="t3_teacher_option" submit="teacher"></textarea>
+					<div style="float:right; margin-right:100px">
+						签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：
+					</div>
+				</td>
+			</tr>
+			<tr height="125">
+				<td colspan="2" valign="top">
+					<div>教学系毕业论文答辩委员会意见：</div>
+					<textarea style="height:85px" name="t3_group_option" submit="teacher"></textarea>
+					<div style="float:right; margin-right:100px">
+						主任签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 指导教师成绩评定表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表四</div>
+		<div class="title">指导教师成绩评定表</div>
+		<div style="margin-top:20px">
+			姓名<input type="text" class="input-base input-center" style="width:80px" name="student_name" readonly />
+			学号<input type="text" class="input-base input-center" style="width:120px" name="student_number" readonly />
+			论文题目<input type="text" class="input-base input-center" style="width:210px" name="essay_name" readonly />
+		</div>
+		<table width="100%" border="1" cellpadding="5" cellspacing="0" style="margin-top:10px">
+			<tr>
+				<td align="center" colspan="6">一、评分标准</td>
+			</tr>
+			<tr>
+				<td width="85">项目</td>
+				<td width="170">优秀</td>
+				<td width="125">中等</td>
+				<td colspan="2" width="130">不及格</td>
+				<td width="35">得分</td>
+			</tr>
+			<tr style="font-size:9pt">
+				<td style="font-size:9pt">工作量、文献阅读和综述20%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">出色地完成任务书规定的工作量，全部阅读教师指定的参考资料、文献，还阅读较多的自选资料</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">按时完成任务书规定的工作量，阅读教师指定的参考资料、文献</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">没有完成任务书规定的工作量，未完成阅读任务</td>
+				<td><input type="text" name="t4_score_1" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">学术水平与实际能力20%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">论文见解独特，富有创新性，有较高的学术水平或较大的使用价值。实际工作能力强，完全能达到综合训练要求</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">选题有一定的价值，见解有一定的独到之处。实际工作能力一般，基本达到综合训练的要求</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">论题不能成立或有抄袭、剽窃等问题。未能达到综合训练的要求</td>
+				<td><input type="text" name="t4_score_2" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">论证能力20%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">资料充分，能熟练地掌握和运用基本理论，观点正确，论据确凿、论述清晰缜密</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">资料较齐全，掌握基本理论程度一般，观点正确，论述较清晰</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">资料准备不充分，基本观点有错误或主要材料不能说明观点</td>
+				<td><input type="text" name="t4_score_3" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">论文撰写质量20%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">结构严谨，逻辑性强，内容翔实 ,表达准确、流畅，语言生动，论文完全符合规范化要求，英文摘要翻译准确</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">内容较充分，文字通顺，论文撰写基本达到规范化要求，英文摘要符合要求</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">内容空泛，结构混乱，文字表达不清，文题不符或文理不通，有抄袭现象，英文摘要不通</td>
+				<td><input type="text" name="t4_score_4" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">学习态度与规范要求20%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">学习态度认真，模范遵守纪律，治学严谨。完全符合规范化要求，严格保证论文完成时间，并按任务书规定进度出色完成各项任务</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">学习态度尚好，遵守组织纪律。基本能保证毕业论文（设计）时间，按期完成各项工作</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">学习马虎，纪律涣散。论文不符合规范化要求,不能保证按期完成任务</td>
+				<td><input type="text" name="t4_score_5" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td colspan="4"><span style="font-size:9pt">注：</span><span style="font-family:楷体; font-size:9pt">介于优秀与中等之间者为良好，介于中等与不及格之间者为及格。优秀：18－20分；良好：16－17分；中等：14－15分；及格：12－13分；不及格：11分以下。</span></td>
+				<td width="44" style="font-size:9pt">总分</td>
+				<td><input type="text" name="t4_score_all" submit="teacher" /></td>
+			</tr>
+			<tr height="330">
+				<td colspan="6" valign="top">
+					<div>二、指导教师评语：</div>
+					<textarea style="height:280px" name="t4_teacher_option" submit="teacher"></textarea>
+					<div style="float:right; margin-right:140px"> 指导教师签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 主辩教师成绩评定表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表五</div>
+		<div class="title">主辩教师成绩评定表</div>
+		<div style="margin-top:20px">
+			姓名<input type="text" class="input-base input-center" style="width:80px" name="student_name" readonly />
+			学号<input type="text" class="input-base input-center" style="width:120px" name="student_number" readonly />
+			论文题目<input type="text" class="input-base input-center" style="width:210px" name="essay_name" readonly />
+		</div>
+		<table width="100%" border="1" cellpadding="5" cellspacing="0" style="margin-top:10px">
+			<tr>
+				<td align="center" colspan="6">一、评分标准</td>
+			</tr>
+			<tr>
+				<td width="85">项目</td>
+				<td width="170">优秀</td>
+				<td width="125">中等</td>
+				<td colspan="2" width="130">不及格</td>
+				<td width="35">得分</td>
+			</tr>
+			<tr style="font-size:9pt">
+				<td style="font-size:9pt">学术水平30%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">选题有价值，论文见解独特，富有创新性，有较高的学术水平或较大的使用价值。能达到在国内省级及以上期刊公开发表的水平。</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">选题有一定的价值，见解有一定的独到之处。</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">论题不能成立或有抄袭、剽窃等问题。</td>
+				<td><input type="text" name="t5_score_1" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">论证能力30%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">资料充分，能熟练地掌握和运用基本理论，观点正确，论据确凿、论述清晰缜密</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">资料较齐全，掌握基本理论程度一般，观点正确，论述较清晰</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">资料准备不充分，基本观点有错误或主要材料不能说明观点</td>
+				<td><input type="text" name="t5_score_2" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td style="font-size:9pt">论文撰写质量40%</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">结构严谨，逻辑性强，内容翔实 ,表达准确、流畅，语言生动，论文完全符合规范化要求</td>
+				<td style="font-family:楷体; font-size:9pt" valign="top">内容较充分，文字通顺，论文撰写基本达到规范化要求</td>
+				<td colspan="2" style="font-family:楷体; font-size:9pt" valign="top">内容空泛，结构混乱，文字表达不清，文题不符或文理不通，或有抄袭现象</td>
+				<td><input type="text" name="t5_score_3" submit="teacher" /></td>
+			</tr>
+			<tr>
+				<td colspan="4"><span style="font-size:9pt">注：</span><span style="font-family:楷体; font-size:9pt">介于优秀与中等之间者为良好，介于中等与不及格之间者为及格。<br />  “学术水平”与“论证能力”两项中，优秀：27－30分；良好：24－26分；中等：21－23分；及格：18－22分；不及格：17分及以下。<br />  “论文撰写质量”中，优秀：36－40分；良好：32－35分；中等：28－31分；及格：24－27分；不及格：23分及以下。</span></td>
+				<td width="44" style="font-size:9pt">总分</td>
+				<td><input type="text" name="t5_score_all" submit="teacher" /></td>
+			</tr>
+			<tr height="330">
+				<td colspan="6" valign="top">
+					<div>二、主辩教师评语：</div>
+					<textarea style="height:280px" name="t5_teacher_option" submit="teacher"></textarea>
+					<div style="float:right; margin-right:140px"> 主辩（评阅）教师签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 答辩情况记录表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表六</div>
+		<div class="title">答辩情况记录表</div>
+		<table cellspacing="0" cellpadding="5" border="1" width="100%" style="margin-top:20px">
+			<tr height="40">
+				<td width="105">学生姓名</td>
+				<td width="95"><input type="text" class="input-center" name="student_name" readonly /></td>
+				<td width="85">论文题目</td>
+				<td><input type="text" class="input-center" name="essay_name" readonly /></td>
+			</tr>
+			<tr height="710">
+				<td colspan="4" valign="top">
+					<div>答辩记录：</div>
+					<textarea style="height:630px" name="t6_record" submit="teacher"></textarea>
+					<div style="float:right; margin-right:20px; line-height:30px; text-align:right">
+						<div>记录人（签名）______________</div>
+						<div>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+
+	<!-- 答辩小组意见及成绩汇总表 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表七</div>
+		<div class="title">答辩小组意见及成绩汇总表</div>
+		<table cellspacing="0" cellpadding="5" border="1" width="100%" style="margin-top:20px">
+			<tr height="48">
+				<td width="80">论文题目</td>
+				<td colspan="3"><input type="text" name="essay_name" readonly /></td>
+			</tr>
+			<tr height="48">
+				<td>姓名</td>
+				<td width="185"><input type="text" name="student_name" readonly /></td>
+				<td width="80">专业</td>
+				<td><input type="text" name="profession" readonly /></td>
+			</tr>
+			<tr height="48">
+				<td>班级</td>
+				<td><input type="text" name="student_class" readonly /></td>
+				<td>学号</td>
+				<td><input type="text" name="student_number" readonly /></td>
+			</tr>
+			<tr height="48">
+				<td colspan="2">指导教师评分（占总成绩的40%）</td>
+				<td colspan="2"><input type="text" name="t7_score_1" submit="teacher" /></td>
+			</tr>
+			<tr height="48">
+				<td colspan="2">评阅教师评分（占总成绩的30%）</td>
+				<td colspan="2"><input type="text" name="t7_score_2" submit="teacher" /></td>
+			</tr>
+			<tr height="48">
+				<td colspan="2">答辩小组评分（占总成绩的30%）</td>
+				<td colspan="2"><input type="text" name="t7_score_3" submit="teacher" /></td>
+			</tr>
+			<tr height="48">
+				<td colspan="2">综合得分</td>
+				<td colspan="2"><input type="text" name="t7_score_all" submit="teacher" /></td>
+			</tr>
+			<tr height="240">
+				<td colspan="4" valign="top">
+					<div>答辩小组评语：</div>
+					<textarea style="height:190px" name="t7_group_option_1" submit="teacher"></textarea>
+					<div style="float:right; margin-right:140px"> 组长签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</div>
+				</td>
+			</tr>
+			<tr height="240">
+				<td colspan="4" valign="top">
+					<div>教学系毕业论文答辩委员会意见：</div>
+					<textarea style="height:190px" name="t7_group_option_2" submit="teacher"></textarea>
+					<div style="float:right; margin-right:140px"> 主任签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间：</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="page-break"></div>
+	
+	<!-- 答辩评分标准 -->
+	<div class="page tables">
+		<div class="head">遵义师范学院毕业论文（设计）表八</div>
+		<div class="title">答辩评分标准</div>
+		<div style="margin-top:20px">
+			姓名<input type="text" class="input-base input-center" style="width:80px" name="student_name" readonly />
+			学号<input type="text" class="input-base input-center" style="width:120px" name="student_number" readonly />
+			论文题目<input type="text" class="input-base input-center" style="width:210px" name="essay_name" readonly />
+		</div>
+		<table cellspacing="0" cellpadding="5" border="1" width="100%" style="margin-top:20px">
+			<tr height="60">
+				<td align="center" width="90" style="font-size:14pt; font-family:黑体">项目</td>
+				<td align="center" style="font-size:14pt; font-family:黑体">评分标准</td>
+				<td align="center" width="60" style="font-size:14pt; font-family:黑体">得分</td>
+			</tr>
+			<tr height="43">
+				<td rowspan="5" align="center" style="font-family:黑体">毕业论文（设计）内容和工作量（10分）</td>
+				<td>优：有创新性，全面完成了任务书所规定的各项要求（9-10）</td>
+				<td><input type="text" name="t8_score_1_1" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>良：有创新性，较好地完成了任务书所规定的各项要求 （8-8.9）</td>
+				<td><input type="text" name="t8_score_1_2" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>中：有一定的创新性，完成了任务书所规定的各项要求（7-7.9）</td>
+				<td><input type="text" name="t8_score_1_3" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>及格：有一定的创新性，基本完成任务书所规定的各项要求（6-6.9）</td>
+				<td><input type="text" name="t8_score_1_4" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>不及格：基本没有创新性，没有完成任务书所规定的各项要求 （1-5.9）</td>
+				<td><input type="text" name="t8_score_1_5" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td rowspan="5" align="center" style="font-family:黑体">介绍毕业论文（设计）表达情况（10）分</td>
+				<td>优：简洁，流利，清楚，重点突出，熟练掌握研究内容（9-10）</td>
+				<td><input type="text" name="t8_score_2_1" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>良：表达较好 （8-8.9）</td>
+				<td><input type="text" name="t8_score_2_2" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>中：表达一般 （7-7.9）</td>
+				<td><input type="text" name="t8_score_2_3" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>及格：表达合格（6-6.9）</td>
+				<td><input type="text" name="t8_score_2_4" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>不及格：表达很差 （1-5.9）</td>
+				<td><input type="text" name="t8_score_2_5" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td rowspan="5" align="center" style="font-family:黑体">回答问题表现（10）分</td>
+				<td>优：回答问题全部正确，概念清楚，理论知识掌握扎实，简明扼要 （9－10）</td>
+				<td><input type="text" name="t8_score_3_1" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>良：回答问题较好（8-8.9）</td>
+				<td><input type="text" name="t8_score_3_2" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>中：回答问题一般（7-7.9）</td>
+				<td><input type="text" name="t8_score_3_3" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>及格：回答问题基本合格（6-6.9）</td>
+				<td><input type="text" name="t8_score_3_4" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td>不及格：回答问题很差（1-5.9）</td>
+				<td><input type="text" name="t8_score_3_5" submit="teacher" /></td>
+			</tr>
+			<tr height="43">
+				<td colspan="2" align="center">总分</td>
+				<td><input type="text" name="t8_score_all" submit="teacher" /></td>
+			</tr>
+		</table>
+	</div>
+
+	<!-- 保存按钮 -->
+	<div class="rb-float-icon" title="保存" style="background:#34495E; bottom:20px" id="table8SaveBtn">
+		<i class="fa fa-save"></i>
+	</div>
+	
+	<!-- 打印按钮 -->
+	<div id="table8PrintBtn" class="rb-float-icon" title="打印" style="background:#C0392B; bottom:80px">
+		<i class="fa fa-print"></i>
+	</div>
+
+	<!-- 视频教程按钮 -->
+	<div class="rb-float-icon" title="观看视频教程" style="background:#16A085; bottom:140px" id="table8VideoBtn">
+		<i class="fa fa-video-camera"></i>
+	</div>
+
+	<!-- 回顶按钮 -->
+	<div class="rb-float-icon" title="回顶" style="background:#27AE60; bottom:200px" onclick="window.location='#top '">
+		<i class="fa fa-level-up"></i>
+	</div>
+
+	<!-- 教程地址 -->
+	<div class="video-player" id="videoPlayer" >
+		<video width="500" height="350" controls id="mp4player">
+			<source src="__PUBLIC__/videos/Help/print.webm" type="video/webm">
+			<source src="__PUBLIC__/videos/Help/print_hd.mp4" type="video/mp4">
+			如果您使用的是IE浏览器，将不支持播放
+		</video>
+	</div>
+</body>
+</html>
+
+<script>
+	window._GETTABLE8DATA = "__CONTROLLER__/gTable8/essay/{$essay}";
+	window._SAVETABLE8 = "__CONTROLLER__/aSaveTable8/essay/{$essay}";
+
+	window.viewer = "{$type}";
+	
+	window.essay_table8_controller = {
+		create: function () {
+			var obj = {};
+			var tableDatas = null;
+
+			obj.init = function () {
+				//默认加载列表
+				loadTable8();
+				//事件处理
+				inputChangeEvent();
+				//禁用输入框
+				inputDisabled();
+				//保存8个表
+				table8SaveBtn.onclick = function () {
+					var saveDom = document.querySelectorAll("[submit='" + viewer + "']");
+					var postData = {};
+					//读取数据
+					for (var i = 0; i < saveDom.length; i++) {
+						var dom = saveDom.item(i);
+						var name = dom.attributes.getNamedItem("name").value;
+						var value = dom.value;
+						postData[name] = value;
+					}
+					//学生进度做特殊处理
+					if (viewer == "student") {
+						var taskarr = [];
+						var trs = document.querySelectorAll(".task-progress");
+						for (var i = 0; i < trs.length; i++) {
+							var tr = trs.item(i);
+							var time = tr.children[0].children[0].value;
+							var content = tr.children[1].children[0].value;
+							if (!time || !content) continue;
+							taskarr.push({ time: time, content: content });
+						}
+						postData["task_progress"] = JSON.stringify(taskarr);
+					}
+					//保存
+					var loading = k360_popover.create().loading();
+					k360_http.create().setMethod("post").setUrl(_SAVETABLE8).addData(postData)
+					.onsuccess(function (data, xhr) {
+						loading.distroy();
+						if (data.reson) {
+							k360_popover.create().toast(data.reson);
+							return;
+						}
+						k360_popover.create().tip("OK啦，已保存");
+					})
+					.onerror(function (xhr, status, statusText) {
+						loading.distroy();
+						k360_popover.create().toast("保存数据错误，可能是网络问题，状态码：" + status);
+					})
+					.send();
+				}
+				//打印
+				table8PrintBtn.onclick = function () {
+					if(confirm("打印前请注意：\r\n\
+打印时会带有页眉和页脚，所以打印前请看如下设置：\r\n\
+\r\n\
+    IE浏览器：打开 文件->页面设置，将页眉和页脚中的所有选项设置为“-空-”。\r\n\
+\r\n\
+    Chrome浏览器：在打印的时候点击“更多设置”，将“页眉和页脚”的勾去掉。\r\n\
+\r\n\
+    FireFox浏览器：菜单->打印->页面设置，将页眉和页脚选项全部设置为“--空白--”，点击确定后关闭打印窗口，回来后打印。\r\n\
+\r\n\
+\r\n\
+您还可以点击右下角的视频图标查看视频教程，是否继续？")) {
+						printPage();
+					}
+				}
+				//看教程
+				table8VideoBtn.onclick = function () {
+					var isShowing = videoPlayer.style.display == "inline-block";
+					isShowing ? mp4player.pause() : mp4player.play();
+					videoPlayer.style.display = isShowing ? "none" : "inline-block";
+				}
+				//教程结束
+				mp4player.onended = function () {
+					setTimeout(function () {
+						videoPlayer.style.display = "none";
+					}, 2000);
+				}
+				return obj;
+			}
+			//加载8个表数据
+			function loadTable8() {
+				var loading = k360_popover.create().loading();
+				k360_http.create().setUrl(_GETTABLE8DATA)
+				.onsuccess(function (data, xhr) {
+					loading.distroy();
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					tableDatas = data.data;
+					//显示数据
+					for (var i in data.data) {
+						//读取到任务进度
+						if (i == "task_progress") {
+							//数据及dom
+							var progresses = JSON.parse(data.data[i]);
+							var progressDom = document.querySelectorAll(".task-progress");
+							//填写进度
+							for (var j in progresses) {
+								var progress = progresses[j];
+								var inputs = progressDom.item(j).querySelectorAll("input");
+								inputs.item(0).value = progress.time;
+								inputs.item(1).value = progress.content;
+							}
+							continue;
+						}
+						//其他属性
+						setData2Name(i, data.data[i] ? data.data[i] : "");
+					}
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.distroy();
+					k360_popover.create().toast("加载8个表信息错误，可能是网络问题，状态码：" + status);
+				})
+				.send();
+			}
+			//输入改变事件处理
+			function inputChangeEvent() {
+				document.querySelector(".page.base [name='faculty']").onchange = function () {
+					setData2Name("faculty", this.value);
+				}
+				document.querySelector(".page.base [name='profession']").onchange = function () {
+					setData2Name("profession", this.value);
+					setData2Name("profession_grade", this.value + "\n" + tableDatas.grade)
+				}
+			}
+			//数据设置
+			function setData2Name(name, data) {
+				var doms = document.querySelectorAll("[name='" + name + "']");
+				for (var i = 0; i < doms.length; i++) {
+					doms.item(i).value = data;
+				}
+			}
+			//输入框禁用
+			function inputDisabled() {
+				var dict = { teacher: "student", student: "teacher" };
+				var doms = document.querySelectorAll("[submit='" + dict[viewer] + "']");
+				for (var i = 0; i < doms.length; i++) {
+					doms.item(i).readOnly = true;
+				}
+				//处理 任务表-进度
+				if (viewer == "teacher") {
+					var doms = document.querySelectorAll(".task-progress");
+					for (var i = 0; i < doms.length; i++) {
+						var dom = doms.item(i);
+						dom.children[0].children[0].readOnly = true;
+						dom.children[1].children[0].readOnly = true;
+					}
+				}
+			}
+			//打印
+			function printPage() {
+				//修改打印样式
+				var doms = document.querySelectorAll(".page");
+				var btns = document.querySelectorAll(".rb-float-icon");
+				for (var i = 0; i < doms.length; i++) {
+					var dom = doms.item(i);
+					if (dom.parentElement != document.body) {
+						continue;
+					}
+					var className = dom.className;
+					var classNew = className.replace("page", "page-print");
+					dom.className = classNew;
+				}
+				for (var i = 0; i < btns.length; i++) {
+					btns.item(i).style.display = "none";
+				}
+				videoPlayer.style.display = "none";
+				//打印
+				window.print();
+				//恢复打印样式
+				for (var i = 0; i < doms.length; i++) {
+					var dom = doms.item(i);
+					if (dom.parentElement != document.body) {
+						continue;
+					}
+					var className = dom.className;
+					var classNew = className.replace("page-print", "page");
+					dom.className = classNew;
+				}
+				for (var i = 0; i < btns.length; i++) {
+					btns.item(i).style.display = "inline-block";
+				}
+				//videoPlayer.style.display = "inline-block";
+			}
+			return obj;
+		}
+	}
+
+	window.addEventListener("load", function () {
+		essay_table8_controller.create().init();
+	})
+
+</script>

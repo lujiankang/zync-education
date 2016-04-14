@@ -1,0 +1,63 @@
+﻿
+.head-info {
+	margin: 12px;
+}
+
+	.head-info img {
+		width: 90px;
+		height: 90px;
+		border-radius: 50px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.head-info > div {
+		display: inline-block;
+		margin-top: 20px;
+		font-size: 15px;
+		vertical-align: middle;
+		width: 115px;
+	}
+
+	.head-info .user-name {
+		font-weight: bold;
+	}
+
+		.head-info .user-name .levo {
+			display: inline-block;
+			width: 25px;
+			height: 25px;
+			background: url(__PUBLIC__/images/index/star.gif) no-repeat;
+			background-position: center;
+			text-align: center;
+			line-height: 28px;
+			color: #b65e00;
+			font-family: arial;
+			font-size: 11px;
+			margin-left: 5px;
+		}
+
+	.head-info .user-id {
+		font-size: 12px;
+		margin-top: 6px;
+		color: #4183C4;
+	}
+
+	.user-info{
+		width:90%;
+		height:100px;
+		margin:auto;
+		margin-top:30px;
+		color:#333;
+		line-height:30px;
+	}
+
+	.user-info-title{
+		font-size: 1.17em;
+		font-weight:bold;
+	}
+
+	.user-info-data >div >span{
+		word-break:break-all;
+		font-size:12px;
+	}

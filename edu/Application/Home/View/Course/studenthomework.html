@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+	<include file="base/headGeneral" />
+	
+	<!-- 当前页面js -->
+	<script src="__PUBLIC__/js/base/k360-bt-page.js"></script>
+	<script src="__PUBLIC__/js/base/func.js"></script>
+	<script src="__PUBLIC__/js/base/k360-show-table.js"></script>
+	<script src="__PUBLIC__/js/base/resp-head.js"></script>
+</head>
+<body>
+	<!-- 头部 -->
+	<div class="row header">
+		<div class="col-md-12">
+			<div class="header-close" onclick="top.respShower.style.display = 'none'"><i class="fa fa-close"></i></div>
+			<div class="fa fa-bug icon"></div>
+			<span class="title">作业中心</span>
+			<div class="header-menu"><i class="fa fa-reorder"></i></div>
+		</div>
+	</div>
+	
+	<!-- 顶部操作 -->
+	<div class="row handles margin-top-20">
+		<div class="col-sm-5 top-btns">
+			<button class="handle-item btn btn-danger btn-filter" for="homeworkfilter">作业筛选</button>
+			<div class="item-group top-filter" filter="homeworkfilter">
+				<select class="form-control" style="width:150px" id="homeworkTypeSel">
+					<option value="0">未上交的作业</option>
+					<option value="1">等待批改的作业</option>
+					<option value="2">已批改完成的作业</option>
+					<option value="3" selected>全部作业</option>
+				</select>
+				<button class="btn btn-warning btn-group" id="homeworkViewBtn">查看作业</button>
+				<div class="float-clear"></div>
+			</div>
+			<button class="handle-item btn btn-success">使用帮助</button>
+		</div>
+		<div class="col-sm-7 top-search">
+			<div class="handle-item">
+				<form class="item-group pull-right" id="searchCourseForm">
+					<input type="text" name="key" class="form-control" placeholder="关键字：课程名、课程编号、班级名称" style="width:300px">
+					<button type="submit" class="btn btn-primary btn-group"><i class="fa fa-search">&nbsp;</i><span>检索</span></button>
+					<div class="float-clear"></div>
+				</form>
+			</div>
+			<div class="float-clear"></div>
+		</div>
+	</div>
+
+	<!-- 主体 -->
+	<div class="row main margin-top-20">
+		<div class="col-md-12 table-responsive">
+			<table class="table table-bordered table-hover" id="mainShowerTable">
+				<thead>
+					<tr>
+						<th>作业名称</th>
+						<th>所属课程</th>
+						<th>状态</th>
+						<th>分数</th>
+						<th width="135">操作</th>
+					</tr>
+				</thead>
+				<tbody id="dataShower">
+					<tr name="cloned">
+						<td name="name">xxxx</td>
+						<td name="coursename">xxxx</td>
+						<td name="statusname">xxxx</td>
+						<td name="score">xxxx</td>
+						<td>
+							<button callback="onViewHomework" class="btn btn-sm btn-warning fa fa-eye to-view" title="查看作业"></button>
+							<button callback="onDoanloadFile" class="btn btn-sm btn-warning fa fa-download to-download" title="下载作业文件"></button>
+							<button callback="onMessage" class="btn btn-sm btn-success fa fa-send to-message" title="联系老师"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="dataLoading"><i class="fa fa-spinner fa-spin"></i>正在加载..</div>
+		</div>
+	</div>
+
+	<!-- 分页控件 -->
+	<div class="row page margin-top-20">
+		<div class="col-md-12" style="text-align:center">
+			<div style="display:inline-block">
+				<button class="btn btn-success goto-last">上一页</button>
+				<button class="btn btn-success goto-next">下一页</button>
+				<div class="item-group">
+					<input type="text" class="form-control goto-input" value="1" style="width:50px; display:inline-block" />
+					<button class="btn btn-primary goto-button">&nbsp;跳转&nbsp;</button>
+				</div>
+			</div>
+			<div style="display:inline-block; margin-left:30px" class="k-page-info">
+				共<span class="data-num"> - </span>条数据，共<span class="page-num"> - </span>页，第<span class="page-now"> - </span>页
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+<script>
+	window._APP = "__APP__";
+	window._GETHOMEWORK = "__CONTROLLER__/gStudentHomework";
+	window._DOHOMEWORKPAGE = "__CONTROLLER__/pDoHomework";
+
+	window.course_studenthomework_controller = {
+		create: function () {
+			var obj = {};
+
+			var dataTable = k360_show_table.create(mainShowerTable);
+			var page = k360_bt_page.create(".page");
+
+			var type = homeworkTypeSel.value;
+			var key = "";
+			//初始化方法
+			obj.init = function () {
+				//分页处理
+				page.onpage(function (to) {
+					loadHomeworks(to);
+				});
+				page.onerror(function (err) {
+					k360_popover.create().toast(err);
+				});
+				//外部事件处理
+				homeworkViewBtn.onclick = function () {
+					searchCourseForm.key.value = "";
+					key = "";
+					type = homeworkTypeSel.value;
+					loadHomeworks(0);
+					hidefilter();
+				};
+				searchCourseForm.onsubmit = function () {
+					key = searchCourseForm.key.value;
+					key || (key == "");
+					loadHomeworks(0);
+					return false;
+				}
+				//表格事件
+				dataTable.onViewHomework = function (id) {
+					window.location = _DOHOMEWORKPAGE + "/homework/" + id;
+				}
+				dataTable.onDoanloadFile = function (id) {
+					var data = dataTable.getDataByKey(id);
+					if (!data.file) {
+						k360_popover.create().toast("该作业没有上传文件");
+						return;
+					}
+					downloadFile([data.file], "homework_file_" + id);
+				}
+				dataTable.onMessage = function (id) {
+					var data = dataTable.getDataByKey(id);
+					top.chat.sendMessage("teacher", data.teacherid, data.teachername);
+				}
+
+
+				dataTable.clear();
+				loadHomeworks(0);
+			}
+			//加载作业列表
+			function loadHomeworks(toPage) {
+				dataTable.saveScroll();
+				dataTable.clear();
+				var loading = document.querySelector(".dataLoading");
+				loading.style.display = "inline-block";
+				k360_http.create().setUrl(_GETHOMEWORK).addData({ type: type, page: toPage, key: key })
+				.onsuccess(function (data, xhr) {
+					loading.style.display = "none";
+					if (data.reson) {
+						k360_popover.create().toast(data.reson);
+						return;
+					}
+					dataTable.setDatas(data.data.homeworks, "id");
+					dataTable.show();
+					dataTable.resumeScroll();
+					page.setInfo(data.data.pages, data.data.count, toPage);
+				})
+				.onerror(function (xhr, status, statusText) {
+					loading.style.display = "none";
+					k360_popover.create().toast("加载作业列表错误，可能是网络原因，状态码：" + status);
+				})
+				.send();
+			}
+
+			return obj;
+		}
+	};
+
+	window.addEventListener("load", function () {
+		course_studenthomework_controller.create().init();
+	})
+
+</script>

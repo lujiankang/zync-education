@@ -1,0 +1,49 @@
+﻿/*
+===============================================
+				红色主题
+===============================================
+*/
+/*背景色*/
+#theme-red .theme-back{
+	background-color:#E74C3C;
+}
+
+/*前景色*/
+#theme-red .theme-font{
+	color:#E74C3C;
+}
+
+/*边框色*/
+#theme-red .theme-border{
+	border-color:#E74C3C;
+}
+
+/*鼠标移入前景色改为当前*/
+#theme-red .hover-font-theme:hover{
+	color:#E74C3C;
+}
+
+/*鼠标移入背景色改为当前*/
+#theme-red .hover-back-theme:hover{
+	background-color:#E74C3C;
+}
+
+/*鼠标移入边框色改为当前*/
+#theme-red .hover-border-theme:hover{
+	border-color:#E74C3C;
+}
+/*通用*/
+#theme-red .hover-back-white:hover{
+	background-color:#FFF;
+}
+#theme-red .hover-font-white:hover{
+	color:#FFF;
+}
+#theme-red .hover-border-white{
+	border-color:#FFF;
+}
+/*其他*/
+
+
+
+
